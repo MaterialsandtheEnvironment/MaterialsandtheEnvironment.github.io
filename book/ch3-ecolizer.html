@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapping the Ecolizer · Chapter 3</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapter 3 of Materials & the Environment: eco-indicators from the OVAM Ecolizer 2.0, eco-Ashby indices and a masked variational autoencoder.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+</head>
+<body>
+<d-site-header current="ch3-ecolizer"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Mapping the Ecolizer",
+  "chapter": 3, "slug": "ch3-ecolizer",
+  "published": "October 2026",
+  "source": "https://mid2supaero.github.io/ecolizer-vae/",
+  "code": "https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb",
+  "authors": [
+    {"author": "Joseph Morlier", "role": "series editor", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Chapter 3 · Materials &amp; the Environment</div>
+  <h1>Mapping the Ecolizer</h1>
+  <p>A booklet of eco-indicators becomes a dataset, an eco-Ashby chart and finally a continuous map. Then we ask what that map cannot do.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <p class="lede">The Ecolizer 2.0 is a pocket booklet published by OVAM, the Flemish public waste agency.<d-cite key="ovam"></d-cite> On a few dozen sheets it gives designers one number per material, process or energy carrier: an <em>eco-indicator</em>. This chapter digitises that booklet, applies the Ashby machinery of <a href="ch1-ashby-maps.html">Chapter 1</a> to it, and trains the kind of latent map built in <a href="ch2-latent-maps.html">Chapter 2</a>, this time on environmental data with holes in it.</p>
+
+  <h2 id="indicator"><span class="sec">1</span>What is an eco-indicator?</h2>
+  <p>Each entry is a single life-cycle score in <em>millipoints</em> (mPt), computed with the ReCiPe method.<d-cite key="recipe2017"></d-cite> ReCiPe first characterises emissions and resource use into 19 midpoint categories, such as climate change, acidification and land use, then aggregates them into three damage areas (human health, ecosystems and resources), and finally weights them into one score. One point is a fraction of the yearly environmental load of an average European. The booklet warns that scores carry real uncertainty and that only relative comparisons are meaningful.</p>
+  <p>For materials the Ecolizer lists a production indicator per kilogram, a recycling indicator, a waste-treatment indicator and indicators for processing steps. Energy is listed per kWh or MJ and transport per tonne-kilometre. The digitised set covers 64 sheets: 193 materials in 14 families, 294 processes and 61 energy and transport entries.</p>
+
+  <figure class="fig l-page" id="fig-families">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="fam-sort">Sort by <select id="fam-sort"><option value="median">Median</option><option value="max">Maximum</option><option value="span">Spread</option><option value="n">Number of entries</option></select></label>
+        <label><input type="checkbox" id="fam-precious" checked> Show precious &amp; critical metals</label>
+      </div>
+      <div id="fam-chart"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 3.1</span><b>Production impact by family.</b> Each bar spans the lowest and highest production indicator in the family, in millipoints per kilogram, on a log scale; the dot marks the median. The right-hand column counts the entries that also have a density and modulus, the ones usable in eco-Ashby charts. Production impact covers about ten orders of magnitude, from 0.001 mPt/kg for some chemicals to 9.6 million for rhodium.</figcaption>
+  </figure>
+
+  <p>Two patterns stand out. First, production nearly always dominates end-of-life: recycling credits and waste treatment move the total by much less than the choice of material does. Second, the <em>route</em> matters as much as the material. Primary aluminium scores 1 045 mPt/kg; secondary aluminium from new scrap scores 45 mPt/kg, more than twenty times less.</p>
+
+  <h2 id="function"><span class="sec">2</span>From impact per kilogram to impact per function</h2>
+  <p>Per-kilogram scores mislead, because nobody buys a kilogram of material: they buy stiffness, strength or volume. Following Chapter 1, multiply by density and divide by the property that sizes the part:</p>
+  <d-math block>I_a = \frac{\text{prod}\cdot\rho}{E^{a}}, \qquad a = 1\ (\text{tie}),\quad a = \tfrac12\ (\text{beam}),\quad a = \tfrac13\ (\text{panel}).</d-math>
+  <p>Minimising <d-math>I_a</d-math> gives the material with the lowest production impact for a required stiffness. Density and modulus are not in the Ecolizer, so approximate handbook values were added for 118 of the 193 materials.</p>
+
+  <figure class="fig l-page" id="fig-ecoindex">
+    <div class="fig-panel">
+      <div class="controls"><span id="eco-case"></span><label><input type="checkbox" id="eco-precious"> Include precious &amp; critical metals</label></div>
+      <div id="ecoindex-chart"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 3.2</span><b>Eco-index by family, per unit of stiffness.</b> Each family is represented by its median production indicator from Figure 3.1 and a representative handbook density and modulus (listed in the tooltip). This is a family-level sketch of the material-level ranking in the source notebook; it reproduces its main result. Minerals and cement, which include limestone and concrete, win for all three loading cases.</figcaption>
+  </figure>
+
+  <p>In the full material-level analysis, limestone and concrete win all three loading cases, followed by brick. The index has blind spots, which matter more here than in Chapter 1. It ignores mass-critical use phases, so a heavy concrete part that has to be moved around loses its advantage at once. It ignores durability and service life. And for many products the use phase, not production, dominates total impact.</p>
+
+  <h3>When energy dominates</h3>
+  <p>The Ecolizer lists electricity by country, and the spread is wide: low-voltage electricity scores 3 mPt/kWh in Switzerland and 113 mPt/kWh in Greece, a factor of 38. For anything that consumes power in use, the grid can outweigh every material decision.</p>
+
+  <figure class="fig l-page" id="fig-energy">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="en-mass">Aluminium part <input type="range" id="en-mass" min="0.1" max="20" step="0.1" value="2"><output id="en-mass-out">2.0 kg</output></label>
+        <label for="en-rec">Recycled content <input type="range" id="en-rec" min="0" max="100" step="5" value="0"><output id="en-rec-out">0%</output></label>
+        <label for="en-kwh">Lifetime electricity <input type="range" id="en-kwh" min="0" max="500" step="5" value="50"><output id="en-kwh-out">50 kWh</output></label>
+      </div>
+      <div id="energy-chart"></div>
+      <div class="readout" id="energy-readout"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 3.3</span><b>Production route against electricity mix.</b> A product made of an aluminium part that uses electricity over its life. Production uses the Ecolizer indicators for primary (1 045 mPt/kg) and secondary (45 mPt/kg) aluminium; use uses Swiss (3 mPt/kWh) and Greek (113 mPt/kWh) low-voltage electricity. Move the sliders to find where the grid starts to outweigh the material.</figcaption>
+  </figure>
+
+  <h2 id="why-map"><span class="sec">3</span>Why a map?</h2>
+  <p>A chart shows two properties. The Ecolizer gives three eco-indicators per material, and with density and modulus we have five numbers, many of them missing. Seventy-five of the 193 materials lack density and modulus altogether; recycled plastics and chemicals have none. A method that needs complete rows would throw away a third of the booklet.</p>
+  <p>A variational autoencoder can learn from incomplete rows if the loss only counts the values that exist. That gives a single continuous map on which every material, complete or not, has a place.</p>
+
+  <h2 id="model"><span class="sec">4</span>The model</h2>
+  <p>Each material is described by five standardised inputs: log production, log waste treatment, recycling gain, log density and log modulus. Next to the values sits a 0/1 <em>mask</em> that says which are known. The encoder sees both; during training a random share of known values is also hidden, so the network learns to fill gaps. The loss is a masked reconstruction error plus a weighted KL term:</p>
+  <d-math block>\mathcal{L} = \sum_j m_j\,(x_j - \hat{x}_j)^2 \;+\; \beta\, D_{\mathrm{KL}}\!\left(q(z\,|\,x, m)\,\Vert\,\mathcal{N}(0,I)\right).</d-math>
+  <p>The encoder and decoder are small dense networks with tanh activations around a two-dimensional code. The KL weight is ramped up over the first 30% of training (<em>KL annealing</em>) to stop the codes collapsing early.<d-cite key="bowman2016"></d-cite> Five models were trained with <d-math>\beta</d-math> between 0.05 and 2; <d-math>\beta = 0.5</d-math> is the default. At <d-math>\beta = 0.05</d-math> the model memorises; at <d-math>\beta = 2</d-math> it blurs everything together.</p>
+
+  <figure class="fig l-body" id="fig-mask">
+    <div class="fig-panel"><div id="mask-chart"></div></div>
+    <figcaption><span class="fig-num">Figure 3.4</span><b>Masked inputs.</b> Three materials as the encoder sees them. Filled cells are known, hatched cells are missing (mask = 0) and do not count in the loss. Hover a row to see what the decoder must supply.</figcaption>
+  </figure>
+
+  <h2 id="latent"><span class="sec">5</span>The latent map</h2>
+  <p>Each material is placed at its encoder mean. Without being told the family, the map groups them: a leave-one-out three-nearest-neighbour check on the latent coordinates recovers the family 76% of the time, against 16% for always guessing the largest family. Coloured by any decoded property or eco-index, the background becomes a continuous field. Materials without density and modulus were left out of training on those inputs but can still be placed on the map through their eco-indicators.</p>
+  <p>The interactive latent map, decoder sliders and β comparison of the original article run on the full 193-material dataset and are available in the <a href="https://mid2supaero.github.io/ecolizer-vae/">source article</a> and its notebook.</p>
+
+  <h2 id="downhill"><span class="sec">6</span>Walking downhill</h2>
+  <p>As in Chapter 2, the decoder is differentiable, so we can run gradient descent in latent space to minimise the log eco-index, with a penalty that keeps codes near the origin. For the beam index, every starting point converges to the same profile: about 6 mPt/kg production impact, a density of about 2 300 kg/m³ and a modulus of about 25 GPa. That is concrete or natural stone, and limestone is the nearest real entry.</p>
+  <p>The walk is right about the index and silent about everything the index ignores. A stone beam is a poor answer for most products. The value of the walk is that it makes the index's preference explicit and lets us check it against the data.</p>
+
+  <h2 id="limits"><span class="sec">7</span>What the map cannot do</h2>
+  <p>A fair test is imputation: hide 25% of the known densities and moduli, ask the model to fill them in, and compare with simple rules. Errors are root-mean-square, in decades (log₁₀ units).</p>
+
+  <figure class="fig l-body" id="fig-impute">
+    <div class="fig-panel">
+      <div class="controls"><span id="imp-seg"></span></div>
+      <div id="impute-chart"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 3.5</span><b>Imputation error.</b> The VAE beats the global mean by 15–25%, but a rule it was never given, the mean of the same family, does better still. Lower is better.</figcaption>
+  </figure>
+
+  <p>Low training error reflects memorisation, not prediction. The map is a way to <em>see</em> and <em>interpolate</em> the booklet, not an oracle: any synthesised "material" found by a walk must be checked against real data. The booklet's own uncertainty and the approximate densities and moduli add to that limit.</p>
+
+  <h2 id="course"><span class="sec">8</span>For the ecodesign course</h2>
+  <ol>
+    <li>ReCiPe weights three damage areas into one score. Which weighting choices could change the ranking in Figure 3.2?</li>
+    <li>At what lifetime electricity use does a Greek grid outweigh the switch from primary to secondary aluminium for a 2 kg part? Use Figure 3.3.</li>
+    <li>The recycling indicator is a credit. Should it be counted at production, at end of life, or split between them?</li>
+    <li>Run the gradient walk of Chapter 2 with the proximity weight μ set to 0. Where does it go, and why?</li>
+    <li>Add yield strength to the inputs. Which index becomes possible, and which materials would you expect to win?</li>
+  </ol>
+
+  <d-chapter-nav current="ch3-ecolizer"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Data and code</h3>
+  <p>The companion notebook <a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb"><code>ecolizer_vae.ipynb</code></a> reproduces all numbers of the source article. Its repository contains <code>ecolizer_materials.csv</code> (193 materials), <code>ecolizer_processes.csv</code> (294 processes), <code>ecolizer_energy_transport.csv</code> (61 entries) and the PDF-parsing scripts. Worked-example checks against the booklet pass. The family statistics in Figure 3.1 and the imputation results in Figure 3.5 are those of the source article; Figure 3.2 uses representative family values, as stated in its caption.</p>
+  <h3>Licence of the source data</h3>
+  <p>The Ecolizer 2.0 is © OVAM. It is intended for internal ecodesign use, not for marketing claims; figures are reproduced here for teaching.</p>
+  <h3>Authorship</h3>
+  <p>The source article does not name its authors. It was published by the mid2SUPAERO group as the third part of the series; this chapter was rewritten for the book.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@misc{ovam, author = {{OVAM}}, title = {Ecolizer 2.0: ecodesign tool with eco-indicators for materials, processes and energy}, howpublished = {Openbare Vlaamse Afvalstoffenmaatschappij, Mechelen}, url = {https://www.ovam.be}}
+@article{recipe2017, author = {Huijbregts, Mark A. J. and Steinmann, Zoran J. N. and Elshout, Pieter M. F. and others}, title = {ReCiPe2016: a harmonised life cycle impact assessment method at midpoint and endpoint level}, journal = {The International Journal of Life Cycle Assessment}, volume = {22}, pages = {138--147}, year = {2017}, doi = {10.1007/s11367-016-1246-y}}
+@inproceedings{bowman2016, author = {Bowman, Samuel R. and Vilnis, Luke and Vinyals, Oriol and Dai, Andrew M. and Jozefowicz, Rafal and Bengio, Samy}, title = {Generating sentences from a continuous space}, booktitle = {Proceedings of CoNLL}, year = {2016}, url = {https://arxiv.org/abs/1511.06349}}
+</script></d-bibliography>
+
+<d-site-footer></d-site-footer>
+<script src="../assets/js/ch3.js"></script>
+</body>
+</html>

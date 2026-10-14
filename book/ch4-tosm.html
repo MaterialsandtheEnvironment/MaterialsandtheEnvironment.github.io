@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brackets, Metals and Carbon · Chapter 4</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapter 4 of Materials & the Environment: the TOSM benchmark of 379 jet-engine brackets re-simulated in four aerospace alloys with carbon, energy and water footprints.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/tosm.js"></script>
+</head>
+<body>
+<d-site-header current="ch4-tosm"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Brackets, Metals and Carbon",
+  "chapter": 4, "slug": "ch4-tosm",
+  "published": "October 2026",
+  "source": "https://mid2supaero.github.io/tosm/",
+  "code": "https://github.com/mid2SUPAERO/TOSM",
+  "authors": [
+    {"author": "Ricard Maeso Orti", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse"}]},
+    {"author": "Pablo Ballesteros Martín", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse"}]},
+    {"author": "Joseph Morlier", "role": "supervisor", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Chapter 4 · Materials &amp; the Environment</div>
+  <h1>Brackets, Metals and Carbon</h1>
+  <p>Which bracket, in which metal, for the least carbon? 379 crowd-designed jet-engine brackets, four aerospace alloys, 1 516 finite-element runs and their footprints.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <h2 id="question"><span class="sec">1</span>Which bracket, in which metal, for the least carbon?</h2>
+  <p class="lede">The first three chapters chose a material for a fixed shape class: a tie, a beam, a panel. Real parts are shaped and specified together. Topology optimisation changes the shape, and the material changes what the shape must do. The <em>TOSM</em> benchmark (Topology Optimisation &amp; Sustainable Metals) puts numbers on that coupling.<d-cite key="tosm"></d-cite> It takes a large set of independently designed parts, simulates each one in several alloys, and attaches production and lifetime footprints to every result.</p>
+  <p>Every figure in this chapter is computed in your browser from the benchmark's own result files: 379 brackets × 4 alloys = 1 516 runs.</p>
+
+  <h2 id="brackets"><span class="sec">2</span>The brackets</h2>
+  <p>In 2013 GE ran an open challenge to design the lightest possible jet-engine bracket. Every entry had the same four bolt holes and the same interface point, and had to keep its peak stress below the yield stress of Ti-6Al-4V under four load cases: vertical, diagonal, horizontal and torsional. The <em>SimJEB</em> dataset collects 381 of those designs with clean meshes and finite-element models.<d-cite key="simjeb"></d-cite> Of these, 379 run cleanly in every alloy and form the benchmark. Their shapes range from chunky blocks to lattice-like organic forms; the source article includes a 3-D gallery of them.</p>
+  <p>The SimJEB decks are Altair OptiStruct models. A notebook (<code>OptistructAuto</code>) rewrites the material card of each deck for each alloy and runs linear static solves. Each run records the bracket's mass, its peak displacement and its peak von Mises stress over the four load cases.</p>
+
+  <h2 id="alloys"><span class="sec">3</span>Four alloys and their footprints</h2>
+  <p>The alloys and their per-kilogram production footprints come from the eco-design database of Yepes Llorente and Morlier.<d-cite key="yepes2024"></d-cite></p>
+  <div class="table-wrap l-page">
+    <table>
+      <thead><tr><th>Alloy</th><th class="n">ρ (kg/m³)</th><th class="n">E (GPa)</th><th class="n">σy (MPa)</th><th class="n">CO₂ (kg/kg)</th><th class="n">Energy (MJ/kg)</th><th class="n">Water (L/kg)</th><th class="n">Cost ($/kg)</th></tr></thead>
+      <tbody id="mat-table"></tbody>
+    </table>
+  </div>
+  <p>For carbon, the benchmark adds a use phase. A kilogram carried on an aircraft for its whole service life burns fuel, and Duriez et al. estimate that at 98.8 tonnes of CO₂ per kilogram of structure.<d-cite key="duriez2022"></d-cite></p>
+  <d-math block>\text{CO}_{2,T} = M\cdot \text{CO}_{2,s} + 98.8\ \tfrac{\text{t}}{\text{kg}}\cdot M</d-math>
+  <p>Titanium's production footprint is 19.7 kg CO₂/kg, or 0.0197 t/kg: the use phase outweighs it by a factor of about 5 000. Minimising lifetime CO₂ is, to within a rounding error, minimising mass.</p>
+
+  <figure class="fig l-body" id="fig-split">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="uf">Use-phase factor <input type="range" id="uf" min="0" max="150" step="0.1" value="98.8"><output id="uf-out">98.8 t/kg</output></label>
+        <button class="btn" type="button" id="uf-reset">Reset to 98.8</button>
+      </div>
+      <div id="split-chart"></div>
+      <div class="readout" id="split-readout"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 4.1</span><b>Production against use phase.</b> Lifetime CO₂ of the median-mass bracket in each alloy, split into production and use. Slide the factor to zero to see production on its own.</figcaption>
+  </figure>
+
+  <h2 id="swap"><span class="sec">4</span>What changes when you swap the alloy</h2>
+  <p>The geometry is fixed and the analysis is linear, so swapping alloys changes outputs in predictable ways. Mass scales with density. Displacement scales roughly with <d-math>1/E</d-math>. Peak stress hardly moves: with prescribed loads and one homogeneous material, linear elastic stresses do not depend on the modulus at all, and only weakly on Poisson's ratio. That is the source of the 1–3% shifts.</p>
+
+  <figure class="fig l-page" id="fig-delta">
+    <div class="fig-panel"><div id="delta-chart"></div><div class="legend" id="delta-legend"></div></div>
+    <figcaption><span class="fig-num">Figure 4.2</span><b>Change relative to titanium.</b> Median over the 379 brackets of each output's change when the same bracket is made in another alloy. Aluminium is about 37% lighter and cheaper in carbon, but deflects 56% more. Stainless steel and beryllium copper are nearly twice as heavy.</figcaption>
+  </figure>
+
+  <h2 id="overstressed"><span class="sec">5</span>Most designs are over-stressed</h2>
+  <p>A design is <em>admissible</em> when its peak stress stays below the yield stress divided by a safety factor, <d-math>\sigma \le \sigma_y/\text{SF}</d-math>. Because stress depends on geometry and not on alloy, the alloy choice decides admissibility through <d-math>\sigma_y</d-math> alone.</p>
+
+  <figure class="fig l-page" id="fig-cdf">
+    <div class="fig-panel">
+      <div class="controls"><label for="sf">Safety factor <input type="range" id="sf" min="1" max="2" step="0.05" value="1.25"><output id="sf-out">1.25</output></label></div>
+      <div class="fig-row">
+        <div id="cdf-chart"></div>
+        <div class="readout" id="cdf-readout"></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure 4.3</span><b>Utilisation by alloy.</b> Cumulative share of brackets whose peak stress is below a given fraction of yield, <i>σ/σy</i>. The vertical line is the admissibility limit <i>1/SF</i>; curves left of it count as passing.</figcaption>
+  </figure>
+
+  <p>Even in titanium, the alloy the challenge was set for, the median bracket peaks at about 1.6 times its yield stress. At SF = 1.25 only 22 of the 1 516 runs pass, 21 of them in titanium. No aluminium bracket passes at any safety factor. Part of this is the solver: peak von Mises stress at sharp re-entrant corners is mesh-dependent, and with SimJEB's own stress values 74 titanium brackets would pass instead of 21. The rest is material: every alloy here has a far lower yield stress than titanium, while the shapes were drawn for titanium.</p>
+
+  <h2 id="tradeoff"><span class="sec">6</span>Finding the trade-off</h2>
+  <p>The benchmark poses a multi-objective problem: minimise peak stress, lifetime CO₂, energy and water, subject to the stress constraint. The original notebooks solve it with NSGA-II through pymoo.<d-cite key="pymoo"></d-cite> With 1 516 discrete candidates there is no need for a genetic algorithm: the exact Pareto front can be found by enumeration, which the figure below does live.</p>
+
+  <figure class="fig l-page" id="fig-pareto">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="px">x <select id="px"></select></label>
+        <label for="py">y <select id="py"></select></label>
+        <label for="psf">SF <input type="range" id="psf" min="1" max="2" step="0.05" value="1.25"><output id="psf-out">1.25</output></label>
+        <span id="pcons"></span>
+      </div>
+      <div class="fig-row">
+        <div id="pareto-chart"></div>
+        <div class="readout" id="pareto-readout"></div>
+      </div>
+      <div class="legend" id="pareto-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 4.4</span><b>Pareto explorer.</b> Every bracket–alloy run, with admissible runs in colour and the exact non-dominated front connected. Hover a point for its bracket number; click it to link the same bracket across all four alloys. Switch the constraint to the notebook's version to reproduce the original optimiser's result.</figcaption>
+  </figure>
+
+  <p>On the stress–CO₂ plane at SF = 1.25, the front holds five titanium brackets. Bracket 120 is the lightest admissible design, at 65.9 t of lifetime CO₂ and 666 MPa. Bracket 271 trades 32 t more CO₂ for a peak stress of 404 MPa, and bracket 180 buys only 5 MPa more margin for another 45 t.</p>
+
+  <h2 id="sign"><span class="sec">7</span>A note on the constraint sign</h2>
+  <p>pymoo treats a constraint <d-math>g(x) \le 0</d-math> as satisfied. The notebook codes the stress constraint as</p>
+  <d-math block>g = -\sigma + \sigma_y/\text{SF},</d-math>
+  <p>which is non-positive exactly when <d-math>\sigma \ge \sigma_y/\text{SF}</d-math>, the opposite of the intent. The optimiser therefore searched only among over-stressed designs. Its saved result, <code>ParetoFrontResults.xlsx</code>, lists fourteen Al-2024 designs stressed between 2.4 and 57 times their yield limit, and re-running the notebook's setup (population 100, 500 generations, seed 1) reproduces them. Choose “Notebook (inverted)” in Figure 4.4: the exact enumeration over the inverted feasible set returns the same fourteen Al-2024 brackets, from bracket 180 at 2.4 times yield to bracket 373 at 57 times. The fix is one line:</p>
+  <p><code>G = stress - yield_stress / safety_factor</code></p>
+  <p>With the sign corrected, the front moves to titanium.</p>
+
+  <h2 id="three"><span class="sec">8</span>Three objectives at once</h2>
+  <p>Stress, CO₂ and displacement pull in three directions. Aluminium wins on CO₂ and loses on displacement; steel wins on displacement and loses on CO₂; titanium sits between them and is the only alloy that is admissible in practice. Pick displacement and CO₂ as the axes in Figure 4.4 and lower the safety factor to 1 to see the alloys separate into bands. The source article shows the three-objective fronts as rotatable 3-D plots.</p>
+
+  <h2 id="next"><span class="sec">9</span>Where this goes next</h2>
+  <ul>
+    <li><b>Stress measures</b> that are insensitive to singularities, such as p-norm aggregates or stress at a distance from corners, so admissibility does not depend on the mesh.</li>
+    <li><b>Continuous design variables</b>: let topology optimisation reshape each bracket for each alloy, instead of re-using titanium shapes.</li>
+    <li><b>Surrogate models</b> trained on the 1 516 runs, to predict stress and mass for new shapes and alloys without a finite-element solve.</li>
+    <li><b>A single environmental score</b>, such as eco-costs or ReCiPe points from Chapters 1 and 3, in place of three separate footprints.</li>
+    <li><b>More alloys</b>, including recycled aluminium and additively manufactured titanium, whose footprints differ strongly by route.</li>
+  </ul>
+
+  <d-chapter-nav current="ch4-tosm"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Reproducing these figures</h3>
+  <p>All figures read <code>FinalResults.xlsx</code> (1 516 runs) and <code>Materials.xlsx</code> from the <a href="https://github.com/mid2SUPAERO/TOSM">TOSM repository</a>, converted to <code>data/tosm.js</code> in this site. Lifetime CO₂, energy, water and cost are recomputed from mass and the per-kilogram values; they match the repository's columns to machine precision. Bracket models and renderings are from the SimJEB repository (MIT licence).</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@misc{tosm, author = {Maeso Orti, Ricard and Ballesteros Martín, Pablo and Morlier, Joseph}, title = {TOSM: Topology Optimisation and Sustainable Metals benchmark}, howpublished = {GitHub repository, ISAE-SUPAERO}, url = {https://github.com/mid2SUPAERO/TOSM}}
+@article{simjeb, author = {Whalen, Eamon and Beyene, Azariah and Mueller, Caitlin}, title = {SimJEB: Simulated Jet Engine Bracket Dataset}, journal = {Computer Graphics Forum}, volume = {40}, pages = {9--17}, year = {2021}, doi = {10.1111/cgf.14353}}
+@article{yepes2024, author = {Yepes Llorente, L. and Morlier, Joseph and Sridhara, S. and others}, title = {A hybrid machine learning and evolutionary approach to material selection and design optimization for eco-friendly structures}, journal = {Structural and Multidisciplinary Optimization}, volume = {67}, pages = {69}, year = {2024}, doi = {10.1007/s00158-024-03777-z}}
+@article{duriez2022, author = {Duriez, Edouard and Morlier, Joseph and Azzaro-Pantel, Catherine and Charlotte, Miguel}, title = {Ecodesign with topology optimization}, journal = {Procedia CIRP}, volume = {109}, pages = {454--459}, year = {2022}, doi = {10.1016/j.procir.2022.05.278}}
+@article{pymoo, author = {Blank, Julian and Deb, Kalyanmoy}, title = {pymoo: Multi-objective optimization in Python}, journal = {IEEE Access}, volume = {8}, pages = {89497--89509}, year = {2020}, doi = {10.1109/ACCESS.2020.2990567}}
+</script></d-bibliography>
+
+<d-site-footer></d-site-footer>
+<script src="../assets/js/ch4.js"></script>
+</body>
+</html>

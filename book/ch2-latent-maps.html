@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ashby's Maps, Renewed · Chapter 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapter 2 of Materials & the Environment: material selection as gradient ascent in the latent space of a variational autoencoder.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/vae.js"></script>
+</head>
+<body>
+<d-site-header current="ch2-latent-maps"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Ashby's Maps, Renewed",
+  "chapter": 2, "slug": "ch2-latent-maps",
+  "published": "October 2026",
+  "source": "https://mid2supaero.github.io/ashby-maps-renewed/",
+  "authors": [
+    {"author": "Joseph Morlier", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]},
+    {"author": "Almudena Cobo-Urios", "affiliations": [{"name": "ISAE-SUPAERO"}]},
+    {"author": "Álvaro Silva-Vilela-Caridade", "affiliations": [{"name": "ISAE-SUPAERO"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Chapter 2 · Materials &amp; the Environment</div>
+  <h1>Ashby's Maps, Renewed</h1>
+  <p>Train a small variational autoencoder on 22 materials, and material selection becomes a walk uphill through a continuous, learned map. Any performance index, one network.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <h2 id="from-charts"><span class="sec">1</span>From charts to a learned space</h2>
+  <p class="lede"><a href="ch1-ashby-maps.html">Chapter 1</a> ended at a wall. An Ashby chart has two axes; a value function has as many objectives as we like but no picture; an eco-Ashby chart changes the axes but not their number. Each still asks a person to decide which properties to plot. Once a choice depends on three or more properties at once, reading charts becomes guesswork.</p>
+  <p>This chapter takes a different route.<d-cite key="xu2022,yepes2024"></d-cite> A <em>variational autoencoder</em> (VAE)<d-cite key="kingma2014"></d-cite> compresses each material's properties into a point in a low-dimensional <em>latent space</em> and learns to decode any point of that space back into properties. The decoder is smooth and differentiable, so a performance index computed on its output can be maximised by gradient ascent. The chart is replaced by a search, and the same trained network answers any index built from its inputs.</p>
+
+  <h2 id="method"><span class="sec">2</span>Method</h2>
+  <h3>Dataset</h3>
+  <p>Twenty-two materials from the CES/Granta database, spanning seven families: composites, elastomers, foams, metals and alloys, polymers, natural materials and technical ceramics. Each entry has a Young's modulus <d-math>E</d-math> and a density <d-math>\rho</d-math>. Properties span many decades, so each is log-transformed and min–max normalised to <d-math>[0,1]</d-math>:</p>
+  <d-math block>\tilde{x}_j = \frac{\log_{10} x_j - \min_k \log_{10} x_{k}}{\max_k \log_{10} x_{k} - \min_k \log_{10} x_{k}}.</d-math>
+
+  <h3>A variational autoencoder for material properties</h3>
+  <p>The encoder maps the two normalised properties through one fully connected layer of 250 ReLU units to the mean <d-math>\mu</d-math> and log-variance of a two-dimensional Gaussian. A latent code is sampled with the reparameterisation trick, <d-math>z = \mu + \sigma \odot \varepsilon</d-math>, and the decoder, a mirror image of the encoder with a sigmoid output, maps it back to properties. Training minimises the negative evidence lower bound:</p>
+  <d-math block>\mathcal{L} = \underbrace{\lVert \tilde{x} - D(z) \rVert^2}_{\text{reconstruction}} \;+\; \beta\,\underbrace{D_{\mathrm{KL}}\!\left(q(z\,|\,\tilde{x}) \,\Vert\, \mathcal{N}(0, I)\right)}_{\text{regularisation}}, \qquad \beta = 4.5\times10^{-5}.</d-math>
+  <p>The small <d-math>\beta</d-math>, found by grid search, lets the network reconstruct accurately while keeping the latent space continuous. Training runs for 10 000 Adam iterations at a learning rate of <d-math>2\times10^{-3}</d-math>.</p>
+
+  <figure class="fig l-page" id="fig-arch">
+    <div class="fig-panel">
+      <div class="fig-row">
+        <div id="arch"></div>
+        <div id="loss-chart"></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure 2.1</span><b>The network and its training.</b> Left: two log-normalised properties pass through a 250-unit encoder to a two-dimensional Gaussian latent code, and back out through a 250-unit decoder. Right: training loss for the network used on this page. Even with β this small, the weighted KL term settles above the reconstruction error by the end of training: the network spreads the 22 codes widely and keeps the plane smooth between them.</figcaption>
+  </figure>
+
+  <p>The network on this page was re-trained in the browser-friendly form of the published recipe, so its numbers differ slightly from the original notebook. Across the 22 materials, the encode–decode round trip reproduces <d-math>E</d-math> with a mean error of <span id="err-E" class="num">—</span> and <d-math>\rho</d-math> with <span id="err-rho" class="num">—</span>. The original study reported 5.5% and 2.8% (worst cases 17.4% and 8.4%). Both sets of errors are measured on the training materials; with 22 points, a held-out split would say little.</p>
+
+  <h3>A continuous, differentiable material space</h3>
+  <p>No family labels were given to the network, yet materials of the same family land next to each other in the latent plane. More importantly, every point of the plane, including the empty space between materials, decodes to a pair <d-math>(E, \rho)</d-math>. The material space has become a continuous field.</p>
+
+  <h3>Optimising the index in latent space</h3>
+  <p>For an index <d-math>M(E,\rho) = E^{a}/\rho</d-math>, we minimise</p>
+  <d-math block>f(z) = -\log M\big(D(z)\big) \;+\; \lambda\,\lVert z\rVert^2 \;+\; \mu \min_k \lVert z - z_k \rVert^2,</d-math>
+  <p>with Adam (step 0.05, up to 600 iterations) from 35 starting points on a grid over the latent plane, clamping codes to the observed range. The first penalty, <d-math>\lambda = 10^{-3}</d-math>, is the one of the original study. The second is added here to keep the walk near real materials, in the spirit of the vacant-space constraint of Yepes Llorente et al.<d-cite key="yepes2024"></d-cite> Set <d-math>\mu = 0</d-math> in the figure below to see why it is needed. The answer reported is the training material nearest to the best final code.</p>
+
+  <figure class="fig l-screen" id="fig-latent" style="max-width:1260px;margin-left:auto;margin-right:auto;width:100%">
+    <div class="fig-panel">
+      <div class="controls">
+        <span id="lat-case"></span>
+        <label for="lat-field">Background <select id="lat-field">
+          <option value="index">Index (log M)</option><option value="E">Decoded log E</option><option value="rho">Decoded log ρ</option><option value="none">None</option>
+        </select></label>
+        <label for="lat-mu">Stay near data μ <input type="range" id="lat-mu" min="0" max="5" step="0.1" value="3"><output id="lat-mu-out">3.0</output></label>
+        <button class="btn" type="button" id="lat-multi">Run 35 multi-starts</button>
+        <button class="btn" type="button" id="lat-clear">Clear</button>
+      </div>
+      <div class="fig-row even">
+        <div><div id="latent-chart"></div></div>
+        <div><div id="latent-ashby"></div></div>
+      </div>
+      <div class="readout" id="latent-readout" style="margin-top:8px"></div>
+      <div class="legend" id="latent-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 2.2</span><b>Selecting a material by walking through latent space.</b> Left: the 22 materials at their encoded positions, over a background decoded at every point of the plane. Click anywhere to start a gradient walk from there, or run the full multi-start search. Right: the same walk decoded onto a classical stiffness–density chart, with the guideline of the chosen index through the optimum. The walk runs live in your browser on the trained decoder.</figcaption>
+  </figure>
+
+  <h2 id="baseline"><span class="sec">3</span>Two baseline cases, checked against the exact chart</h2>
+  <h3>Bar, stiffness-limited</h3>
+  <p>For a tie, <d-math>M = E/\rho</d-math>. With the defaults of Figure 2.2, the multi-start search converges into the technical-ceramics corner of the latent plane, and the nearest real material is silicon carbide, which is also the exact winner on the chart. In the original study, with a slightly different network and no proximity penalty, the optimum decoded to <d-math>\rho \approx 2\,704</d-math> kg/m³ and <d-math>E \approx 313</d-math> GPa, nearest to silicon nitride, which the classical chart ranks a close second.</p>
+  <h3>Beam and panel, deflection-limited</h3>
+  <p>For a panel, <d-math>M = E^{1/3}/\rho</d-math>, the search walks into the natural-materials region and returns softwood pine, again matching the exact ranking. The beam index <d-math>E^{1/2}/\rho</d-math> is the delicate case. On this 22-material set silicon carbide beats pine by under 10%, and the in-browser search returns silicon carbide, the exact winner. The original study, with a different network, landed nearest to pine. When two candidates are that close, the latent search and the chart should both be read as a short list, not a verdict.</p>
+  <p>Drag the μ slider to zero and run the multi-start search again. The walks now leave the data. For the bar, the best walk ends at about 260 GPa and 1 540 kg/m³: five times stiffer than CFRP at the same density, a material that does not exist. Its nearest real neighbour is CFRP, so the reported answer changes too, and the readout flags the optimum as an extrapolation. The decoder is defined everywhere, but it is only trustworthy where it has seen data.</p>
+
+  <h2 id="beyond"><span class="sec">4</span>Beyond two properties</h2>
+  <p>The method's value appears when the index involves more properties than a chart can show. The study extended the VAE to the cases of the Ansys/Granta <em>Performance Indices</em> booklet, adding yield strength, shear modulus, thermal conductivity, expansion coefficient and cost as inputs, and compared the material nearest the latent optimum with the exact winner.<d-footnote>The source text speaks of thirteen extended cases with eleven matches, while its table lists sixteen rows, fourteen of them matching. The table is reproduced here as published; the counts should be checked against the case-study notebooks.</d-footnote></p>
+
+  <div class="table-wrap l-body">
+    <table>
+      <thead><tr><th>Case</th><th>Index</th><th>Exact-Ashby winner</th><th>VAE match</th></tr></thead>
+      <tbody id="ext-table"></tbody>
+    </table>
+  </div>
+
+  <aside>The spring case returns natural rubber. That is right for the index, which assumes the spring fails by yielding; a real spring designer would add fatigue and creep.</aside>
+
+  <h3>Where the method needs care</h3>
+  <p>Thermal shock, with four properties <d-math>(E, \sigma_y, \alpha, k)</d-math>, is the genuine failure. Data are scarce for that combination and the decoder extrapolates away from real materials, as in Figure 2.2 with μ at zero. Earlier runs with a fixed two-dimensional latent space produced unphysical extrapolations for three-property cases too. Setting the latent dimension equal to the number of properties fixed those cases.</p>
+
+  <h2 id="conclusion"><span class="sec">5</span>Final conclusion</h2>
+  <p>Read the two chapters together as a lineage in four stages, each lifting a limit of the one before:</p>
+  <ol>
+    <li><b>The two-dimensional chart</b>: one index, two properties, ranking by eye.</li>
+    <li><b>The value function</b>: many objectives, one score, no picture.</li>
+    <li><b>The eco-Ashby chart</b>: the same geometry with an environmental price on an axis.</li>
+    <li><b>The latent space</b>: any index over all the properties the network has seen, solved by search.</li>
+  </ol>
+  <p>The next natural experiment is to put eco-indicators into the same latent space, which is exactly what <a href="ch3-ecolizer.html">Chapter 3</a> does with the Ecolizer database. Every index, learned or charted, still encodes one question and one failure mode. The network does not remove the need to choose that question well.</p>
+
+  <h3>Table 2.1 · The 22-material dataset</h3>
+  <div class="table-wrap l-body">
+    <table>
+      <thead><tr><th>Family</th><th>Material</th><th class="n">ρ (kg/m³)</th><th class="n">E (GPa)</th><th class="n">E decoded</th><th class="n">ρ decoded</th></tr></thead>
+      <tbody id="data-table"></tbody>
+    </table>
+  </div>
+
+  <d-chapter-nav current="ch2-latent-maps"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Contributions</h3>
+  <p>Joseph Morlier posed the extension, supervised the study and supplied the extended 13-case notebooks. Almudena Cobo-Urios and Álvaro Silva-Vilela-Caridade developed the VAE methodology, the dataset preparation and the latent-space optimisation for the bar and beam cases. The narrative synthesis was drafted with Claude; the in-browser network, proximity penalty and interactive figures were built for this book.</p>
+  <h3>Limitations</h3>
+  <p>Reconstruction errors are training-set errors. The thermal-shock case does not reliably reproduce the exact ranking. The network on this page is a re-implementation and will not reproduce the original notebook's numbers digit for digit.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@inproceedings{kingma2014, author = {Kingma, Diederik P. and Welling, Max}, title = {Auto-Encoding Variational Bayes}, booktitle = {International Conference on Learning Representations (ICLR)}, year = {2014}, url = {https://arxiv.org/abs/1312.6114}}
+@misc{xu2022, author = {{UW-ERSL}}, title = {CatalogsVAE: variational autoencoders for material and catalog selection}, howpublished = {Engineering Representations and Simulation Lab, University of Wisconsin–Madison, GitHub repository}, url = {https://github.com/UW-ERSL/CatalogsVAE}}
+@article{yepes2024, author = {Yepes Llorente, L. and Morlier, Joseph and Sridhara, S. and others}, title = {A hybrid machine learning and evolutionary approach to material selection and design optimization for eco-friendly structures}, journal = {Structural and Multidisciplinary Optimization}, volume = {67}, pages = {69}, year = {2024}, doi = {10.1007/s00158-024-03777-z}}
+@book{ashby2016, author = {Ashby, Michael F.}, title = {Materials Selection in Mechanical Design}, publisher = {Butterworth-Heinemann}, edition = {5}, year = {2016}}
+</script></d-bibliography>
+
+<d-site-footer></d-site-footer>
+<script src="../assets/js/ch2.js"></script>
+</body>
+</html>

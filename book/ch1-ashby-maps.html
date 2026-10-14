@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ashby's Maps · Chapter 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapter 1 of Materials & the Environment: Ashby's material-selection charts, value functions and the eco-cost axis, with interactive figures.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/materials22.js"></script>
+</head>
+<body>
+<d-site-header current="ch1-ashby-maps"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Ashby's Maps",
+  "chapter": 1, "slug": "ch1-ashby-maps",
+  "published": "October 2026",
+  "source": "https://mid2supaero.github.io/ashby-maps/",
+  "authors": [
+    {"author": "Joseph Morlier", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Chapter 1 · Materials &amp; the Environment</div>
+  <h1>Ashby's Maps</h1>
+  <p>How a log–log chart turns a mechanics derivation into a straight line, what to do when one line is not enough, and how the same mathematics carries an eco-cost axis.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <p class="lede">Every engineering component is a compromise between what a material can do and what it costs us: in mass, in money and, increasingly, in damage to the environment. Michael Ashby's contribution was to make that compromise visible. Plot two properties of every candidate material on logarithmic axes, and the best choice for a given job sits on one side of a straight line whose slope comes from mechanics.<d-cite key="ashby2016"></d-cite></p>
+  <p>This chapter rebuilds that method from first principles, extends it to several objectives through a <em>value function</em>,<d-cite key="ashby2000"></d-cite> and swaps price for an <em>eco-cost</em> to obtain the eco-Ashby chart.<d-cite key="vogtlander2010"></d-cite> It ends where two-dimensional charts run out of room, which is where <a href="ch2-latent-maps.html">Chapter 2</a> begins.</p>
+
+  <h2 id="method"><span class="sec">1</span>Ashby's method, as code</h2>
+  <p>Take a flat panel of fixed length <d-math>L</d-math> and width <d-math>b</d-math>, loaded in bending. It must not deflect more than a set amount, so its bending stiffness <d-math>S</d-math> is fixed. Its thickness <d-math>t</d-math> is free. We want the lightest panel.</p>
+  <d-math block>m = \rho\, L\, b\, t, \qquad S = C\,\frac{E\, b\, t^3}{L^3}.</d-math>
+  <p>Eliminate the free variable <d-math>t</d-math> using the stiffness constraint, and the mass becomes</p>
+  <d-math block>m = \underbrace{\left(\frac{12 S}{C b}\right)^{1/3} b\,L^{2}}_{\text{fixed by the design}} \;\cdot\; \underbrace{\frac{\rho}{E^{1/3}}}_{\text{material}}</d-math>
+  <p>Every term except the last is set by the design. The material enters only through <d-math>\rho/E^{1/3}</d-math>, so the lightest panel is the one that maximises the <em>material index</em> <d-math>M = E^{1/3}/\rho</d-math>.</p>
+  <p>Take logarithms of any index of the form <d-math>M = E^{a}/\rho</d-math>:</p>
+  <d-math block>\log E = \tfrac{1}{a}\,\log \rho + \tfrac{1}{a}\,\log M.</d-math>
+  <p>On log–log axes, all materials with the same <d-math>M</d-math> lie on a straight line of slope <d-math>1/a</d-math>. Sliding that line upward raises <d-math>M</d-math>; the materials that remain above it are the better choices. The mechanics sets the slope, and the chart does the ranking.</p>
+
+  <div class="table-wrap l-body">
+  <table>
+    <thead><tr><th>Loading case</th><th class="n">a</th><th>Index M</th><th class="n">Guideline slope</th></tr></thead>
+    <tbody>
+      <tr><td>Tie, axial, stiffness-limited</td><td class="n">1</td><td><d-math>E/\rho</d-math></td><td class="n">1</td></tr>
+      <tr><td>Beam or shaft, bending/torsion, stiffness-limited</td><td class="n">1/2</td><td><d-math>E^{1/2}/\rho</d-math></td><td class="n">2</td></tr>
+      <tr><td>Panel, bending, stiffness-limited</td><td class="n">1/3</td><td><d-math>E^{1/3}/\rho</d-math></td><td class="n">3</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <figure class="fig l-page" id="fig-ashby">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="pair-select">Chart <select id="pair-select"></select></label>
+        <span id="case-seg"></span>
+        <button class="btn" id="guide-reset" type="button">Reset line</button>
+      </div>
+      <div class="fig-row">
+        <div id="ashby-chart"></div>
+        <div class="readout" id="ashby-readout"></div>
+      </div>
+      <div class="legend" id="ashby-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 1.1</span><b>A live Ashby chart.</b> Choose a property pair and a loading case, then drag the ochre guideline up or down. Materials below the line fade out; the material with the highest index is starred. The 22 materials and their densities and moduli are the CES/Granta set used throughout the book. Strengths and prices are approximate handbook values added for teaching.</figcaption>
+  </figure>
+
+  <aside>Try the panel case on the stiffness–density chart. Woods and foams climb the ranking because the cube root rewards low density far more than high stiffness.</aside>
+
+  <h2 id="one-index"><span class="sec">2</span>Why one index is rarely enough</h2>
+  <p>A single index answers a single question: the lightest panel, the cheapest tie, the stiffest beam per unit mass. Real components ask several at once. An aircraft panel must be light <em>and</em> affordable; a car door must be stiff, cheap and recyclable. Each requirement has its own index, and the indices disagree. Beryllium makes a superb light panel and a ruinous cheap one.</p>
+  <p>When objectives conflict there is no single best material, only a set of best compromises. Finding that set, and then choosing a point on it, is the subject of the next two sections.</p>
+
+  <h2 id="pareto"><span class="sec">3</span>Trade-off surfaces and the Pareto set</h2>
+  <p>Plot each candidate by two performance metrics that we want to minimise, say a mass index <d-math>P_1</d-math> and a cost index <d-math>P_2</d-math>. A candidate is <em>dominated</em> when another candidate is better on both metrics at once. Dominated candidates can be discarded without knowing how much we value mass against money.</p>
+  <p>What remains is the <em>non-dominated set</em>, the <em>Pareto front</em> or, in Ashby's vocabulary, the <em>trade-off surface</em>.<d-cite key="ashby2000"></d-cite> Moving along it, every gain on one metric costs something on the other. The front tells us which materials are worth arguing about. It does not tell us which one to pick.</p>
+
+  <h2 id="value"><span class="sec">4</span>Value functions and exchange constants</h2>
+  <p>To pick a single point we need a price for each property. The <em>value function</em> adds the penalised properties with weights:</p>
+  <d-math block>V = \sum_i \alpha_i\, P_i = \alpha_1 P_1 + \alpha_2 P_2 + \dots</d-math>
+  <p>The <em>exchange constant</em> <d-math>\alpha_i</d-math> is what one unit of property <d-math>P_i</d-math> is worth. If <d-math>P_2</d-math> is a cost, then <d-math>\alpha_2 = 1</d-math> and <d-math>\alpha_1</d-math> is the money we would pay to save one kilogram. The lowest <d-math>V</d-math> wins. Geometrically, lines of constant <d-math>V</d-math> are straight on linear axes and curved on log axes; the optimum is where the lowest such contour touches the trade-off surface.</p>
+  <div class="table-wrap l-body">
+    <table>
+      <thead><tr><th>Sector</th><th class="n">Exchange constant α₁ (£ per kg saved)</th></tr></thead>
+      <tbody>
+        <tr><td>Family car (mass and fuel)</td><td class="n">≈ 1</td></tr>
+        <tr><td>Civil aircraft</td><td class="n">100 – 500</td></tr>
+        <tr><td>Space vehicle</td><td class="n">3 000 – 10 000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The spread is four orders of magnitude. The same material data, valued by a car maker and by a satellite builder, lead to different materials.</p>
+
+  <h2 id="worked"><span class="sec">5</span>Worked application: co-minimising mass and cost</h2>
+  <p>Return to the stiffness-limited panel. Its mass index is <d-math>P_1 = \rho/E^{1/3}</d-math> and its material cost index is <d-math>P_2 = C_m P_1</d-math>, with <d-math>C_m</d-math> the price per kilogram. The value function is <d-math>V = \alpha_1 P_1 + P_2</d-math>. The six candidates are those of Ashby's own example.<d-cite key="ashby2000"></d-cite></p>
+
+  <figure class="fig l-page" id="fig-value">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="alpha">Exchange constant α₁ <input type="range" id="alpha" min="-1" max="3" step="0.01" value="-0.30103"> <output id="alpha-out">£0.50/kg</output></label>
+        <span id="alpha-presets"></span>
+      </div>
+      <div class="fig-row">
+        <div id="value-chart"></div>
+        <div class="readout">
+          <div class="table-wrap" style="margin:0"><table id="value-table"></table></div>
+        </div>
+      </div>
+      <div id="sweep-chart" style="margin-top:12px"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 1.2</span><b>Choosing along the trade-off surface.</b> Top: mass index against cost index on log axes. Hollow markers are dominated; the dashed curve is the constant-<i>V</i> contour through the current winner. Bottom: the winner across the full range of exchange constants. It changes only at a few discrete crossover points.</figcaption>
+  </figure>
+
+  <p>At <d-math>\alpha_1</d-math> = £0.5/kg, a value typical of commodity products, nodular cast iron wins with <d-math>V = 0.98</d-math>: cheap, stiff enough, and heavy enough not to matter. At <d-math>\alpha_1</d-math> = £500/kg, the value of mass in aerospace, beryllium wins with <d-math>V = 205</d-math> despite costing a thousand times more per kilogram. These figures match Ashby's published table to rounding.</p>
+  <p>Between the two extremes the winner changes only three times: from cast iron to the aluminium alloy near £0.55/kg, to the aluminium–SiC composite in a narrow window around £140–170/kg, and to beryllium beyond that. Each crossover is an exchange constant at which two materials have equal value. Knowing those crossovers is often more useful than knowing the winner at a single guessed constant.</p>
+
+  <h2 id="eco"><span class="sec">6</span>Eco-costs and the eco-Ashby chart</h2>
+  <p>Price is one axis among many. The <em>eco-cost</em> method assigns an environmental burden a monetary value: the marginal cost of preventing that burden so that it stays within what the Earth can carry.<d-cite key="vogtlander2010"></d-cite> For greenhouse gases the prevention cost is of the order of €0.13–0.15 per kilogram of CO₂-equivalent. Unlike a classical life-cycle assessment, which reports a dozen impact categories in different units, eco-costs reduce to one number in euros, and that number can go on an Ashby axis.</p>
+  <p>Eco-costs are tabulated per kilogram. A component is sized by volume, so multiply by density:</p>
+  <d-math block>\text{eco-cost}_V = \text{eco-cost}_{kg}\;\rho \quad [\text{EUR/m}^3].</d-math>
+  <p>The same derivations as in Section 1 now give <em>eco-material indices</em>, to be minimised:</p>
+  <d-math block>I_{E} = \frac{\text{eco-cost}_V}{E^{1/2}} \;\;\text{(stiff beam)},\qquad I_{\sigma,\text{bend}} = \frac{\text{eco-cost}_V}{\sigma_y^{2/3}} \;\;\text{(strong beam)},\qquad I_{\sigma} = \frac{\text{eco-cost}_V}{\sigma_y}\;\;\text{(tie)}.</d-math>
+  <p>At product level the companion measure is the eco-efficient value ratio, <d-math>\text{EVR} = \text{eco-costs}/\text{value}</d-math>: the environmental cost per euro a customer is willing to pay.</p>
+
+  <figure class="fig l-page" id="fig-eco">
+    <div class="fig-panel">
+      <div class="controls"><span id="eco-seg"></span></div>
+      <div class="fig-row">
+        <div id="eco-chart"></div>
+        <div id="eco-bars"></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure 1.3</span><b>An eco-Ashby chart.</b> Eco-cost per cubic metre against modulus (guideline slope 1/2) or yield strength (slope 2/3). The best materials sit to the lower right; drag the guideline to filter. Right: the six materials ranked by the selected eco-index. All values are illustrative order-of-magnitude teaching figures, not Idemat or CES data.</figcaption>
+  </figure>
+
+  <p>Wood and concrete lead both rankings, because their eco-cost per kilogram is tiny and their density moderate. Aluminium, PET and GFRP trail by one to two orders of magnitude. This is the eco-Ashby chart's main lesson: per unit of <em>function</em>, the ordering of materials can differ completely from the ordering per kilogram.</p>
+
+  <h2 id="conclusion"><span class="sec">7</span>Preliminary conclusion</h2>
+  <p>Three tools, one lineage:</p>
+  <ul>
+    <li><b>Charts</b> reduce a mechanics derivation to a slope on log axes, but they show one index and two properties at a time.</li>
+    <li><b>Value functions</b> combine any number of objectives into one score, at the price of the picture.</li>
+    <li><b>Eco-Ashby charts</b> keep the mathematics and replace price with a defined environmental prevention cost.</li>
+  </ul>
+  <p>All three still need a person to choose the axes. When a decision hinges on three or more properties, the chart runs out of dimensions. <a href="ch2-latent-maps.html">Chapter 2</a> replaces the chart with a learned, continuous map and turns selection into a search.</p>
+
+  <d-chapter-nav current="ch1-ashby-maps"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Contributions</h3>
+  <p>Joseph Morlier proposed the extension and supplied the source notebooks (<code>ashby_method_step_by_step.ipynb</code>, <code>eco_costs_and_ashby_charts.ipynb</code>) and LaTeX notes. The original interactive widget and eco-cost derivations were drafted with Claude; this book chapter was rewritten and re-implemented as interactive D3 figures for the Materials &amp; the Environment site.</p>
+  <h3>Data</h3>
+  <p>Densities and moduli of the 22 materials: CES/Granta, as tabulated in Chapter 2. Strengths and prices in Figure 1.1 are approximate mid-range handbook values. The six-material worked example follows Ashby (2000). Eco-cost values in Figure 1.3 are illustrative teaching values.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@book{ashby2016, author = {Ashby, Michael F.}, title = {Materials Selection in Mechanical Design}, publisher = {Butterworth-Heinemann}, edition = {5}, year = {2016}}
+@article{ashby2000, author = {Ashby, Michael F.}, title = {Multi-objective optimization in material design and selection}, journal = {Acta Materialia}, volume = {48}, pages = {359--369}, year = {2000}, doi = {10.1016/S1359-6454(99)00304-3}}
+@book{vogtlander2010, author = {Vogtländer, Joost G.}, title = {A practical guide to LCA for students, designers and business managers: cradle-to-grave and cradle-to-cradle}, publisher = {VSSD, Delft}, year = {2010}}
+</script></d-bibliography>
+
+<d-site-footer></d-site-footer>
+<script src="../assets/js/ch1.js"></script>
+</body>
+</html>
