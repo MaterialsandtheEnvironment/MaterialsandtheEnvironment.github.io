@@ -49,7 +49,7 @@
   .chapter .meta { margin-top: 10px; font-family: var(--f-ui); font-size: .74rem; color: var(--muted); display: flex; gap: 6px 14px; flex-wrap: wrap; }
   .chapter .meta a { position: relative; z-index: 1; color: var(--ink-2); }
 
-  .lineage { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 6px 0 0; font-family: var(--f-ui); font-size: .82rem; }
+  .lineage { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 6px 0 0; font-family: var(--f-ui); font-size: .82rem; }
   .lineage div { padding: 10px 14px 10px 0; border-top: 2px solid var(--accent); position: relative; }
   .lineage div::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--accent); }
   .lineage b { display: block; font-family: var(--f-display); font-size: .98rem; color: var(--ink); margin-top: 6px; }
@@ -80,7 +80,7 @@
     <div>
       <p class="eyebrow">ISAE-SUPAERO · Université de Toulouse</p>
       <h1 id="hero-title">Materials &amp; the <em>Environment</em></h1>
-      <p class="lead">An open, interactive book on choosing what things are made of when mass, cost and the planet all sit on the axes. From Ashby's charts to learned latent spaces, eco-indicators and 1 516 simulated jet-engine brackets.</p>
+      <p class="lead">An open, interactive book on choosing what things are made of when mass, cost and the planet all sit on the axes. From Ashby's charts to learned latent spaces, eco-indicators, 1 516 simulated jet-engine brackets and language models asked to choose like experts.</p>
       <div class="cta">
         <a class="primary" href="book/ch1-ashby-maps.html">Start reading Chapter 1</a>
         <a class="ghost" href="#book">Table of contents</a>
@@ -97,12 +97,13 @@
     <header>
       <h2 id="book-title">The book</h2>
       <div>
-        <p>Four chapters, each a Distill-style article with live figures you can drag, filter and re-run. They read in order: each one lifts a limit of the one before.</p>
+        <p>Five chapters, each a Distill-style article with live figures you can drag, filter and re-run. They read in order: each one lifts a limit of the one before.</p>
         <div class="lineage" aria-label="Lineage of methods">
           <div><b>Chart</b><span>one index, two properties</span></div>
           <div><b>Value function</b><span>many objectives, one score</span></div>
           <div><b>Eco-axis</b><span>environment priced in</span></div>
           <div><b>Latent space</b><span>any index, solved by search</span></div>
+          <div><b>Language model</b><span>requirements in words</span></div>
         </div>
       </div>
     </header>
@@ -131,6 +132,12 @@
         <ul><li>4.1 Production against use-phase CO₂</li><li>4.3 Utilisation and the safety factor</li><li>4.4 An exact Pareto explorer, and a constraint sign bug</li></ul>
         <div class="meta"><span>R. Maeso Orti, P. Ballesteros Martín, J. Morlier</span><a href="https://mid2supaero.github.io/tosm/">original article</a></div>
       </div></li>
+      <li class="chapter"><div class="num" aria-hidden="true">5</div><div class="body">
+        <h3><a href="book/ch5-llm-selection.html">Asking a Language Model</a></h3>
+        <p class="sub">Can LLMs choose materials like experts?</p>
+        <ul><li>5.2 The four prompts, filled in live</li><li>5.3 Scenario explorer: 10 544 expert scores against GPT-4, Mixtral and MechGPT</li><li>5.6 The low-variance failure mode</li></ul>
+        <div class="meta"><span>D. Grandi, Y. P. Jain, A. Groom, B. Cramer, C. McComb</span><a href="https://arxiv.org/abs/2405.03695">paper</a><a href="https://material-selection-llms.streamlit.app/">demo app</a></div>
+      </div></li>
     </ol>
   </section>
 
@@ -153,6 +160,7 @@
           <tr><td><a href="https://github.com/mid2SUPAERO/TOSM">mid2SUPAERO/TOSM</a></td><td><code>FinalResults.xlsx</code>, <code>Materials.xlsx</code>, OptiStruct and Pareto notebooks</td><td>Ch. 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/HybML-EvoMatDesEco">mid2SUPAERO/HybML-EvoMatDesEco</a></td><td>Eco-material database and hybrid VAE + evolutionary design code</td><td>Ch. 2, 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/ashby-vae">mid2SUPAERO/ashby-vae</a></td><td>Ashby-VAE case-study notebooks</td><td>Ch. 2</td></tr>
+          <tr><td><a href="https://github.com/grndnl/llm_material_selection_jcise">grndnl/llm_material_selection_jcise</a></td><td>Expert survey (10 544 scores) and GPT-4, Mixtral, MechGPT answers</td><td>Ch. 5</td></tr>
           <tr><td><a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb">ecolizer_vae.ipynb</a></td><td>Digitised Ecolizer 2.0 tables and the masked VAE</td><td>Ch. 3</td></tr>
         </tbody>
       </table>
