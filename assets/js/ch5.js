@@ -222,4 +222,5 @@ Thermoplastic: 8  Elastomer: 8  Thermoset: 7  Composite: 7`;
   }, { label: "Effect of temperature" });
 
   window.addEventListener("themechange", () => { renderTable(); renderPrompt(); exploreReadout(); renderErrors(); });
+  window.CH5 = { STAT, idx, ans, zsc, mae, metrics, D, C, M, cap, MODELS, mcol, symPath };
 })();

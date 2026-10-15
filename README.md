@@ -1,6 +1,6 @@
 # Materials & the Environment
 
-Website and interactive book of **Materials & the Environment**  (ISAE-SUPAERO, Université de Toulouse).
+Website and interactive book of the **Materials & the Environment** organisation (ISAE-SUPAERO, Université de Toulouse).
 Published with GitHub Pages at <https://materialsandtheenvironment.github.io/>.
 
 The book has five Distill-style chapters with live D3 figures:

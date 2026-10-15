@@ -133,26 +133,34 @@
       </div>
       <div class="legend" id="explore-legend"></div>
     </div>
-    <figcaption><span class="fig-num">Figure 5.3</span><b>Scenario explorer.</b> Grey bars span the middle half of expert scores (25th to 75th percentile), whiskers the full range, and the dark tick is the expert median; dot size shows how many experts gave each score. Coloured markers are the three models' answers. Hover any mark for details. The original Streamlit demo can be loaded just below.</figcaption>
+    <figcaption><span class="fig-num">Figure 5.3</span><b>Scenario explorer.</b> Grey bars span the middle half of expert scores (25th to 75th percentile), whiskers the full range, and the dark tick is the expert median; dot size shows how many experts gave each score. Coloured markers are the three models' answers. Hover any mark for details.</figcaption>
   </figure>
 
   <h3>The authors' app</h3>
-  <p>The original Streamlit demo runs the same comparison on the authors' server. It can be loaded below; Streamlit's free hosting puts idle apps to sleep, so the first load can take a minute. If it does not appear, <a href="https://material-selection-llms.streamlit.app/">open it in a new tab</a>.</p>
-  <figure class="fig l-page" id="fig-streamlit">
+  <p>The authors also published a Streamlit demo that sends your own design brief to GPT-4. It runs on their free Streamlit account and their OpenAI key, so it is often asleep or unavailable, and nothing in this book depends on it. The explorer above uses the same data and runs entirely in your browser. When the demo is up, it is at <a href="https://material-selection-llms.streamlit.app/">material-selection-llms.streamlit.app</a>.</p>
+
+  <h3>Try it with a free model in your browser</h3>
+  <p>You can also put the question to a small open model yourself. The figure below downloads one from Hugging Face and runs it inside your browser with Transformers.js:<d-cite key="transformersjs"></d-cite> no server, no account, no API key. It uses the paper's zero-shot prompt, asking about each material in turn, and compares the answers with the experts. These models are far smaller than GPT-4, whose size is not public, and than the 13-billion-parameter MechGPT, so expect weak answers. In our tests SmolLM2 gave every material a 10 for a lightweight safety helmet, the low-variance failure mode of Section 4 in its most extreme form.</p>
+  <figure class="fig l-page" id="fig-local">
     <div class="fig-panel">
-      <div id="st-slot" style="display:flex;align-items:center;justify-content:center;min-height:120px;flex-direction:column;gap:8px">
-        <button class="btn" type="button" id="st-load">Load the Streamlit app</button>
-        <span class="app-note">Loads material-selection-llms.streamlit.app inside this page.</span>
+      <div class="controls">
+        <label for="ll-model">Model <select id="ll-model"></select></label>
+        <label for="ll-d">Design <select id="ll-d"></select></label>
+        <label for="ll-c">Criterion <select id="ll-c"></select></label>
+        <button class="btn" type="button" id="ll-ask">Ask (9 questions)</button>
+        <button class="btn" type="button" id="ll-all">Run the full survey (144)</button>
+        <button class="btn" type="button" id="ll-stop" hidden>Stop</button>
       </div>
+      <div style="height:4px;background:var(--paper-2);border-radius:2px;overflow:hidden;margin-bottom:8px"><div id="ll-bar" style="height:100%;width:0;background:var(--accent);transition:width .2s"></div></div>
+      <div class="readout" id="ll-status" role="status" style="margin-bottom:8px">The model is downloaded only when you press a button.</div>
+      <div class="fig-row">
+        <div id="ll-chart"></div>
+        <div class="readout" id="ll-readout"></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--rule);border-radius:2px;width:14px"></i>Experts, middle 50%</span><span><i style="background:var(--ink);border-radius:1px;width:3px"></i>Expert median</span><span><i style="background:var(--s1);opacity:.55"></i>GPT-4 zero-shot (paper)</span><span><svg width="12" height="12" viewBox="-6 -6 12 12"><path d="M0,-6L1.8,-1.9L6,-1.9L2.6,0.8L3.7,5L0,2.5L-3.7,5L-2.6,0.8L-6,-1.9L-1.8,-1.9Z" fill="var(--hi)"/></svg>Your model</span></div>
     </div>
-    <figcaption><span class="fig-num">Figure 5.3b</span><b>Original demo</b> by Grandi et al., embedded from Streamlit Community Cloud.</figcaption>
+    <figcaption><span class="fig-num">Figure 5.8</span><b>A free model, run locally.</b> SmolLM2 360M (about 270 MB) or Qwen2.5 0.5B (about 510 MB) is downloaded once from the Hugging Face Hub and cached by your browser. SmolLM2 runs on your graphics card when the browser supports WebGPU (recent Chrome or Edge), at about 0.2 s per question, otherwise on the CPU. Qwen2.5 always runs on the CPU, at about 2–3 s per question, because its 4-bit graphics-card build gave garbled answers in our tests. Small models tend to answer in sentences, so the reply is started with "Score (0-10):" and only the next few tokens are read. The prompt asks for a score from 0 to 10; the paper's wording said "1-10" while describing 0 as the lowest score. Answers vary slightly between browsers and devices.</figcaption>
   </figure>
-  <script>
-    document.getElementById("st-load").addEventListener("click", function () {
-      var slot = document.getElementById("st-slot");
-      slot.innerHTML = '<iframe title="Material selection with LLMs, Streamlit demo" src="https://material-selection-llms.streamlit.app/?embed=true" style="width:100%;height:760px;border:0;border-radius:4px;background:var(--paper)" loading="lazy"></iframe>';
-    });
-  </script>
 
   <h2 id="results"><span class="sec">4</span>What the models got right and wrong</h2>
   <h3>Every model scores too high</h3>
@@ -230,10 +238,12 @@
 @misc{grandi2024, author = {Grandi, Daniele and Jain, Yash Patawari and Groom, Allin and Cramer, Brandon and McComb, Christopher}, title = {Evaluating Large Language Models for Material Selection}, howpublished = {arXiv:2405.03695}, year = {2024}, url = {https://arxiv.org/abs/2405.03695}}
 @misc{gpt4, author = {{OpenAI}}, title = {GPT-4 Technical Report}, howpublished = {arXiv:2303.08774}, year = {2023}, url = {https://arxiv.org/abs/2303.08774}}
 @misc{mixtral, author = {Jiang, Albert Q. and Sablayrolles, Alexandre and Roux, Antoine and others}, title = {Mixtral of Experts}, howpublished = {arXiv:2401.04088}, year = {2024}, url = {https://arxiv.org/abs/2401.04088}}
+@misc{transformersjs, author = {{Hugging Face}}, title = {Transformers.js: state-of-the-art machine learning for the web}, howpublished = {GitHub repository}, url = {https://github.com/huggingface/transformers.js}}
 @article{mechgpt, author = {Buehler, Markus J.}, title = {MechGPT, a language-based strategy for mechanics and materials modeling that connects knowledge across scales, disciplines, and modalities}, journal = {Applied Mechanics Reviews}, volume = {76}, pages = {021001}, year = {2024}}
 </script></d-bibliography>
 
 <d-site-footer></d-site-footer>
 <script src="../assets/js/ch5.js"></script>
+<script type="module" src="../assets/js/ch5-local-llm.js"></script>
 </body>
 </html>
