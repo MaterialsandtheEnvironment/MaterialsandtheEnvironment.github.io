@@ -11,7 +11,7 @@
     { slug: "ch2-latent-maps", n: 2, title: "Ashby's Maps, Renewed", sub: "Selecting materials in a learned latent space" },
     { slug: "ch3-ecolizer", n: 3, title: "Mapping the Ecolizer", sub: "Eco-indicators, eco-indices and a masked VAE" },
     { slug: "ch4-tosm", n: 4, title: "Brackets, Metals and Carbon", sub: "The TOSM benchmark of 1 516 bracket–alloy pairs" },
-    { slug: "ch5-llm-selection", n: 5, title: "Asking a Language Model", sub: "Can LLMs choose materials like experts?" },
+    { slug: "ch5-small-model", n: 5, title: "A Model That Read the Book", sub: "Fine-tuning a free small LLM on Chapters 1–4" },
   ];
   window.MATENV_BOOK = BOOK;
 

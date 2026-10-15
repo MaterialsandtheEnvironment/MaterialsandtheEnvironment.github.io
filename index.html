@@ -80,7 +80,7 @@
     <div>
       <p class="eyebrow">ISAE-SUPAERO · Université de Toulouse</p>
       <h1 id="hero-title">Materials &amp; the <em>Environment</em></h1>
-      <p class="lead">An open, interactive book on choosing what things are made of when mass, cost and the planet all sit on the axes. From Ashby's charts to learned latent spaces, eco-indicators, 1 516 simulated jet-engine brackets and language models asked to choose like experts.</p>
+      <p class="lead">An open, interactive book on choosing what things are made of when mass, cost and the planet all sit on the axes. From Ashby's charts to learned latent spaces, eco-indicators, 1 516 simulated jet-engine brackets and a small language model taught by the book itself.</p>
       <div class="cta">
         <a class="primary" href="book/ch1-ashby-maps.html">Start reading Chapter 1</a>
         <a class="ghost" href="#book">Table of contents</a>
@@ -103,7 +103,7 @@
           <div><b>Value function</b><span>many objectives, one score</span></div>
           <div><b>Eco-axis</b><span>environment priced in</span></div>
           <div><b>Latent space</b><span>any index, solved by search</span></div>
-          <div><b>Language model</b><span>requirements in words</span></div>
+          <div><b>Small language model</b><span>questions in words, answers by the book</span></div>
         </div>
       </div>
     </header>
@@ -133,10 +133,10 @@
         <div class="meta"><span>R. Maeso Orti, P. Ballesteros Martín, J. Morlier</span><a href="https://mid2supaero.github.io/tosm/">original article</a></div>
       </div></li>
       <li class="chapter"><div class="num" aria-hidden="true">5</div><div class="body">
-        <h3><a href="book/ch5-llm-selection.html">Asking a Language Model</a></h3>
-        <p class="sub">Can LLMs choose materials like experts?</p>
-        <ul><li>5.2 The four prompts, filled in live</li><li>5.3 Scenario explorer: 10 544 expert scores against GPT-4, Mixtral and MechGPT</li><li>5.6 The low-variance failure mode</li></ul>
-        <div class="meta"><span>D. Grandi, Y. P. Jain, A. Groom, B. Cramer, C. McComb</span><a href="https://arxiv.org/abs/2405.03695">paper</a><a href="https://github.com/grndnl/llm_material_selection_jcise">data</a></div>
+        <h3><a href="book/ch5-small-model.html">A Model That Read the Book</a></h3>
+        <p class="sub">Fine-tuning a free small LLM on Chapters 1–4</p>
+        <ul><li>5.2 Nine exact tools built from the book</li><li>5.4 Ask a 360M model running in your browser</li><li>5.5 Held-out accuracy, base vs fine-tuned</li></ul>
+        <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">model</a></div>
       </div></li>
     </ol>
   </section>
@@ -144,7 +144,7 @@
   <section class="section" id="lab" aria-labelledby="lab-title">
     <header>
       <h2 id="lab-title">The lab</h2>
-      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
+      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO and the Institut Clément Ader, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
     </header>
     <div class="lab-grid">
       <div><h3>Material selection</h3><p>Ashby charts, performance indices and multi-objective value functions, extended with eco-costs and eco-indicators.</p></div>
@@ -160,7 +160,7 @@
           <tr><td><a href="https://github.com/mid2SUPAERO/TOSM">mid2SUPAERO/TOSM</a></td><td><code>FinalResults.xlsx</code>, <code>Materials.xlsx</code>, OptiStruct and Pareto notebooks</td><td>Ch. 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/HybML-EvoMatDesEco">mid2SUPAERO/HybML-EvoMatDesEco</a></td><td>Eco-material database and hybrid VAE + evolutionary design code</td><td>Ch. 2, 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/ashby-vae">mid2SUPAERO/ashby-vae</a></td><td>Ashby-VAE case-study notebooks</td><td>Ch. 2</td></tr>
-          <tr><td><a href="https://github.com/grndnl/llm_material_selection_jcise">grndnl/llm_material_selection_jcise</a></td><td>Expert survey (10 544 scores) and GPT-4, Mixtral, MechGPT answers</td><td>Ch. 5</td></tr>
+          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a></td><td>Fine-tuned SmolLM2 model (Hugging Face Hub)</td><td>Ch. 5</td></tr>
           <tr><td><a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb">ecolizer_vae.ipynb</a></td><td>Digitised Ecolizer 2.0 tables and the masked VAE</td><td>Ch. 3</td></tr>
         </tbody>
       </table>
