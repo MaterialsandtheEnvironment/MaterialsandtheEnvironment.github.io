@@ -1,7 +1,8 @@
-/* Held-out accuracy of the MatEnv models. "base" was measured in a desktop browser with WebGPU
-   (Transformers.js 3.8.1, SmolLM2-360M-Instruct q4f16, greedy decoding) on the first 60 test questions.
-   "finetuned" is filled in from training/finetune_matenv.ipynb (merged/matenv_eval.json) once the model is trained. */
+/* Held-out accuracy of the MatEnv models on the 240 test questions (templates never seen in training),
+   measured by training/finetune_matenv.ipynb on a Colab T4 (fp16, greedy decoding) and published as
+   matenv_eval.json at huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m.
+   Tool mode: JSON call with the exact tool and arguments. Direct mode: answer names the right material/family/bracket/number. */
 window.MATENV_RESULTS = {
-  base: { label: "SmolLM2-360M (base)", tool: 0 / 60, direct: 5 / 60, n: 60, where: "browser, WebGPU" },
-  finetuned: null,
+  base: { label: "SmolLM2-360M (base)", tool: 0.0, direct: 0.158, n: 240, where: "Colab T4, fp16" },
+  finetuned: { label: "MatEnv fine-tuned", tool: 0.796, direct: 0.721, n: 240, where: "Colab T4, fp16" },
 };

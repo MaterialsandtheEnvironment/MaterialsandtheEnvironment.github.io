@@ -139,7 +139,7 @@ function drawResults() {
   resChart.redraw();
   const ft = RESULTS.finetuned;
   $("res-note").innerHTML = ft
-    ? `<p style="margin:0">Fine-tuning lifts tool-call accuracy from <b class="num">${Math.round(RESULTS.base.tool * 100)}%</b> to <b class="num">${Math.round(ft.tool * 100)}%</b>, and direct answers from <b class="num">${Math.round(RESULTS.base.direct * 100)}%</b> to <b class="num">${Math.round(ft.direct * 100)}%</b>.</p>`
+    ? `<p style="margin:0">On the 240 held-out questions, fine-tuning lifts tool-call accuracy from <b class="num">${Math.round(RESULTS.base.tool * 100)}%</b> to <b class="num">${Math.round(ft.tool * 100)}%</b>, and direct answers from <b class="num">${Math.round(RESULTS.base.direct * 100)}%</b> to <b class="num">${Math.round(ft.direct * 100)}%</b>.</p>`
     : `<p style="margin:0">The base model scores <b class="num">${Math.round(RESULTS.base.tool * 100)}%</b> in tool mode, because it never produces a usable JSON call, and <b class="num">${Math.round(RESULTS.base.direct * 100)}%</b> in direct mode. The fine-tuned model's bars appear here once it has been trained and published; you can also measure it yourself below.</p>`;
 }
 const resChart = mount("#res-chart", () => 200, (svg, w, h) => {

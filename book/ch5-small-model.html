@@ -175,8 +175,10 @@
       <div class="readout" id="bm-status" role="status"></div>
       <div class="table-wrap" style="margin:6px 0 0"><table id="bm-table"></table></div>
     </div>
-    <figcaption><span class="fig-num">Figure 5.5</span><b>Held-out accuracy.</b> Bars show stored results; a run in your browser fills the table with per-tool results. Base-model results were measured in a browser with WebGPU on the first 60 test questions.</figcaption>
+    <figcaption><span class="fig-num">Figure 5.5</span><b>Held-out accuracy.</b> Bars: all 240 held-out questions, measured by the training notebook on a GPU at 16-bit precision. The 4-bit build that runs in your browser can score a few points differently; a run below measures it on your device and fills the table with per-tool results.</figcaption>
   </figure>
+
+  <p>Fine-tuning takes the model from 0% to 80% in tool mode and from 16% to 72% in direct mode, on questions worded in ways it never saw during training. The tool-mode figure matters most: when the call is right, the answer is exact, because the book's code computes it. Direct answers are right less often and, when wrong, are wrong silently; a misremembered stress or bracket number reads exactly like a correct one.</p>
 
   <h2 id="limits"><span class="sec">7</span>Limits</h2>
   <ul>

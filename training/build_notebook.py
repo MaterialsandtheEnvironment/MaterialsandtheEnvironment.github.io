@@ -15,6 +15,8 @@ This notebook teaches **SmolLM2-360M-Instruct** two skills from Chapters 1–4 o
 
 It then publishes the model to the Hugging Face Hub and converts it to ONNX so that Chapter 5 can run it in the reader's browser with Transformers.js.
 
+**If a run stops with "CUDA out of memory":** *Runtime → Restart session*, then *Runtime → Run all*. Memory from a failed run is not released until the session restarts.
+
 **Before you start:** *Runtime → Change runtime type → T4 GPU*. Create a Hugging Face **write** token (huggingface.co → Settings → Access tokens) and add it to Colab's *Secrets* panel (key icon on the left) as `HF_TOKEN`, with notebook access switched on.
 
 Total time on a free T4: about 25 minutes (5 install, 10 training, 10 conversion and upload).
@@ -25,7 +27,8 @@ code("""
 HF_REPO = "MaterialsandtheEnvironment/matenv-smollm2-360m"   # change the owner if your Hugging Face organisation has another name
 BASE = "HuggingFaceTB/SmolLM2-360M-Instruct"
 DATA = "https://raw.githubusercontent.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/main/training"
-EPOCHS, LR, BATCH, MAXLEN = 3, 2e-4, 16, 512
+EPOCHS, LR, MAXLEN = 3, 2e-4, 384
+BATCH, ACCUM = 4, 4          # effective batch 16; fits the 15 GB of a free T4
 """)
 
 code("""
@@ -34,14 +37,25 @@ code("""
 """)
 
 code("""
-import os, json, urllib.request, torch
-from huggingface_hub import login
+import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+import json, urllib.request, torch
+from huggingface_hub import login, whoami
+token = None
 try:
     from google.colab import userdata
-    login(userdata.get("HF_TOKEN"))
+    token = userdata.get("HF_TOKEN")
 except Exception as e:
-    print("No Colab secret found; using an interactive login.", e)
-    login()
+    print("Could not read the Colab secret HF_TOKEN:", e)
+if not token:
+    from getpass import getpass
+    token = getpass("Paste a Hugging Face WRITE token: ").strip()
+login(token=token)
+me = whoami()
+orgs = [o["name"] for o in me.get("orgs", [])]
+print("Logged in as", me["name"], "| organisations:", orgs)
+owner = HF_REPO.split("/")[0]
+assert owner == me["name"] or owner in orgs, f"This token cannot write to '{owner}'. Create that organisation on huggingface.co, or set HF_REPO = '{me['name']}/matenv-smollm2-360m'."
 for f in ["matenv_train.jsonl", "matenv_test.jsonl", "matenv_questions.jsonl"]:
     if not os.path.exists(f):
         urllib.request.urlretrieve(f"{DATA}/{f}", f)
@@ -97,7 +111,7 @@ def key_ok(q, text):
     return k.lower() in t
 
 @torch.no_grad()
-def evaluate(model, n=None, bs=24):
+def evaluate(model, n=None, bs=16):
     model.eval(); res = {"tool": 0, "direct": 0}; items = test[:n] if n else test
     for mode, sysmsg, maxnew in [("tool", SYS_TOOL, 96), ("direct", SYS_DIRECT, 72)]:
         for i in range(0, len(items), bs):
@@ -134,7 +148,8 @@ ds = load_dataset("json", data_files={"train": "matenv_train.jsonl", "test": "ma
 model = AutoModelForCausalLM.from_pretrained(BASE, torch_dtype=torch.float32)
 collator = DataCollatorForCompletionOnlyLM(response_template=tok.encode("<|im_start|>assistant", add_special_tokens=False), tokenizer=tok)
 cfg = SFTConfig(output_dir="matenv-lora", num_train_epochs=EPOCHS, learning_rate=LR, per_device_train_batch_size=BATCH,
-                per_device_eval_batch_size=BATCH, gradient_accumulation_steps=1, lr_scheduler_type="cosine", warmup_ratio=0.05,
+                per_device_eval_batch_size=BATCH, gradient_accumulation_steps=ACCUM,
+                gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False}, lr_scheduler_type="cosine", warmup_ratio=0.05,
                 logging_steps=10, eval_strategy="epoch", save_strategy="no", fp16=True, max_seq_length=MAXLEN, report_to="none")
 peft_cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, target_modules="all-linear", task_type="CAUSAL_LM")
 trainer = SFTTrainer(model=model, args=cfg, train_dataset=ds["train"], eval_dataset=ds["test"], processing_class=tok, peft_config=peft_cfg, data_collator=collator)
@@ -145,6 +160,8 @@ json.dump(log, open("train_log.json", "w"))
 """)
 
 code("""
+trainer.optimizer = None; trainer.lr_scheduler = None
+import gc; gc.collect(); torch.cuda.empty_cache()
 merged = trainer.model.merge_and_unload()
 merged = merged.half().cuda()
 tok.padding_side = "left"
@@ -188,32 +205,51 @@ print("https://huggingface.co/" + HF_REPO)
 md("""
 ## 4 · Convert to ONNX for the browser
 
-The conversion uses the Transformers.js 3.8.1 script in its own virtual environment, so its pinned versions do not clash with the training libraries. It writes `onnx/model.onnx` and quantised variants (`model_q4f16.onnx` for WebGPU, `model_quantized.onnx` for the CPU), then uploads them next to the weights.
+**Restart first:** *Runtime → Restart session*, then run the two cells below (no need to re-run anything above). The trained model is saved in `/content/merged` and survives a restart; restarting frees the 10+ GB of RAM the training session still holds, which the conversion needs (a "status 137" error means it ran out of RAM).
+
+The conversion uses the Transformers.js 3.8.1 script in its own Python 3.12 environment, because its pinned packages do not install on Colab's Python 3.13. It exports the model once, then makes only the two compressed versions the book uses: `model_q4f16.onnx` (graphics card, WebGPU) and `model_quantized.onnx` (CPU).
 """)
 
 code("""
 %%bash
 set -e
 cd /content
-rm -rf transformers.js cvt
+test -d merged || { echo "No /content/merged folder: the session was reset, so run the whole notebook again."; exit 1; }
+rm -rf transformers.js cvt onnx_out
 git clone -q --depth 1 --branch 3.8.1 https://github.com/huggingface/transformers.js.git
-python -m venv cvt
-cvt/bin/pip install -q --upgrade pip
-cvt/bin/pip install -q "torch==2.5.1" --index-url https://download.pytorch.org/whl/cpu || cvt/bin/pip install -q "torch==2.5.1"   # newer torch needs onnxscript for export
-cvt/bin/pip install -q -r transformers.js/scripts/requirements.txt
-cd /content
-# model_id must be relative: the script writes to <output_parent_dir>/<model_id>
-PYTHONPATH=/content/transformers.js cvt/bin/python -m scripts.convert --quantize --model_id merged --task text-generation-with-past --output_parent_dir onnx_out
-ls -la /content/onnx_out/merged/onnx
+pip install -q uv
+uv venv -q -p 3.12 cvt
+uv pip install -q --python cvt/bin/python "torch==2.5.1" --index-url https://download.pytorch.org/whl/cpu || uv pip install -q --python cvt/bin/python "torch==2.5.1"
+uv pip install -q --python cvt/bin/python -r transformers.js/scripts/requirements.txt
+export PYTHONPATH=/content/transformers.js
+# 1) export (the script writes to <output_parent_dir>/<model_id>, so model_id stays relative)
+cvt/bin/python -m scripts.convert --model_id merged --task text-generation-with-past --output_parent_dir onnx_out --skip_onnxslim
+# 2) only the two quantised builds the chapter loads
+cvt/bin/python -m scripts.quantize --input_folder onnx_out/merged/onnx --output_folder onnx_out/merged/onnx --modes q4f16 q8
+ls -la onnx_out/merged/onnx
 """)
 
 code("""
-onnx_dir = "/content/onnx_out/merged/onnx"
-api.upload_folder(folder_path=onnx_dir, path_in_repo="onnx", repo_id=HF_REPO, commit_message="ONNX weights for Transformers.js")
+# Upload the browser files (self-contained: works after a restart)
+import os
+from getpass import getpass
+from huggingface_hub import HfApi, login
+HF_REPO = "MaterialsandtheEnvironment/matenv-smollm2-360m"
+try:
+    from google.colab import userdata
+    token = userdata.get("HF_TOKEN")
+except Exception:
+    token = getpass("Paste a Hugging Face WRITE token: ").strip()
+login(token=token)
+api = HfApi()
+api.create_repo(HF_REPO, exist_ok=True)
+api.upload_folder(folder_path="/content/onnx_out/merged/onnx", path_in_repo="onnx", repo_id=HF_REPO,
+                  allow_patterns=["model_q4f16.onnx*", "model_quantized.onnx*"], commit_message="ONNX weights for Transformers.js")
 for f in ["config.json", "generation_config.json", "tokenizer.json", "tokenizer_config.json", "special_tokens_map.json"]:
     p = f"/content/onnx_out/merged/{f}"
     if os.path.exists(p): api.upload_file(path_or_fileobj=p, path_in_repo=f, repo_id=HF_REPO)
-print("Done. In Chapter 5, the fine-tuned model id is:", HF_REPO)
+print("Done:", "https://huggingface.co/" + HF_REPO)
+if os.path.exists("/content/merged/matenv_eval.json"): print(open("/content/merged/matenv_eval.json").read())
 """)
 
 nb = {"cells": cells, "metadata": {"accelerator": "GPU", "colab": {"provenance": [], "gpuType": "T4"}, "kernelspec": {"display_name": "Python 3", "name": "python3"}, "language_info": {"name": "python"}}, "nbformat": 4, "nbformat_minor": 0}
