@@ -49,7 +49,7 @@
   .chapter .meta { margin-top: 10px; font-family: var(--f-ui); font-size: .74rem; color: var(--muted); display: flex; gap: 6px 14px; flex-wrap: wrap; }
   .chapter .meta a { position: relative; z-index: 1; color: var(--ink-2); }
 
-  .lineage { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 6px 0 0; font-family: var(--f-ui); font-size: .82rem; }
+  .lineage { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; margin: 6px 0 0; font-family: var(--f-ui); font-size: .82rem; }
   .lineage div { padding: 10px 14px 10px 0; border-top: 2px solid var(--accent); position: relative; }
   .lineage div::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--accent); }
   .lineage b { display: block; font-family: var(--f-display); font-size: .98rem; color: var(--ink); margin-top: 6px; }
@@ -97,13 +97,14 @@
     <header>
       <h2 id="book-title">The book</h2>
       <div>
-        <p>Five chapters, each a Distill-style article with live figures you can drag, filter and re-run. They read in order: each one lifts a limit of the one before.</p>
+        <p>Six chapters, each a Distill-style article with live figures you can drag, filter and re-run. They read in order: each one lifts a limit of the one before.</p>
         <div class="lineage" aria-label="Lineage of methods">
           <div><b>Chart</b><span>one index, two properties</span></div>
           <div><b>Value function</b><span>many objectives, one score</span></div>
           <div><b>Eco-axis</b><span>environment priced in</span></div>
           <div><b>Latent space</b><span>any index, solved by search</span></div>
           <div><b>Small language model</b><span>questions in words, answers by the book</span></div>
+          <div><b>Eco audit</b><span>whole life, five phases</span></div>
         </div>
       </div>
     </header>
@@ -138,13 +139,19 @@
         <ul><li>5.2 Nine exact tools built from the book</li><li>5.4 Ask a 360M model running in your browser</li><li>5.5 Held-out accuracy, base vs fine-tuned</li></ul>
         <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">model</a></div>
       </div></li>
+      <li class="chapter"><div class="num" aria-hidden="true">6</div><div class="body">
+        <h3><a href="book/ch6-eco-audit.html">A Simple Eco Audit</a></h3>
+        <p class="sub">Energy and CO₂ over five life phases</p>
+        <ul><li>6.3 An eco audit calculator with seven products</li><li>6.5 PET versus a reusable bottle</li><li>6.6 Steel or aluminium bumper: the break-even</li></ul>
+        <div class="meta"><span>after Ashby et al.</span><a href="notebooks/eco_audit.ipynb">notebook</a></div>
+      </div></li>
     </ol>
   </section>
 
   <section class="section" id="lab" aria-labelledby="lab-title">
     <header>
       <h2 id="lab-title">The lab</h2>
-      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
+      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO and the Institut Clément Ader, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
     </header>
     <div class="lab-grid">
       <div><h3>Material selection</h3><p>Ashby charts, performance indices and multi-objective value functions, extended with eco-costs and eco-indicators.</p></div>

@@ -1,0 +1,855 @@
+{
+ "note": "Builds data/ecoaudit.json and data/ecoaudit.js: the data of the simplified eco audit (Chapter 6 + notebook).\n\nValues are rounded, typical figures in the spirit of Ashby, \"Materials and the Environment\" (2nd ed., 2012) and\nthe CES EduPack Eco Audit white paper (Ashby, Coulter, Ball, Bream, 2012). Where the white paper gives a number\n(PET, PP, polymer molding, 14 t truck, electric-to-mechanical factor, bumper energies) it is used as is; the other\nvalues were chosen so that the white-paper case studies are reproduced within about 10%. They are teaching data:\nuse Granta EduPack or a full LCA database for real decisions.",
+ "materials": {
+  "PET": {
+   "ee": 84,
+   "co2": 2.3,
+   "rf": 0.21,
+   "ee_rec": 36,
+   "co2_rec": 0.95,
+   "family": "Polymers"
+  },
+  "Polypropylene (PP)": {
+   "ee": 95,
+   "co2": 2.7,
+   "rf": 0.06,
+   "ee_rec": 40,
+   "co2_rec": 1.4,
+   "family": "Polymers"
+  },
+  "Polyethylene (PE)": {
+   "ee": 80,
+   "co2": 2.1,
+   "rf": 0.09,
+   "ee_rec": 38,
+   "co2_rec": 1.0,
+   "family": "Polymers"
+  },
+  "PVC": {
+   "ee": 60,
+   "co2": 2.4,
+   "rf": 0.08,
+   "ee_rec": 30,
+   "co2_rec": 1.2,
+   "family": "Polymers"
+  },
+  "Polycarbonate (PC)": {
+   "ee": 110,
+   "co2": 3.8,
+   "rf": 0.01,
+   "ee_rec": 50,
+   "co2_rec": 2.0,
+   "family": "Polymers"
+  },
+  "Polyurethane (PU)": {
+   "ee": 90,
+   "co2": 3.5,
+   "rf": 0.03,
+   "ee_rec": 45,
+   "co2_rec": 1.8,
+   "family": "Polymers"
+  },
+  "Polyester (thermoset)": {
+   "ee": 85,
+   "co2": 3.5,
+   "rf": 0.0,
+   "ee_rec": 85,
+   "co2_rec": 3.5,
+   "family": "Polymers"
+  },
+  "Phenolic": {
+   "ee": 90,
+   "co2": 3.0,
+   "rf": 0.0,
+   "ee_rec": 90,
+   "co2_rec": 3.0,
+   "family": "Polymers"
+  },
+  "Rigid polymer foam": {
+   "ee": 100,
+   "co2": 3.8,
+   "rf": 0.0,
+   "ee_rec": 100,
+   "co2_rec": 3.8,
+   "family": "Polymers"
+  },
+  "Natural rubber (NR)": {
+   "ee": 65,
+   "co2": 1.6,
+   "rf": 0.0,
+   "ee_rec": 65,
+   "co2_rec": 1.6,
+   "family": "Elastomers"
+  },
+  "Butyl rubber": {
+   "ee": 110,
+   "co2": 4.0,
+   "rf": 0.0,
+   "ee_rec": 110,
+   "co2_rec": 4.0,
+   "family": "Elastomers"
+  },
+  "Polyester fibre (textile)": {
+   "ee": 85,
+   "co2": 3.0,
+   "rf": 0.05,
+   "ee_rec": 40,
+   "co2_rec": 1.4,
+   "family": "Polymers"
+  },
+  "Low carbon steel": {
+   "ee": 26,
+   "co2": 1.9,
+   "rf": 0.42,
+   "ee_rec": 9.0,
+   "co2_rec": 0.6,
+   "family": "Metals"
+  },
+  "Low alloy steel": {
+   "ee": 32,
+   "co2": 2.3,
+   "rf": 0.42,
+   "ee_rec": 9.3,
+   "co2_rec": 0.6,
+   "family": "Metals"
+  },
+  "Stainless steel": {
+   "ee": 81,
+   "co2": 5.1,
+   "rf": 0.36,
+   "ee_rec": 18,
+   "co2_rec": 1.2,
+   "family": "Metals"
+  },
+  "Cast iron": {
+   "ee": 17,
+   "co2": 1.3,
+   "rf": 0.69,
+   "ee_rec": 7.0,
+   "co2_rec": 0.4,
+   "family": "Metals"
+  },
+  "Iron": {
+   "ee": 20,
+   "co2": 1.5,
+   "rf": 0.42,
+   "ee_rec": 7.0,
+   "co2_rec": 0.4,
+   "family": "Metals"
+  },
+  "Cast aluminium alloy": {
+   "ee": 209,
+   "co2": 12.0,
+   "rf": 0.55,
+   "ee_rec": 21.7,
+   "co2_rec": 1.7,
+   "family": "Metals"
+  },
+  "Wrought aluminium alloy": {
+   "ee": 200,
+   "co2": 12.0,
+   "rf": 0.42,
+   "ee_rec": 22,
+   "co2_rec": 1.7,
+   "family": "Metals"
+  },
+  "Copper": {
+   "ee": 65,
+   "co2": 4.2,
+   "rf": 0.42,
+   "ee_rec": 14,
+   "co2_rec": 0.9,
+   "family": "Metals"
+  },
+  "Brass": {
+   "ee": 70,
+   "co2": 4.0,
+   "rf": 0.42,
+   "ee_rec": 14,
+   "co2_rec": 0.9,
+   "family": "Metals"
+  },
+  "Nickel-chromium alloy": {
+   "ee": 140,
+   "co2": 8.5,
+   "rf": 0.3,
+   "ee_rec": 30,
+   "co2_rec": 2.0,
+   "family": "Metals"
+  },
+  "Titanium alloy": {
+   "ee": 650,
+   "co2": 44,
+   "rf": 0.22,
+   "ee_rec": 90,
+   "co2_rec": 6.0,
+   "family": "Metals"
+  },
+  "CFRP": {
+   "ee": 270,
+   "co2": 21,
+   "rf": 0.0,
+   "ee_rec": 270,
+   "co2_rec": 21,
+   "family": "Composites"
+  },
+  "GFRP": {
+   "ee": 110,
+   "co2": 7.5,
+   "rf": 0.0,
+   "ee_rec": 110,
+   "co2_rec": 7.5,
+   "family": "Composites"
+  },
+  "Borosilicate glass": {
+   "ee": 25,
+   "co2": 1.4,
+   "rf": 0.2,
+   "ee_rec": 12,
+   "co2_rec": 0.7,
+   "family": "Ceramics & glass"
+  },
+  "Soda-lime glass": {
+   "ee": 11,
+   "co2": 0.75,
+   "rf": 0.25,
+   "ee_rec": 7,
+   "co2_rec": 0.45,
+   "family": "Ceramics & glass"
+  },
+  "Concrete": {
+   "ee": 1.2,
+   "co2": 0.14,
+   "rf": 0.1,
+   "ee_rec": 0.8,
+   "co2_rec": 0.1,
+   "family": "Ceramics & glass"
+  },
+  "Cardboard": {
+   "ee": 28,
+   "co2": 1.1,
+   "rf": 0.7,
+   "ee_rec": 18,
+   "co2_rec": 0.7,
+   "family": "Natural"
+  },
+  "Softwood": {
+   "ee": 10,
+   "co2": 0.6,
+   "rf": 0.0,
+   "ee_rec": 10,
+   "co2_rec": 0.6,
+   "family": "Natural"
+  },
+  "Water (dead weight)": {
+   "ee": 0,
+   "co2": 0,
+   "rf": 0,
+   "ee_rec": 0,
+   "co2_rec": 0,
+   "family": "Other"
+  }
+ },
+ "processes": {
+  "Polymer molding": {
+   "ee": 6.8,
+   "co2": 0.53
+  },
+  "Polymer extrusion": {
+   "ee": 5.9,
+   "co2": 0.46
+  },
+  "Metal casting": {
+   "ee": 11.0,
+   "co2": 0.84
+  },
+  "Metal deformation (forging, rolling)": {
+   "ee": 2.5,
+   "co2": 0.19
+  },
+  "Machining (light)": {
+   "ee": 1.0,
+   "co2": 0.08
+  },
+  "Glass molding": {
+   "ee": 8.0,
+   "co2": 0.6
+  },
+  "Construction (assembly, cutting)": {
+   "ee": 0.0,
+   "co2": 0.0
+  },
+  "None": {
+   "ee": 0.0,
+   "co2": 0.0
+  }
+ },
+ "transport": {
+  "Sea freight": {
+   "ee": 0.13,
+   "co2": 0.01
+  },
+  "River barge": {
+   "ee": 0.36,
+   "co2": 0.026
+  },
+  "Rail freight": {
+   "ee": 0.25,
+   "co2": 0.019
+  },
+  "32 tonne truck": {
+   "ee": 0.46,
+   "co2": 0.033
+  },
+  "24 tonne truck": {
+   "ee": 0.71,
+   "co2": 0.051
+  },
+  "14 tonne truck": {
+   "ee": 0.87,
+   "co2": 0.062
+  },
+  "Light goods vehicle": {
+   "ee": 1.5,
+   "co2": 0.11
+  },
+  "Air freight": {
+   "ee": 8.3,
+   "co2": 0.59
+  }
+ },
+ "static": {
+  "Electric to thermal": {
+   "eff": 0.33,
+   "co2": 0.05
+  },
+  "Electric to mechanical": {
+   "eff": 0.28,
+   "co2": 0.05
+  },
+  "Electric to light / electronics": {
+   "eff": 0.3,
+   "co2": 0.05
+  },
+  "Fossil fuel to thermal (enclosed)": {
+   "eff": 0.9,
+   "co2": 0.065
+  },
+  "Fossil fuel to mechanical": {
+   "eff": 0.35,
+   "co2": 0.071
+  }
+ },
+ "mobile": {
+  "Family car, gasoline": {
+   "ee": 2.06,
+   "co2": 0.146
+  },
+  "Family car, diesel": {
+   "ee": 1.9,
+   "co2": 0.136
+  },
+  "Light goods vehicle, diesel": {
+   "ee": 1.4,
+   "co2": 0.1
+  },
+  "Bus, diesel": {
+   "ee": 0.75,
+   "co2": 0.054
+  }
+ },
+ "eol": {
+  "Landfill": {
+   "ee": 0.2,
+   "co2": 0.014
+  },
+  "Recycle": {
+   "ee": 0.7,
+   "co2": 0.049
+  },
+  "None": {
+   "ee": 0.0,
+   "co2": 0.0
+  }
+ },
+ "products": [
+  {
+   "id": "bottle",
+   "name": "Bottled water, 100 × 1 L PET bottles",
+   "life": 1,
+   "bom": [
+    {
+     "name": "Bottles (100)",
+     "material": "PET",
+     "process": "Polymer molding",
+     "mass": 4.0,
+     "eol": "Recycle",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Caps (100)",
+     "material": "Polypropylene (PP)",
+     "process": "Polymer molding",
+     "mass": 0.1,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Water, 100 L (dead weight)",
+     "material": "Water (dead weight)",
+     "process": "None",
+     "mass": 100,
+     "eol": "None",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [
+    {
+     "name": "Filling plant to shop",
+     "type": "14 tonne truck",
+     "km": 550
+    }
+   ],
+   "static": {
+    "mode": "Electric to mechanical",
+    "kW": 0.12,
+    "hours_per_day": 24,
+    "days_per_year": 2
+   },
+   "mobile": null,
+   "reference": {
+    "source": "White paper, Table 2",
+    "energy": {
+     "Material": 344,
+     "Manufacture": 36,
+     "Transport": 48,
+     "Use": 74
+    },
+    "co2": {
+     "Material": 9.6,
+     "Manufacture": 3.2,
+     "Transport": 3.4,
+     "Use": 3.7
+    }
+   },
+   "story": "Polymer production dominates; transport of 100 kg of water over 550 km is only about 10%."
+  },
+  {
+   "id": "reusable",
+   "name": "Reusable steel bottle, 100 refills from the tap",
+   "life": 1,
+   "bom": [
+    {
+     "name": "Bottle",
+     "material": "Stainless steel",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.3,
+     "eol": "Recycle",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Cap",
+     "material": "Polypropylene (PP)",
+     "process": "Polymer molding",
+     "mass": 0.02,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [
+    {
+     "name": "Asia to Europe",
+     "type": "Sea freight",
+     "km": 10000
+    },
+    {
+     "name": "Distribution",
+     "type": "32 tonne truck",
+     "km": 500
+    }
+   ],
+   "static": {
+    "mode": "Electric to thermal",
+    "kW": 1.2,
+    "hours_per_day": 0.042,
+    "days_per_year": 100
+   },
+   "mobile": null,
+   "reference": null,
+   "story": "One steel bottle washed 100 times against 100 PET bottles: a new example, not from the white paper."
+  },
+  {
+   "id": "kettle",
+   "name": "Electric jug kettle, 2 kW",
+   "life": 3,
+   "bom": [
+    {
+     "name": "Kettle body",
+     "material": "Polypropylene (PP)",
+     "process": "Polymer molding",
+     "mass": 0.86,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Heating element",
+     "material": "Nickel-chromium alloy",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.026,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Element casing",
+     "material": "Stainless steel",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.09,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Cable sheath, 1 m",
+     "material": "Natural rubber (NR)",
+     "process": "Polymer molding",
+     "mass": 0.06,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Cable core, 1 m",
+     "material": "Copper",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.015,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Plug body",
+     "material": "Phenolic",
+     "process": "Polymer molding",
+     "mass": 0.037,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Plug pins",
+     "material": "Brass",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.03,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Packaging, padding",
+     "material": "Rigid polymer foam",
+     "process": "Polymer molding",
+     "mass": 0.015,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Packaging, box",
+     "material": "Cardboard",
+     "process": "Construction (assembly, cutting)",
+     "mass": 0.125,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [
+    {
+     "name": "SE Asia to Europe",
+     "type": "Air freight",
+     "km": 11000
+    },
+    {
+     "name": "Distribution",
+     "type": "24 tonne truck",
+     "km": 250
+    }
+   ],
+   "static": {
+    "mode": "Electric to thermal",
+    "kW": 2.0,
+    "hours_per_day": 0.15,
+    "days_per_year": 365
+   },
+   "mobile": null,
+   "reference": {
+    "source": "White paper, Table 4",
+    "energy": {
+     "Material": 107,
+     "Manufacture": 6.9,
+     "Transport": 115,
+     "Use": 3583
+    }
+   },
+   "story": "Use dominates (about 94%): boiling water is the target, not the plastic or the air freight."
+  },
+  {
+   "id": "car",
+   "name": "Family car, 1 800 kg, 250 000 km",
+   "life": 10,
+   "bom": [
+    {
+     "name": "Steel",
+     "material": "Low alloy steel",
+     "process": "None",
+     "mass": 850,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Aluminium",
+     "material": "Cast aluminium alloy",
+     "process": "None",
+     "mass": 438,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Thermoplastics (PVC)",
+     "material": "PVC",
+     "process": "None",
+     "mass": 74,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Thermoplastics (PU)",
+     "material": "Polyurethane (PU)",
+     "process": "None",
+     "mass": 74,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Thermosets",
+     "material": "Polyester (thermoset)",
+     "process": "None",
+     "mass": 93,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Elastomers",
+     "material": "Butyl rubber",
+     "process": "None",
+     "mass": 40,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Glass",
+     "material": "Borosilicate glass",
+     "process": "None",
+     "mass": 40,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Other metals",
+     "material": "Copper",
+     "process": "None",
+     "mass": 61,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Textiles",
+     "material": "Polyester fibre (textile)",
+     "process": "None",
+     "mass": 47,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [],
+   "static": null,
+   "mobile": {
+    "mode": "Family car, gasoline",
+    "km_per_day": 68.5,
+    "days_per_year": 365,
+    "mass_kg": 1800
+   },
+   "reference": {
+    "source": "White paper, Figure 14",
+    "energy": {
+     "Material": 162000,
+     "Use": 884000
+    }
+   },
+   "story": "Only material and use are modelled: use is over 80% of the life energy."
+  },
+  {
+   "id": "bumper_steel",
+   "name": "Car bumper, steel (14 kg)",
+   "life": 10,
+   "bom": [
+    {
+     "name": "Bumper",
+     "material": "Low alloy steel",
+     "process": "None",
+     "mass": 14,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [],
+   "static": null,
+   "mobile": {
+    "mode": "Family car, gasoline",
+    "km_per_day": 68.5,
+    "days_per_year": 365
+   },
+   "reference": {
+    "source": "White paper, Table 6 (virgin)",
+    "energy": {
+     "Material": 446,
+     "Use": 7210
+    }
+   },
+   "story": "Compare with the aluminium bumper."
+  },
+  {
+   "id": "bumper_al",
+   "name": "Car bumper, aluminium (10 kg)",
+   "life": 10,
+   "bom": [
+    {
+     "name": "Bumper",
+     "material": "Cast aluminium alloy",
+     "process": "None",
+     "mass": 10,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [],
+   "static": null,
+   "mobile": {
+    "mode": "Family car, gasoline",
+    "km_per_day": 68.5,
+    "days_per_year": 365
+   },
+   "reference": {
+    "source": "White paper, Table 6 (virgin)",
+    "energy": {
+     "Material": 2088,
+     "Use": 5150
+    }
+   },
+   "story": "Lighter but more energy-intensive: which wins depends on distance and recycled content."
+  },
+  {
+   "id": "heater",
+   "name": "Portable LPG space heater, 9.3 kW",
+   "life": 3,
+   "bom": [
+    {
+     "name": "Heater casing",
+     "material": "Low carbon steel",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 5.4,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Fan",
+     "material": "Low carbon steel",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.25,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Heat shield",
+     "material": "Stainless steel",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.4,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Motor rotor and stator",
+     "material": "Iron",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.13,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Motor wiring",
+     "material": "Copper",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.08,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Wire insulation",
+     "material": "Polyethylene (PE)",
+     "process": "Polymer molding",
+     "mass": 0.08,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Hose, 2 m",
+     "material": "Natural rubber (NR)",
+     "process": "Polymer molding",
+     "mass": 0.35,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Hose connector",
+     "material": "Brass",
+     "process": "Metal deformation (forging, rolling)",
+     "mass": 0.09,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    },
+    {
+     "name": "Other components (proxy)",
+     "material": "Polycarbonate (PC)",
+     "process": "Polymer molding",
+     "mass": 0.22,
+     "eol": "Landfill",
+     "recycled": "virgin"
+    }
+   ],
+   "transport": [
+    {
+     "name": "Korea to USA",
+     "type": "Sea freight",
+     "km": 10000
+    },
+    {
+     "name": "To point of sale",
+     "type": "32 tonne truck",
+     "km": 600
+    }
+   ],
+   "static": {
+    "mode": "Fossil fuel to thermal (enclosed)",
+    "kW": 9.3,
+    "hours_per_day": 2,
+    "days_per_year": 20
+   },
+   "mobile": {
+    "mode": "Light goods vehicle, diesel",
+    "km_per_day": 60,
+    "days_per_year": 365
+   },
+   "reference": {
+    "source": "White paper, Table 8",
+    "energy": {
+     "Use (static)": 4500,
+     "Use (mobile)": 640
+    }
+   },
+   "story": "Burning LPG dominates; carrying 7 kg around in a van adds about 13% of the use energy."
+  }
+ ]
+}

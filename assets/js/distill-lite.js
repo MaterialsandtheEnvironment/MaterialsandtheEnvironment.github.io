@@ -12,6 +12,7 @@
     { slug: "ch3-ecolizer", n: 3, title: "Mapping the Ecolizer", sub: "Eco-indicators, eco-indices and a masked VAE" },
     { slug: "ch4-tosm", n: 4, title: "Brackets, Metals and Carbon", sub: "The TOSM benchmark of 1 516 bracket–alloy pairs" },
     { slug: "ch5-small-model", n: 5, title: "A Model That Read the Book", sub: "Fine-tuning a free small LLM on Chapters 1–4" },
+    { slug: "ch6-eco-audit", n: 6, title: "A Simple Eco Audit", sub: "Energy and CO₂ over five life phases" },
   ];
   window.MATENV_BOOK = BOOK;
 

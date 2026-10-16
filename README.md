@@ -3,7 +3,7 @@
 Website and interactive book of the **Materials & the Environment** organisation (ISAE-SUPAERO, Université de Toulouse).
 Published with GitHub Pages at <https://materialsandtheenvironment.github.io/>.
 
-The book has five Distill-style chapters with live D3 figures:
+The book has six Distill-style chapters with live D3 figures:
 
 | # | Chapter | Built from |
 |---|---------|------------|
@@ -12,6 +12,7 @@ The book has five Distill-style chapters with live D3 figures:
 | 3 | [Mapping the Ecolizer](book/ch3-ecolizer.html): eco-indicators and a masked VAE | [mid2supaero.github.io/ecolizer-vae](https://mid2supaero.github.io/ecolizer-vae/) |
 | 4 | [Brackets, Metals and Carbon](book/ch4-tosm.html): the TOSM benchmark | [mid2supaero.github.io/tosm](https://mid2supaero.github.io/tosm/) |
 | 5 | [A Model That Read the Book](book/ch5-small-model.html): a small LLM fine-tuned on Chapters 1–4 | this repository, `training/` |
+| 6 | [A Simple Eco Audit](book/ch6-eco-audit.html): energy and CO₂ over five life phases, calculator and case studies | CES EduPack Eco Audit white paper (Ashby et al., 2012); `notebooks/` |
 
 ## Deploy
 
@@ -31,7 +32,7 @@ book/ch1-…ch4-….html       chapters (Distill markup)
 assets/css/distill-lite.css   article grid, typography, light/dark tokens
 assets/js/distill-lite.js     renders <d-front-matter>, <d-byline>, <d-cite>, <d-footnote>, <d-math>, <d-appendix>, TOC, chapter nav
 assets/js/common.js        shared chart helpers (D3)
-assets/js/ch1.js … ch4.js, ch5-matenv.js  the interactive figures of each chapter
+assets/js/ch1.js … ch4.js, ch5-matenv.js, ch6-ecoaudit.js  the interactive figures of each chapter
 assets/vendor/             D3 7.8.5 and KaTeX 0.16.9 (vendored, no CDN needed)
 data/materials22.js        22 CES/Granta materials (ρ, E) + approximate σ and price
 data/vae.js                trained decoder weights for chapter 2
@@ -39,8 +40,10 @@ data/tosm.js               1 516 TOSM runs (mass, peak stress, peak displacement
 data/matenv_dataset.js     chapter 5 question set (counts, samples, 240 held-out questions)
 data/matenv_results.js     chapter 5 benchmark results
 assets/js/matenv-tools.js  the nine exact tools from Chapters 1–4 (browser + Node)
+data/ecoaudit.js/.json      chapter 6 eco-audit teaching data (31 materials, 7 products)
+notebooks/                 eco_audit.ipynb (Jupyter / Colab) and ecoaudit.py, the eco audit model
 training/                  question generator, generated JSONL, Colab fine-tuning notebook
-tools/                     scripts that regenerate data/vae.js and data/tosm.js
+tools/                     scripts that regenerate data/vae.js, data/tosm.js, data/ecoaudit.* and the notebook
 ```
 
 ### Distill markup

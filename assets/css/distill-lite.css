@@ -150,7 +150,7 @@ d-article .lede::first-letter { font-family: var(--f-display); font-weight: 800;
 
 /* math */
 d-math { font-size: 1.04em; }
-d-math[block] { display: block; overflow-x: auto; overflow-y: hidden; padding: 6px 0; margin: .4em 0 1.1em; }
+d-math[block] { display: block; position: relative; overflow-x: auto; overflow-y: hidden; padding: 6px 0; margin: .4em 0 1.1em; }
 .katex { color: var(--ink); }
 
 /* tables */
