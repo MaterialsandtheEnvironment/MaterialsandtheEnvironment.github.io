@@ -11,8 +11,9 @@
     { slug: "ch2-latent-maps", n: 2, title: "Ashby's Maps, Renewed", sub: "Selecting materials in a learned latent space" },
     { slug: "ch3-ecolizer", n: 3, title: "Mapping the Ecolizer", sub: "Eco-indicators, eco-indices and a masked VAE" },
     { slug: "ch4-tosm", n: 4, title: "Brackets, Metals and Carbon", sub: "The TOSM benchmark of 1 516 bracket–alloy pairs" },
-    { slug: "ch5-small-model", n: 5, title: "A Model That Read the Book", sub: "Fine-tuning a free small LLM on Chapters 1–4" },
+    { slug: "ch5-natural-fibres", n: 5, title: "Natural Fibre Composites", sub: "Ashby charts for plant fibres and their composites" },
     { slug: "ch6-eco-audit", n: 6, title: "A Simple Eco Audit", sub: "Energy and CO₂ over five life phases" },
+    { slug: "backup-a-small-model", n: "A", backup: true, title: "A Model That Read the Book", sub: "Backup: fine-tuning a free small LLM on Chapters 1–4" },
   ];
   window.MATENV_BOOK = BOOK;
 
@@ -37,7 +38,8 @@
       <a class="brand" href="${ROOT}/index.html">${LOGO}<span>Materials &amp; the Environment</span></a>
       <nav class="site-nav" aria-label="Site">
         <a href="${ROOT}/index.html#book" ${here === "book" ? 'aria-current="page"' : ""}>Book</a>
-        ${BOOK.map((c) => `<a class="ch" href="${ROOT}/book/${c.slug}.html" ${here === c.slug ? 'aria-current="page"' : ""}>Ch.${c.n}</a>`).join("")}
+        ${BOOK.filter((c) => !c.backup).map((c) => `<a class="ch" href="${ROOT}/book/${c.slug}.html" ${here === c.slug ? 'aria-current="page"' : ""}>Ch.${c.n}</a>`).join("")}
+        <a class="ch" href="${ROOT}/index.html#backup" ${BOOK.some((c) => c.backup && c.slug === here) ? 'aria-current="page"' : ""}>Backup</a>
         <a href="${ROOT}/index.html#lab">Lab</a>
         <a href="https://github.com/MaterialsandtheEnvironment">GitHub</a>
         <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle colour theme">${isDark() ? "Light" : "Dark"}</button>
@@ -178,11 +180,14 @@
   }
   function chapterNav() {
     document.querySelectorAll("d-chapter-nav").forEach((el) => {
-      const i = BOOK.findIndex((c) => c.slug === el.getAttribute("current"));
-      const prev = BOOK[i - 1], next = BOOK[i + 1];
+      const cur = BOOK.find((c) => c.slug === el.getAttribute("current"));
+      const list = BOOK.filter((c) => !!c.backup === !!(cur && cur.backup));
+      const i = list.indexOf(cur);
+      const prev = list[i - 1], next = list[i + 1];
+      const word = (c) => (c.backup ? "Backup chapter " : "Chapter ") + c.n;
       el.outerHTML = `<nav class="chapter-nav" aria-label="Chapters">
-        ${prev ? `<a href="${prev.slug}.html"><small>← Chapter ${prev.n}</small>${esc(prev.title)}</a>` : `<a href="${ROOT}/index.html#book"><small>← Contents</small>The book</a>`}
-        ${next ? `<a class="next" href="${next.slug}.html"><small>Chapter ${next.n} →</small>${esc(next.title)}</a>` : `<a class="next" href="${ROOT}/index.html#book"><small>Contents →</small>Back to the book</a>`}
+        ${prev ? `<a href="${prev.slug}.html"><small>← ${word(prev)}</small>${esc(prev.title)}</a>` : `<a href="${ROOT}/index.html#book"><small>← Contents</small>The book</a>`}
+        ${next ? `<a class="next" href="${next.slug}.html"><small>${word(next)} →</small>${esc(next.title)}</a>` : `<a class="next" href="${ROOT}/index.html#book"><small>Contents →</small>Back to the book</a>`}
       </nav>`;
     });
   }
@@ -191,7 +196,7 @@
     if (!el || !fm) return;
     const authors = (fm.authors || []).map((a) => a.author).join(" and ");
     const key = (fm.citeKey || "matenv" + (fm.chapter || ""));
-    el.outerHTML = `<h3>Citation</h3><div><p>${esc((fm.authors || []).map((a) => a.author).join(", "))}, "${esc(fm.title)}", <i>Materials &amp; the Environment: an interactive book</i>, chapter ${esc(fm.chapter)}, ${esc((fm.published || "").slice(-4))}.</p>
+    el.outerHTML = `<h3>Citation</h3><div><p>${esc((fm.authors || []).map((a) => a.author).join(", "))}, "${esc(fm.title)}", <i>Materials &amp; the Environment: an interactive book</i>, ${typeof fm.chapter === "string" ? "backup chapter" : "chapter"} ${esc(fm.chapter)}, ${esc((fm.published || "").slice(-4))}.</p>
       <pre>@incollection{${esc(key)},
   author    = {${esc(authors)}},
   title     = {${esc(fm.title)}},

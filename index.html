@@ -103,7 +103,7 @@
           <div><b>Value function</b><span>many objectives, one score</span></div>
           <div><b>Eco-axis</b><span>environment priced in</span></div>
           <div><b>Latent space</b><span>any index, solved by search</span></div>
-          <div><b>Small language model</b><span>questions in words, answers by the book</span></div>
+          <div><b>Natural fibres</b><span>renewable reinforcement, charted</span></div>
           <div><b>Eco audit</b><span>whole life, five phases</span></div>
         </div>
       </div>
@@ -134,10 +134,10 @@
         <div class="meta"><span>R. Maeso Orti, P. Ballesteros Martín, J. Morlier</span><a href="https://mid2supaero.github.io/tosm/">original article</a></div>
       </div></li>
       <li class="chapter"><div class="num" aria-hidden="true">5</div><div class="body">
-        <h3><a href="book/ch5-small-model.html">A Model That Read the Book</a></h3>
-        <p class="sub">Fine-tuning a free small LLM on Chapters 1–4</p>
-        <ul><li>5.2 Nine exact tools built from the book</li><li>5.4 Ask a 360M model running in your browser</li><li>5.5 Held-out accuracy, base vs fine-tuned</li></ul>
-        <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">model</a></div>
+        <h3><a href="book/ch5-natural-fibres.html">Natural Fibre Composites</a></h3>
+        <p class="sub">Ashby charts for plant fibres and their composites</p>
+        <ul><li>5.1 Twelve plant fibres against E-glass</li><li>5.3 35 composites by stiffness, weight, cost and energy</li><li>5.5 Fatigue strength at a million cycles</li></ul>
+        <div class="meta"><span>after D. U. Shah (2014)</span><a href="https://doi.org/10.1016/j.matdes.2014.05.002">original article</a></div>
       </div></li>
       <li class="chapter"><div class="num" aria-hidden="true">6</div><div class="body">
         <h3><a href="book/ch6-eco-audit.html">A Simple Eco Audit</a></h3>
@@ -146,12 +146,22 @@
         <div class="meta"><span>after Ashby et al.</span><a href="notebooks/eco_audit.ipynb">notebook</a></div>
       </div></li>
     </ol>
+    <h3 id="backup" style="font-size:1.05rem;margin:34px 0 6px">Backup chapters</h3>
+    <p style="font-family:var(--f-ui);font-size:.86rem;color:var(--ink-2);margin:0 0 10px">Earlier material kept for reference, outside the main sequence.</p>
+    <ol class="chapters">
+      <li class="chapter"><div class="num" aria-hidden="true">A</div><div class="body">
+        <h3><a href="book/backup-a-small-model.html">A Model That Read the Book</a></h3>
+        <p class="sub">Fine-tuning a free small LLM on Chapters 1–4</p>
+        <ul><li>A.2 Nine exact tools built from the book</li><li>A.4 Ask a 360M model running in your browser</li><li>A.5 Held-out accuracy, base vs fine-tuned</li></ul>
+        <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">model</a></div>
+      </div></li>
+    </ol>
   </section>
 
   <section class="section" id="lab" aria-labelledby="lab-title">
     <header>
       <h2 id="lab-title">The lab</h2>
-      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
+      <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
     </header>
     <div class="lab-grid">
       <div><h3>Material selection</h3><p>Ashby charts, performance indices and multi-objective value functions, extended with eco-costs and eco-indicators.</p></div>
@@ -167,7 +177,8 @@
           <tr><td><a href="https://github.com/mid2SUPAERO/TOSM">mid2SUPAERO/TOSM</a></td><td><code>FinalResults.xlsx</code>, <code>Materials.xlsx</code>, OptiStruct and Pareto notebooks</td><td>Ch. 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/HybML-EvoMatDesEco">mid2SUPAERO/HybML-EvoMatDesEco</a></td><td>Eco-material database and hybrid VAE + evolutionary design code</td><td>Ch. 2, 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/ashby-vae">mid2SUPAERO/ashby-vae</a></td><td>Ashby-VAE case-study notebooks</td><td>Ch. 2</td></tr>
-          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a></td><td>Fine-tuned SmolLM2 model (Hugging Face Hub)</td><td>Ch. 5</td></tr>
+          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a></td><td>Fine-tuned SmolLM2 model (Hugging Face Hub)</td><td>Backup A</td></tr>
+          <tr><td><a href="https://doi.org/10.1016/j.matdes.2014.05.002">Shah (2014), supplementary tables</a></td><td>Plant fibre, PFRP and fatigue data, as <code>data/nfc.js</code></td><td>Ch. 5</td></tr>
           <tr><td><a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb">ecolizer_vae.ipynb</a></td><td>Digitised Ecolizer 2.0 tables and the masked VAE</td><td>Ch. 3</td></tr>
         </tbody>
       </table>

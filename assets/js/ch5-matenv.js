@@ -1,4 +1,4 @@
-/* Chapter 5: tools playground, dataset browser, in-browser model (Transformers.js), benchmark. */
+/* Backup chapter A: tools playground, dataset browser, in-browser model (Transformers.js), benchmark. */
 const TJS = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js";
 const MODELS = {
   finetuned: { id: "MaterialsandtheEnvironment/matenv-smollm2-360m", label: "MatEnv fine-tuned (360M)" },
@@ -13,7 +13,7 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const norm = (o) => { if (!o || typeof o !== "object") return null; const a = Object.assign({}, o.args || {}); if (Array.isArray(a.candidates)) a.candidates = a.candidates.slice().sort(); return (o.tool || "") + "|" + JSON.stringify(Object.keys(a).sort().map((k) => [k, a[k]])); };
 const keyOk = (tool, key, t) => { const l = String(t).toLowerCase(); if (tool === "none") return /outside|cannot|can't|not able|unable/.test(l); if (tool === "tosm_best") return String(t).includes(key.split("|")[0]); if (tool === "tosm_admissible" || tool === "alloy_compare") return String(t).includes(key.replace("-", "")); return l.includes(key.toLowerCase()); };
 
-/* ---------- Figure 5.2: tools ---------- */
+/* ---------- Figure A.2: tools ---------- */
 const EXAMPLES = {
   rank_materials: { property: "stiffness", shape: "panel", goal: "mass" }, value_function: { alpha: 0.5 }, eco_rank: { property: "stiffness" },
   ecolizer_rank: { shape: "beam" }, ecolizer_family: { family: "Wood & panels" }, energy_compare: { mass_kg: 2, recycled_pct: 0, kwh: 50, grid: "GR" },
@@ -41,7 +41,7 @@ function runTool() {
 $("tl-tool").addEventListener("change", loadExample); $("tl-run").addEventListener("click", runTool);
 loadExample();
 
-/* ---------- Figure 5.3: dataset ---------- */
+/* ---------- Figure A.3: dataset ---------- */
 const TOOL_ORDER = Object.keys(DATA.counts.train).sort((a, b) => DATA.counts.train[b] - DATA.counts.train[a]);
 mount("#data-chart", () => TOOL_ORDER.length * 26 + 44, (svg, w, h) => {
   const m = { t: 8, r: 46, b: 30, l: 118 };
@@ -104,7 +104,7 @@ async function generate(question, mode) {
   return String(out[0].generated_text).trim();
 }
 
-/* ---------- Figure 5.4: ask ---------- */
+/* ---------- Figure A.4: ask ---------- */
 let askMode = "tool", picked = null;
 seg("#as-mode", [{ v: "tool", label: "With tools" }, { v: "direct", label: "Direct" }], askMode, (v) => { askMode = v; });
 const chipQs = [0, 1, 4, 11, 20, 24].map((i) => DATA.test[i]).filter(Boolean);
@@ -134,7 +134,7 @@ async function ask() {
   finally { busy = false; $("as-go").disabled = false; }
 }
 
-/* ---------- Figure 5.5: results + benchmark ---------- */
+/* ---------- Figure A.5: results + benchmark ---------- */
 function drawResults() {
   resChart.redraw();
   const ft = RESULTS.finetuned;

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Model That Read the Book · Backup chapter A</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Backup chapter A of Materials & the Environment: fine-tuning a small free language model on the data and rules of Chapters 1–4, and running it in the browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<style>
+  .code { font-family: var(--f-mono); font-size: .78rem; line-height: 1.5; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; white-space: pre-wrap; word-break: break-word; color: var(--ink); margin: 0; }
+  .code .k { color: var(--accent-ink); font-weight: 600; }
+  textarea.code { width: 100%; min-height: 96px; resize: vertical; }
+  .tag { display: inline-block; font-family: var(--f-ui); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 10px 0 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .chip { font: inherit; font-family: var(--f-ui); font-size: .78rem; border: 1px solid var(--rule); background: var(--paper-2); color: var(--ink-2); border-radius: 999px; padding: 3px 10px; cursor: pointer; text-align: left; }
+  .chip:hover { border-color: var(--accent); color: var(--accent-ink); }
+  input.ask { width: 100%; font: inherit; font-family: var(--f-ui); font-size: .92rem; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); }
+  .ask-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+  .bar-wrap { height: 4px; background: var(--paper-2); border-radius: 2px; overflow: hidden; margin: 8px 0; }
+  .bar-wrap > div { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+  .pipeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: var(--f-ui); font-size: .8rem; counter-reset: st; }
+  .pipeline > div { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; background: var(--paper); position: relative; min-width: 0; }
+  .pipeline h4 { margin: 0 0 4px; font-family: var(--f-ui); font-size: .82rem; font-weight: 600; color: var(--ink); }
+  .pipeline h4::before { counter-increment: st; content: counter(st); display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: var(--paper); font-size: .7rem; margin-right: 6px; }
+  .pipeline p { margin: 0; color: var(--ink-2); }
+  @media (max-width: 760px) { .pipeline { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+</style>
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/materials22.js"></script>
+<script src="../data/tosm.js"></script>
+<script src="../assets/js/matenv-tools.js"></script>
+<script src="../data/matenv_dataset.js"></script>
+<script src="../data/matenv_results.js"></script>
+</head>
+<body>
+<d-site-header current="backup-a-small-model"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "A Model That Read the Book",
+  "chapter": "A", "slug": "backup-a-small-model",
+  "published": "October 2026",
+  "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/tree/main/training",
+  "authors": [
+    {"author": "Joseph Morlier", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Backup chapter A · Materials &amp; the Environment</div>
+  <h1>A Model That Read the Book</h1>
+  <p>Turn the data and rules of Chapters 1–4 into thousands of questions, teach a free 360-million-parameter language model to answer them, and run it in your browser. Then measure what it learned.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <h2 id="why"><span class="sec">1</span>Why a small model, and why tools?</h2>
+  <p class="lede">Large language models talk fluently about materials. Asked to score materials for a design, though, GPT-4 and its peers land about 3 points from expert answers on a 0–10 scale, rate almost everything too highly, and barely change their answer when the design brief changes.<d-cite key="grandi2024"></d-cite> They have read about materials; they have not been taught to select them.</p>
+  <p>This chapter takes the opposite route. The model is tiny (SmolLM2-360M,<d-cite key="smollm2"></d-cite> about 270 MB once compressed, small enough to run inside a web page) and it is taught one narrow job: the questions that Chapters 1–4 can answer. It learns two ways of answering:</p>
+  <ul>
+    <li><b>Direct</b>: write the answer from memory, as a chatbot would.</li>
+    <li><b>With tools</b>: translate the question into a call to one of the book's exact calculators and let the calculator answer. The model chooses <em>what</em> to compute; code does the computing.<d-cite key="toolformer"></d-cite></li>
+  </ul>
+  <p>The second way is the important one. A 360-million-parameter network cannot hold the stiffness of 22 materials and the stresses of 1 516 brackets reliably in its weights. It can learn to map a sentence to the right formula and arguments, and that skill generalises to phrasings it has never seen.</p>
+
+  <figure class="fig l-page" id="fig-pipeline">
+    <div class="pipeline">
+      <div><h4>Rules and data</h4><p>Nine exact tools built from Chapters 1–4: Ashby indices, the value function, eco-indices, Ecolizer families, TOSM brackets.</p></div>
+      <div><h4>Question generator</h4><p>Templates and synonyms turn random tool arguments into 2 400 training questions, each with its exact answer.</p></div>
+      <div><h4>LoRA fine-tuning</h4><p>About 10 minutes on a free Colab GPU. The model learns both answer styles.</p></div>
+      <div><h4>In the browser</h4><p>Converted to ONNX, published on Hugging Face, run here with Transformers.js. No server, no key.</p></div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.1</span><b>From book to model.</b> Every step is free and reproducible from the files in the repository's <code>training</code> folder.</figcaption>
+  </figure>
+
+  <h2 id="tools"><span class="sec">2</span>The book as nine exact tools</h2>
+  <p>Each tool is a few lines of code over data already used in the book, and each reproduces a number printed in an earlier chapter. Ranking the 22 materials for a light, stiff panel by <d-math>E^{1/3}/\rho</d-math> returns softwood pine, hardwood oak and plywood, as in Figure 1.1. The value function at <d-math>\alpha_1</d-math> = £0.5/kg returns nodular cast iron with <d-math>V = 0.98</d-math>, as in Ashby's table. The TOSM tool finds 22 admissible runs at a safety factor of 1.25, with bracket 120 in titanium the lowest in carbon at 65.9 t, as in Chapter 4.</p>
+
+  <figure class="fig l-page" id="fig-tools">
+    <div class="fig-panel">
+      <div class="controls"><label for="tl-tool">Tool <select id="tl-tool"></select></label><button class="btn" type="button" id="tl-run">Run tool</button></div>
+      <div class="fig-row even">
+        <div><span class="tag">Arguments (JSON)</span><textarea class="code" id="tl-args" spellcheck="false" aria-label="Tool arguments as JSON"></textarea></div>
+        <div><span class="tag">Exact answer</span><pre class="code" id="tl-out"></pre></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.2</span><b>The tools.</b> Pick a tool, edit its arguments and run it. These calculators are the ground truth for training and testing the model, and the "with tools" mode calls them for real.</figcaption>
+  </figure>
+
+  <div class="table-wrap l-page">
+    <table>
+      <thead><tr><th>Tool</th><th>Chapter</th><th>What it computes</th></tr></thead>
+      <tbody id="tool-table"></tbody>
+    </table>
+  </div>
+
+  <h2 id="dataset"><span class="sec">3</span>Writing 2 400 questions</h2>
+  <p>Nobody wants to write thousands of exam questions by hand, and nobody needs to: the tools know the answers. A generator picks a tool and random arguments (a loading case, a safety factor, a subset of materials), phrases the question with one of several templates and a few synonyms ("rigid shaft", "stiff beam in bending"; "nylon" for polyamides), and records two targets: the tool call and the exact answer sentence.</p>
+  <p>The test set is built so that memorising is not enough. A quarter of the templates for each tool are held out: the 240 test questions are worded in ways the model never sees during training.</p>
+
+  <figure class="fig l-page" id="fig-data">
+    <div class="fig-panel">
+      <div class="fig-row">
+        <div id="data-chart"></div>
+        <div>
+          <div class="controls"><button class="btn" type="button" id="ds-next">Show another example</button><span id="ds-split"></span></div>
+          <div id="ds-example"></div>
+        </div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.3</span><b>The question set.</b> Left: questions per tool in the training and held-out test sets. Ashby ranking questions dominate because their argument space (two properties, three shapes, two goals, any subset of 22 materials) is by far the largest. Right: real examples, each with both training targets.</figcaption>
+  </figure>
+
+  <h2 id="finetune"><span class="sec">4</span>Fine-tuning with LoRA</h2>
+  <p>Full fine-tuning would update all 362 million weights. Low-rank adaptation (LoRA)<d-cite key="lora"></d-cite> freezes them and learns, for each weight matrix <d-math>W</d-math>, a small correction made of two thin matrices:</p>
+  <d-math block>W' = W + \frac{\alpha}{r}\, B A, \qquad B \in \mathbb{R}^{d\times r},\; A \in \mathbb{R}^{r\times k},\; r = 16 \ll d .</d-math>
+  <p>That is under 2% of the parameters, it fits a free Colab GPU, and after training <d-math>BA</d-math> is merged back into <d-math>W</d-math>, so the published model is an ordinary SmolLM2. Only the assistant's reply counts in the loss; the system prompt and question are context.</p>
+  <div class="table-wrap l-body">
+    <table>
+      <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Base model</td><td>HuggingFaceTB/SmolLM2-360M-Instruct (Apache 2.0)</td></tr>
+        <tr><td>Training examples</td><td>4 800 (2 400 questions × 2 answer modes)</td></tr>
+        <tr><td>LoRA</td><td>rank 16, α = 32, dropout 0.05, all linear layers</td></tr>
+        <tr><td>Optimiser</td><td>AdamW, learning rate 2×10⁻⁴, cosine schedule, 3 epochs, batch 16</td></tr>
+        <tr><td>Hardware and time</td><td>free Colab T4 GPU, about 10 minutes</td></tr>
+        <tr><td>Browser build</td><td>ONNX, 4-bit weights with fp16 activations (WebGPU) and 8-bit (CPU)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The notebook <a href="https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/training/finetune_matenv.ipynb"><code>training/finetune_matenv.ipynb</code></a> does everything: it measures the base model, trains, measures again, publishes the model to the Hugging Face Hub and converts it for the browser.</p>
+
+  <h2 id="ask"><span class="sec">5</span>Ask the model</h2>
+  <p>Type a question or pick one from the held-out test set. The model is downloaded once from Hugging Face and runs on your device.</p>
+  <figure class="fig l-page" id="fig-ask">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="as-model">Model <select id="as-model"></select></label>
+        <span id="as-mode"></span>
+      </div>
+      <div class="ask-row"><input class="ask" id="as-q" type="text" aria-label="Your question" value="Which material makes the lightest stiff panel?"><button class="btn" type="button" id="as-go">Ask</button></div>
+      <div class="chips" id="as-chips"></div>
+      <div class="bar-wrap"><div id="as-bar"></div></div>
+      <div class="readout" id="as-status" role="status">Nothing is downloaded until you press Ask.</div>
+      <div class="fig-row even" style="margin-top:8px">
+        <div><span class="tag">Model output</span><pre class="code" id="as-raw">–</pre></div>
+        <div><span class="tag" id="as-final-tag">Answer</span><pre class="code" id="as-final">–</pre></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.4</span><b>Ask the book.</b> In "with tools" mode the model writes a JSON call; the page runs the tool and shows its exact answer. In "direct" mode the model's own words are the answer. For a question picked from the test set, the expected answer is shown for comparison.</figcaption>
+  </figure>
+
+  <h2 id="results"><span class="sec">6</span>What did it learn?</h2>
+  <p>Accuracy on held-out questions, for the base model and the fine-tuned one. A tool-mode answer counts as correct when the JSON call has the right tool and arguments, which guarantees the right final answer. A direct answer counts as correct when it names the right material, family, bracket or number.</p>
+  <figure class="fig l-page" id="fig-results">
+    <div class="fig-panel">
+      <div class="fig-row">
+        <div id="res-chart"></div>
+        <div class="readout" id="res-note"></div>
+      </div>
+      <div class="controls" style="margin-top:10px">
+        <label for="bm-model">Run it yourself <select id="bm-model"></select></label>
+        <label for="bm-n">Questions <select id="bm-n"><option value="20">20</option><option value="60" selected>60</option><option value="240">all 240</option></select></label>
+        <button class="btn" type="button" id="bm-go">Run benchmark</button>
+        <button class="btn" type="button" id="bm-stop" hidden>Stop</button>
+      </div>
+      <div class="readout" id="bm-status" role="status"></div>
+      <div class="table-wrap" style="margin:6px 0 0"><table id="bm-table"></table></div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.5</span><b>Held-out accuracy.</b> Bars: all 240 held-out questions, measured by the training notebook on a GPU at 16-bit precision. The 4-bit build that runs in your browser can score a few points differently; a run below measures it on your device and fills the table with per-tool results.</figcaption>
+  </figure>
+
+  <p>Fine-tuning takes the model from 0% to 80% in tool mode and from 16% to 72% in direct mode, on questions worded in ways it never saw during training. The tool-mode figure matters most: when the call is right, the answer is exact, because the book's code computes it. Direct answers are right less often and, when wrong, are wrong silently; a misremembered stress or bracket number reads exactly like a correct one.</p>
+
+  <h2 id="limits"><span class="sec">7</span>Limits</h2>
+  <ul>
+    <li><b>Narrow by design.</b> The model knows the nine tools and nothing else. Outside them it should answer <code>none</code>; a 360M model will sometimes force a question into the nearest tool instead.</li>
+    <li><b>Direct answers are recall.</b> Without tools the model reproduces answers it saw during training and guesses the rest. Its numbers should not be trusted.</li>
+    <li><b>The tools inherit the book's assumptions.</b> Teaching values for strengths and prices (Chapter 1), representative family properties (Chapter 3) and a re-used titanium geometry for every alloy (Chapter 4) all pass straight into the answers.</li>
+    <li><b>Templates are not people.</b> The test questions are held-out templates, not questions written by students. A real evaluation would use questions from a class.</li>
+  </ul>
+  <p>The broader lesson matches the one from the large models: language is a good interface to engineering knowledge and a poor store of it. A small model that knows when to call the right calculator is more trustworthy than a large one asked to remember.</p>
+
+  <d-chapter-nav current="backup-a-small-model"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Reproduce</h3>
+  <p><code>node training/make_dataset.cjs</code> regenerates the questions from the tools in <code>assets/js/matenv-tools.js</code>, the same code that runs in Figures A.2 and A.4. <code>training/finetune_matenv.ipynb</code> trains, evaluates, publishes and converts the model; it was tested end to end on a small stand-in model.</p>
+  <h3>Model</h3>
+  <p>Fine-tuned model: <a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">MaterialsandtheEnvironment/matenv-smollm2-360m</a> on the Hugging Face Hub, derived from SmolLM2-360M-Instruct under the Apache 2.0 licence.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@misc{grandi2024, author = {Grandi, Daniele and Jain, Yash Patawari and Groom, Allin and Cramer, Brandon and McComb, Christopher}, title = {Evaluating Large Language Models for Material Selection}, howpublished = {arXiv:2405.03695}, year = {2024}, url = {https://arxiv.org/abs/2405.03695}}
+@misc{smollm2, author = {Ben Allal, Loubna and Lozhkov, Anton and Bakouch, Elie and others}, title = {SmolLM2: When Smol Goes Big, Data-Centric Training of a Small Language Model}, howpublished = {arXiv:2502.02737}, year = {2025}, url = {https://arxiv.org/abs/2502.02737}}
+@inproceedings{lora, author = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu}, title = {LoRA: Low-Rank Adaptation of Large Language Models}, booktitle = {International Conference on Learning Representations (ICLR)}, year = {2022}, url = {https://arxiv.org/abs/2106.09685}}
+@inproceedings{toolformer, author = {Schick, Timo and Dwivedi-Yu, Jane and Dessì, Roberto and Raileanu, Roberta and Lomeli, Maria and Zettlemoyer, Luke and Cancedda, Nicola and Scialom, Thomas}, title = {Toolformer: Language Models Can Teach Themselves to Use Tools}, booktitle = {Advances in Neural Information Processing Systems}, year = {2023}, url = {https://arxiv.org/abs/2302.04761}}
+@misc{transformersjs, author = {{Hugging Face}}, title = {Transformers.js}, howpublished = {GitHub repository}, url = {https://github.com/huggingface/transformers.js}}
+</script></d-bibliography>
+
+<d-site-footer></d-site-footer>
+<script type="module" src="../assets/js/ch5-matenv.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Natural Fibre Composites · Chapter 5</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapter 5 of Materials & the Environment: Ashby-type selection charts for plant fibres and plant fibre reinforced plastics, by stiffness, strength, weight, cost and embodied energy, after Shah (2014).">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/materials22.js"></script>
+<script src="../data/nfc.js"></script>
+<style>
+  .nf-forms { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: var(--f-ui); margin: 6px 0 4px; }
+  .nf-form { border-top: 4px solid var(--c); background: var(--paper-2); border-radius: 0 0 6px 6px; padding: 8px 10px 10px; font-size: .78rem; color: var(--ink-2); }
+  .nf-form b { display: block; color: var(--ink); font-size: .9rem; }
+  .nf-form .k { display: flex; justify-content: space-between; gap: 6px; border-top: 1px solid var(--rule); padding-top: 3px; margin-top: 3px; font-family: var(--f-mono); font-size: .72rem; }
+  .nf-form .k span:first-child { font-family: var(--f-ui); color: var(--muted); }
+  @media (max-width: 760px) { .nf-forms { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .nf-rank { font-family: var(--f-ui); font-size: .8rem; }
+  .nf-rank li { margin: 3px 0; }
+  .nf-rank .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+</style>
+</head>
+<body>
+<d-site-header current="ch5-natural-fibres"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Natural Fibre Composites",
+  "chapter": 5, "slug": "ch5-natural-fibres",
+  "published": "October 2026",
+  "source": "https://doi.org/10.1016/j.matdes.2014.05.002",
+  "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/tools/nfc_data.py",
+  "authors": [
+    {"author": "Darshil U. Shah", "role": "original article", "affiliations": [{"name": "Oxford Silk Group, University of Oxford"}]},
+    {"author": "Joseph Morlier", "role": "editor", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Chapter 5 · Materials &amp; the Environment</div>
+  <h1>Natural Fibre Composites</h1>
+  <p>Flax, hemp and jute in a plastic matrix: how stiff, how strong, how light, how cheap and how green? Ashby charts for 12 fibres and 35 plant fibre composites, with the reinforcement form as the deciding parameter.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <h2 id="why"><span class="sec">1</span>Why plant fibres need selection charts</h2>
+  <p class="lede">Plant fibre reinforced plastics (PFRPs) replace the glass in a glass fibre composite with a fibre that grows. They are renewable, light and usually cheap, and two decades of research have shown respectable mechanical properties. Yet outside car interiors, decking and some consumer goods they are rarely used. Shah argues that one overlooked reason is simple: engineers select materials from databases and charts, and PFRPs are mostly missing from them.<d-cite key="shah2014"></d-cite></p>
+  <p>His paper fills that gap with Ashby-type charts built from a literature survey: 12 fibres, and composites spanning four reinforcement forms, thermoplastic and thermoset matrices and six manufacturing routes. This chapter redraws those charts live from the paper's four supplementary tables, so you can switch between absolute, specific, per-cost and per-energy properties, rank the composites against a performance index, and place them among the materials of Chapter 1.</p>
+
+  <h2 id="fibres"><span class="sec">2</span>The fibres</h2>
+  <p>Plant fibres are grouped by where they come from in the plant. <em>Bast</em> fibres (flax, hemp, jute) are the stem's load-bearing tissue: highly crystalline cellulose with microfibrils nearly parallel to the fibre axis. <em>Leaf</em> fibres (sisal, pineapple, banana) are strong but less stiff. <em>Seed</em> fibres (cotton, coir, oil palm) have no structural role in the plant, low crystallinity and steep microfibril angles, and are weak and compliant. The groups stay together on every chart.</p>
+
+  <figure class="fig l-page" id="fig-fibres">
+    <div class="fig-panel">
+      <div class="controls"><span id="fib-basis"></span></div>
+      <div class="fig-row">
+        <div id="fib-chart"></div>
+        <div class="readout" id="fib-readout"></div>
+      </div>
+      <div class="legend" id="fib-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 5.1</span><b>Plant fibres against E-glass.</b> Tensile strength against tensile modulus (log scales). Each balloon spans the property range reported for one fibre; switch the basis to divide by density, by cost per kg × density, or by embodied energy per kg × density. Data: Shah (2014), Supplementary Table 1.</figcaption>
+  </figure>
+
+  <p>In absolute terms E-glass is in another league. Per unit density the gap closes: glass is 2.55 g/cm³, plant fibres about 1.3–1.6, so flax and hemp approach glass in specific stiffness. Per unit cost, jute and wood pulp beat everything, and cotton is the clear under-performer, despite being, after wood, the most used natural reinforcement in European plastics. Per unit embodied energy almost every plant fibre beats glass, and the chart reorganises by use rather than by plant part: by-product fibres (pineapple, banana, coir, oil palm) carry none of the burden of growing the plant and leap ahead, while cotton, with its fertiliser and pesticide demand, falls behind.</p>
+  <p>These are raw fibres. A yarn, a roving or a woven fabric costs and embodies much more, and the cheapest, greenest fibres are short and have no textile industry to turn them into aligned reinforcements. The form the fibre takes in the composite matters more than the fibre itself.</p>
+
+  <h2 id="forms"><span class="sec">3</span>From fibre to composite: the reinforcement form</h2>
+  <p>A composite's stiffness is roughly a rule of mixtures, corrected for how much of the fibre's stiffness the matrix can actually use. Krenchel's efficiency factors split that correction into fibre length (<d-math>\eta_l</d-math>) and fibre orientation (<d-math>\eta_o</d-math>):</p>
+  <d-math block>E_c \approx \eta_l\,\eta_o\,v_f\,E_f + (1-v_f)\,E_m,\qquad \rho_c = v_f\,\rho_f + (1-v_f)\,\rho_m.</d-math>
+  <p>Four reinforcement forms span the range, from injection-moulded pellets of sub-millimetre fibres to continuous aligned yarns:</p>
+  <figure class="fig l-page" id="fig-formcards">
+    <div class="nf-forms" id="form-cards"></div>
+    <figcaption><span class="fig-num">Table 5.1</span><b>Reinforcement forms.</b> Typical fibre length, efficiency factors, and cost and embodied energy of the reinforcement per kg. Data: Shah (2014), Supplementary Table 3.</figcaption>
+  </figure>
+
+  <figure class="fig l-page" id="fig-rom">
+    <div class="fig-panel">
+      <div class="controls">
+        <label for="rom-fibre">Fibre <select id="rom-fibre"><option>Flax</option><option>Hemp</option><option>Jute</option></select></label>
+        <label for="rom-ef">E<sub>f</sub> <input type="range" id="rom-ef" min="25" max="100" step="1" value="50"><output id="rom-ef-out">50 GPa</output></label>
+        <label for="rom-mat">Matrix <select id="rom-mat"><option value="Epoxy">Epoxy</option><option value="UP">Polyester (UP)</option><option value="PP">Polypropylene (PP)</option></select></label>
+        <span id="rom-basis"></span>
+        <label><input type="checkbox" id="rom-glass" checked> E-glass, same form</label>
+      </div>
+      <div class="fig-row">
+        <div id="rom-chart"></div>
+        <div class="readout" id="rom-readout"></div>
+      </div>
+      <div class="legend" id="rom-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 5.2</span><b>Rule of mixtures and measured composites.</b> Bands: modulus predicted for each reinforcement form across its range of <i>η<sub>l</sub>η<sub>o</sub></i>, against fibre volume fraction. Points: the 35 measured composites of Supplementary Table 2 (weight fractions converted to volume fractions). The dashed band repeats the calculation with E-glass fibres (78.5 GPa, 2.55 g/cm³).</figcaption>
+  </figure>
+  <p>Most measured unidirectional composites sit inside or just below the unidirectional band; porosity, fibre damage and imperfect alignment explain the shortfall. Nonwovens sit inside theirs, and pellets barely improve on the neat matrix. Switch to specific modulus and turn on the glass bands: aligned flax and E-glass composites with the same form and fibre fraction come out close, because glass is 70% denser. That is the core of the case for plant fibres in stiffness-limited, weight-sensitive parts.</p>
+
+  <h2 id="charts"><span class="sec">4</span>Selection charts for plant fibre composites</h2>
+  <p>The literature survey of Supplementary Table 2 covers 35 bast fibre composites with petrochemical matrices. Cost and embodied energy per kg are not tabulated; following the paper's own recipe, they are estimated here from the weight fractions of fibre and matrix, with reinforcement values by form from Table 5.1 and typical matrix values (see the appendix). Manufacturing energy and cost are excluded, as in the paper.</p>
+
+  <figure class="fig l-page" id="fig-pfrp">
+    <div class="fig-panel">
+      <div class="controls">
+        <span id="pf-basis"></span>
+        <label for="pf-rank">Rank by <select id="pf-rank"></select></label>
+      </div>
+      <div class="fig-row">
+        <div id="pf-chart"></div>
+        <div class="readout" id="pf-readout"></div>
+      </div>
+      <div class="legend" id="pf-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 5.3</span><b>Plant fibre composites.</b> Tensile strength against modulus, on four bases. Filled points: thermoset matrices; open points: thermoplastic. Balloons enclose each reinforcement form; grey crosses are the neat matrices. The ranked list highlights the top five composites for the chosen performance index. Hover a point for its source.</figcaption>
+  </figure>
+
+  <p>Four observations stand out, all visible in the figure.</p>
+  <ul>
+    <li><b>The form governs.</b> The composites fall into four groups in order of properties: injection-moulded pellets (about the matrix itself), nonwovens, multiaxial fabrics and unidirectionals. Unidirectional PFRPs are 2 to 20 times stiffer and stronger than nonwovens. Strength rises with stiffness at roughly 10 MPa per GPa (a least-squares fit of the 35 points gives 9.2).</li>
+    <li><b>Matrix and process shift properties within a group.</b> Thermosets do better than thermoplastics. Achievable fibre fraction rises and porosity falls from hand lay-up through vacuum infusion, RTM and compression moulding to prepregging, and properties follow.</li>
+    <li><b>Per unit cost, the order flips.</b> Aligned yarns and fabrics cost 10–50 £/kg against 0.5–2 £/kg for pellets and mats. Nonwoven polypropylene composites top every cost-based index, pellets match unidirectionals, and multiaxial fabrics, which combine a costly reinforcement with misaligned fibres, come last. This is why nonwoven PFRPs dominate cost-driven car interiors.</li>
+    <li><b>Per unit embodied energy, the specific order returns.</b> The reinforcement forms differ less in embodied energy than in cost, and the matrix carries much of the energy, so unidirectionals lead again, with nonwovens and multiaxials overlapping.</li>
+  </ul>
+
+  <h2 id="others"><span class="sec">5</span>Against other engineering materials</h2>
+  <p>Placed among the materials of Chapter 1, plant fibre composites sit where woods, unreinforced engineering polymers and glass composites sit. Per unit density they climb: along the fibres, unidirectional PFRPs match or exceed the specific stiffness and strength of aluminium alloys and steels, which are three to six times denser. Off-axis, and in the other forms, they fall back among woods and polymers.</p>
+
+  <figure class="fig l-page" id="fig-others">
+    <div class="fig-panel">
+      <div class="controls"><span id="ot-basis"></span></div>
+      <div id="ot-chart"></div>
+      <div class="legend" id="ot-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 5.4</span><b>PFRPs among engineering materials.</b> Balloons: the four PFRP groups of Figure 5.3. Points: the materials of Chapter 1 (CES moduli and densities; strengths are approximate handbook values), leaving out elastomers and flexible foam, which sit far to the left. Log scales.</figcaption>
+  </figure>
+
+  <p>Against glass fibre composites of similar form, the paper reaches a clear verdict. Unidirectional PFRPs (thermoset or thermoplastic) and nonwoven thermoplastic PFRPs match comparable glass composites in absolute and specific stiffness, but their strength is lower. Plant fibres are an alternative to glass in <em>stiffness-critical</em> parts, not in strength-critical ones. A small wind turbine blade with flax skins illustrates the point: it came out 10% lighter than its glass equivalent with no loss of strength.<d-cite key="shah2013blade"></d-cite></p>
+
+  <h2 id="fatigue"><span class="sec">6</span>Fatigue</h2>
+  <p>Tensile modulus and strength are not the only design properties. For parts loaded millions of times, the stress that survives <d-math>10^6</d-math> cycles is often used as an endurance limit. Fatigue data on PFRPs are still scarce; the 15 composites of Supplementary Table 4 show the endurance strength scaling with the static strength.</p>
+  <figure class="fig l-page" id="fig-fatigue">
+    <div class="fig-panel">
+      <div class="fig-row">
+        <div id="fat-chart"></div>
+        <div class="readout" id="fat-readout"></div>
+      </div>
+      <div class="legend" id="fat-legend"></div>
+    </div>
+    <figcaption><span class="fig-num">Figure 5.5</span><b>Fatigue strength at 10⁶ cycles against tensile strength.</b> The line is a least-squares fit through the origin. Data: Shah (2014), Supplementary Table 4.</figcaption>
+  </figure>
+
+  <h2 id="design"><span class="sec">7</span>Two design questions</h2>
+  <p>Selection is about indices, not raw properties. Two examples, both runnable in Figure 5.3 with the “Rank by” menu:</p>
+  <ul>
+    <li><b>A car door trim panel</b>, a stiff panel in bending at minimum cost: index <d-math>E^{1/3}/(C_m\rho)</d-math>. Nonwoven flax/PP and jute/PP lead, with injection-moulded flax/PP and hemp/PP next. That is the panel the car industry actually makes.</li>
+    <li><b>A light, stiff spar cap</b>, a stiff tie at minimum mass: index <d-math>E/\rho</d-math>. Unidirectional flax/epoxy prepreg leads at 31 GPa/(g/cm³), with compression-moulded jute/UP and RTM flax/epoxy close behind. With embodied energy in the denominator the same aligned composites stay on top.</li>
+  </ul>
+  <p>Charts only screen. A real choice also needs the properties the charts leave out: moisture uptake and its effect on stiffness, creep, impact, fire behaviour, and the variability of a natural product. The eco audit of the next chapter is the natural follow-up: a lighter PFRP part in a car saves fuel every kilometre, and that use-phase saving usually outweighs the difference in embodied energy.</p>
+
+  <d-chapter-nav current="ch5-natural-fibres"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>About the data</h3>
+  <p>Fibre, composite, reinforcement-form and fatigue data are transcribed from the four supplementary tables of Shah (2014), as published; Supplementary Table 2 repeats three rows across a page break, kept once here. Specific properties are the paper's; composite density is recovered as modulus divided by specific modulus. Volume and weight fractions are converted with fibre densities of 1.5 g/cm³ (flax, hemp) and 1.4 g/cm³ (jute). Composite cost and embodied energy per kg are weight-fraction averages of the reinforcement (mid-range of Supplementary Table 3 for its form) and the matrix. Matrix costs follow the paper's ranges (thermoplastics 0.5–2 £/kg, thermosets 1–5 £/kg): PP 1.25, UP 2.5, VE 3.5, epoxy 4 £/kg. Matrix embodied energies are typical values, not from the paper: PP 95, UP 85, VE 100, epoxy 130 MJ/kg. Prices are in 2014 pounds. The generator is <code>tools/nfc_data.py</code>.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@article{shah2014, author = {Shah, Darshil U.}, title = {Natural fibre composites: Comprehensive Ashby-type materials selection charts}, journal = {Materials \& Design}, volume = {62}, pages = {21--31}, year = {2014}, doi = {10.1016/j.matdes.2014.05.002}}
+@article{shah2013blade, author = {Shah, Darshil U. and Schubel, Peter J. and Clifford, Mike J.}, title = {Can flax replace E-glass in structural composites? A small wind turbine blade case study}, journal = {Composites Part B: Engineering}, volume = {52}, pages = {172--181}, year = {2013}}
+</script></d-bibliography>
+
+<script src="../assets/js/ch5-natural-fibres.js"></script>
+</body>
+</html>
