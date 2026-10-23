@@ -39,12 +39,12 @@ assets/vendor/             D3 7.8.5 and KaTeX 0.16.9 (vendored, no CDN needed)
 data/materials22.js        22 CES/Granta materials (ρ, E) + approximate σ and price
 data/vae.js                trained decoder weights for chapter 2
 data/tosm.js               1 516 TOSM runs (mass, peak stress, peak displacement) + alloy table
-data/nfc.js                chapter 5 fibre, composite and fatigue tables (Shah 2014, Supplementary Tables 1–4)
+data/nfc.js, nfc.json      chapter 5 fibre, composite and fatigue tables (Shah 2014, Supplementary Tables 1–4)
 data/matenv_dataset.js     backup chapter A question set (counts, samples, 240 held-out questions)
 data/matenv_results.js     backup chapter A benchmark results
 assets/js/matenv-tools.js  the nine exact tools from Chapters 1–4 (browser + Node)
 data/ecoaudit.js/.json      chapter 6 eco-audit teaching data (31 materials, 7 products)
-notebooks/                 eco_audit.ipynb (Jupyter / Colab) and ecoaudit.py, the eco audit model
+notebooks/                 natural_fibre_composites.ipynb (Ch. 5), eco_audit.ipynb and ecoaudit.py (Ch. 6); Jupyter or Colab
 training/                  question generator, generated JSONL, Colab fine-tuning notebook
 tools/                     scripts that regenerate data/vae.js, data/tosm.js, data/nfc.js, data/ecoaudit.* and the notebook
 ```

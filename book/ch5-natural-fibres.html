@@ -36,7 +36,7 @@
   "chapter": 5, "slug": "ch5-natural-fibres",
   "published": "October 2026",
   "source": "https://doi.org/10.1016/j.matdes.2014.05.002",
-  "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/tools/nfc_data.py",
+  "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/notebooks/natural_fibre_composites.ipynb",
   "authors": [
     {"author": "Darshil U. Shah", "role": "original article", "affiliations": [{"name": "Oxford Silk Group, University of Oxford"}]},
     {"author": "Joseph Morlier", "role": "editor", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
@@ -163,6 +163,10 @@
     <li><b>A light, stiff spar cap</b>, a stiff tie at minimum mass: index <d-math>E/\rho</d-math>. Unidirectional flax/epoxy prepreg leads at 31 GPa/(g/cm³), with compression-moulded jute/UP and RTM flax/epoxy close behind. With embodied energy in the denominator the same aligned composites stay on top.</li>
   </ul>
   <p>Charts only screen. A real choice also needs the properties the charts leave out: moisture uptake and its effect on stiffness, creep, impact, fire behaviour, and the variability of a natural product. The eco audit of the next chapter is the natural follow-up: a lighter PFRP part in a car saves fuel every kilometre, and that use-phase saving usually outweighs the difference in embodied energy.</p>
+
+  <h2 id="notebook"><span class="sec">8</span>The notebook</h2>
+  <p>The Jupyter notebook <code>notebooks/natural_fibre_composites.ipynb</code> rebuilds every chart of this chapter in Python with pandas and matplotlib, from the same data (<code>data/nfc.json</code>). It adds the ranking tables for all ten indices and four exercises: sizing a nonwoven for a target stiffness, the price at which aligned yarns become cost-competitive, the sensitivity to the assumed matrix energies, and the wind turbine blade. It runs locally or on Google Colab, and fetches the data from this site's repository when the file is not found.</p>
+  <p><a class="btn" href="https://colab.research.google.com/github/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/notebooks/natural_fibre_composites.ipynb">Open in Colab</a> &nbsp; <a class="btn" href="../notebooks/natural_fibre_composites.ipynb" download>Download the notebook</a></p>
 
   <d-chapter-nav current="ch5-natural-fibres"></d-chapter-nav>
 </d-article>
