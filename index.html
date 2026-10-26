@@ -56,6 +56,15 @@
   .lineage span { color: var(--ink-2); }
   @media (max-width: 760px) { .lineage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 14px; } }
 
+  .dedication { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: 30px 32px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 32px; align-items: start; }
+  .dedication .tag { font-family: var(--f-ui); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--hi); font-weight: 600; margin: 0 0 8px; }
+  .dedication h2 { font-size: 1.6rem; margin: 0; font-weight: 750; }
+  .dedication .dates { font-family: var(--f-ui); font-size: .84rem; color: var(--muted); margin-top: 6px; }
+  .dedication p { margin: 0 0 12px; color: var(--ink-2); max-width: 68ch; }
+  .dedication p:first-child { color: var(--ink); font-size: 1.08rem; }
+  .dedication .wood { border-left: 3px solid var(--hi); padding: 2px 0 2px 14px; font-size: .96rem; margin-top: 14px; }
+  @media (max-width: 860px) { .dedication { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
+
   .lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
   @media (max-width: 860px) { .lab-grid { grid-template-columns: minmax(0, 1fr); } }
   .lab-grid h3 { font-size: 1.05rem; margin: 0 0 6px; }
@@ -91,6 +100,18 @@
       <div id="hero-chart"></div>
       <div class="cap"><span>Drag the guideline: E<sup>⅓</sup>/ρ, the light-panel index</span><span>Best now: <b id="hero-best">—</b></span></div>
     </figure>
+  </section>
+
+  <section class="dedication" aria-labelledby="dedication-title">
+    <div>
+      <p class="tag">In memoriam</p>
+      <h2 id="dedication-title">Pierre Morlier</h2>
+      <div class="dates">Died 29 October 2025</div>
+    </div>
+    <div>
+      <p>This book is dedicated to my dad, Pierre Morlier, professor, engineer and researcher in wood science and structural mechanics. A graduate of the École des Mines de Paris, then researcher at the École Polytechnique, he worked at the Laboratoire de Mécanique des Solides, then moved to the University of Bordeaux. Founder of the Laboratoire de Rhéologie du Bois de Bordeaux, his studies across civil engineering and wood sciences (timber creep, tropical wood density and hardness, and historic timber structures) became references across Europe. A pioneer in multidisciplinary research, he helped organise the XYLOFUTUR competitiveness cluster, led the European COST E8 action on forests and forestry products, and mentored generations of students with patience, humility and integrity.</p>
+      <p class="wood"><b>Why wood matters here.</b> Wood is the original eco-material, and the thread that runs through this book. It grows from sunlight, and about half of its dry mass is carbon drawn from the atmosphere, so a building or a product made of wood stores carbon for as long as it lasts. It needs little energy to process compared with metals, polymers or glass, it can be reused, recycled or burnt for energy at the end of its life, and along the grain its stiffness per unit weight rivals that of steel. On the Ashby charts of Chapter 1, softwood, hardwood and plywood come out on top for light, stiff panels; Chapter 5 follows the same logic to the plant fibres of flax, hemp and jute. Making wood and its composites reliable for engineers, through their creep, variability and durability, was Pierre's life's work.</p>
+    </div>
   </section>
 
   <section class="section" id="book" aria-labelledby="book-title">

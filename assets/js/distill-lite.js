@@ -93,7 +93,7 @@
         if (body[j] === "{") { let d = 1; j++; const s = j; while (j < body.length && d > 0) { if (body[j] === "{") d++; else if (body[j] === "}") d--; j++; } val = body.slice(s, j - 1); }
         else if (body[j] === '"') { const s = ++j; while (j < body.length && body[j] !== '"') j++; val = body.slice(s, j); j++; }
         else { const s = j; while (j < body.length && body[j] !== ",") j++; val = body.slice(s, j).trim(); }
-        entry[f[1].toLowerCase()] = val.replace(/[{}]/g, "").replace(/\s+/g, " ").trim();
+        entry[f[1].toLowerCase()] = val.replace(/[{}]/g, "").replace(/\\&/g, "&").replace(/--/g, "–").replace(/\s+/g, " ").trim();
         fre.lastIndex = j;
       }
       out[entry.key] = entry;
@@ -109,7 +109,7 @@
   function fmtRef(e) {
     const venue = e.journal || e.booktitle || e.publisher || e.howpublished || "";
     const link = e.doi ? `https://doi.org/${e.doi}` : e.url || "";
-    return `${esc(fmtAuthors(e.author))}${e.year ? ` (${esc(e.year)})` : ""}. <b>${esc(e.title || "")}</b>. ${venue ? `<i>${esc(venue)}</i>${e.volume ? `, ${esc(e.volume)}` : ""}${e.pages ? `, pp. ${esc(e.pages)}` : ""}.` : ""} ${link ? `<a href="${esc(link)}">${esc(e.doi ? "doi:" + e.doi : link.replace(/^https?:\/\//, ""))}</a>` : ""}`;
+    return `${esc(fmtAuthors(e.author))}${e.year ? ` (${esc(e.year)})` : ""}. <b>${esc(e.title || "")}</b>. ${venue ? `<i>${esc(venue)}</i>${e.volume ? `, ${esc(e.volume)}` : ""}${e.pages ? (/[–-]/.test(e.pages) ? `, pp. ${esc(e.pages)}` : `, ${esc(e.pages)}`) : ""}.` : ""} ${link ? `<a href="${esc(link)}">${esc(e.doi ? "doi:" + e.doi : link.replace(/^https?:\/\//, ""))}</a>` : ""}`;
   }
 
   /* ---------- hover boxes ---------- */
