@@ -14,7 +14,7 @@ The book has six Distill-style chapters with live D3 figures:
 | 5 | [Natural Fibre Composites](book/ch5-natural-fibres.html): Ashby charts for plant fibres and PFRPs | Shah (2014), *Materials & Design* 62:21–31, [doi:10.1016/j.matdes.2014.05.002](https://doi.org/10.1016/j.matdes.2014.05.002) |
 | 6 | [A Simple Eco Audit](book/ch6-eco-audit.html): energy and CO₂ over five life phases, calculator and case studies | CES EduPack Eco Audit white paper (Ashby et al., 2012); `notebooks/` |
 
-Backup chapter A, [A Model That Read the Book](book/backup-a-small-model.html) (a small LLM fine-tuned on Chapters 1–4, built from `training/`), is kept outside the main sequence; `book/ch5-small-model.html` redirects to it.
+Backup chapter A, [Ask the Virtual Prof](book/backup-a-virtual-prof.html), is a chatbot that answers from Chapters 1–6: BM25 retrieval over the chapters in the browser, plus an optional small LLM (Qwen3 0.6B/1.7B, ONNX, from the MaterialsandtheEnvironment Hugging Face organisation) that explains the retrieved passages with citations. An *Ask the prof* button opens it on every page. Old URLs (`book/backup-a-small-model.html`, `book/ch5-small-model.html`) redirect to it. Rebuild its knowledge base with `python3 tools/build_prof_index.py` after editing a chapter; publish models and index with `tools/publish_virtual_prof.py` or `training/publish_virtual_prof.ipynb`.
 
 ## Deploy
 
@@ -34,14 +34,15 @@ book/ch1-…ch4-….html       chapters (Distill markup)
 assets/css/distill-lite.css   article grid, typography, light/dark tokens
 assets/js/distill-lite.js     renders <d-front-matter>, <d-byline>, <d-cite>, <d-footnote>, <d-math>, <d-appendix>, TOC, chapter nav
 assets/js/common.js        shared chart helpers (D3)
-assets/js/ch1.js … ch4.js, ch5-natural-fibres.js, ch6-ecoaudit.js, ch5-matenv.js (backup A)  the interactive figures of each chapter
+assets/js/ch1.js … ch4.js, ch5-natural-fibres.js, ch6-ecoaudit.js, prof.js + prof-widget.js (Virtual Prof)  the interactive figures of each chapter
 assets/vendor/             D3 7.8.5 and KaTeX 0.16.9 (vendored, no CDN needed)
 data/materials22.js        22 CES/Granta materials (ρ, E) + approximate σ and price
 data/vae.js                trained decoder weights for chapter 2
 data/tosm.js               1 516 TOSM runs (mass, peak stress, peak displacement) + alloy table
 data/nfc.js, nfc.json      chapter 5 fibre, composite and fatigue tables (Shah 2014, Supplementary Tables 1–4)
-data/matenv_dataset.js     backup chapter A question set (counts, samples, 240 held-out questions)
-data/matenv_results.js     backup chapter A benchmark results
+data/prof_index.js/.json   Virtual Prof knowledge base (passages of Ch. 1–6 + data cards)
+data/matenv_dataset.js     earlier small-model experiment: question set (counts, samples, 240 held-out questions)
+data/matenv_results.js     earlier small-model experiment: benchmark results
 assets/js/matenv-tools.js  the nine exact tools from Chapters 1–4 (browser + Node)
 data/ecoaudit.js/.json      chapter 6 eco-audit teaching data (31 materials, 7 products)
 notebooks/                 natural_fibre_composites.ipynb (Ch. 5), eco_audit.ipynb and ecoaudit.py (Ch. 6); Jupyter or Colab
@@ -65,7 +66,7 @@ python3 tools/train_vae.py 3 data/vae.js
 python3 tools/check_opt.py data/vae.js 1e-3 3     # multi-start check: bar, beam, panel
 # Chapter 4: from the TOSM repository files
 python3 tools/export_tosm.py FinalResults.xlsx Materials.xlsx data/tosm.js
-# Backup chapter A: regenerate the question set, then run training/finetune_matenv.ipynb on Colab (T4)
+# Earlier small-model experiment: regenerate the question set, then run training/finetune_matenv.ipynb on Colab (T4)
 node training/make_dataset.cjs
 python3 training/build_notebook.py   # rebuilds the notebook from its source
 ```

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ask the Virtual Prof · Backup chapter A</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Backup chapter A of Materials & the Environment: a virtual professor that answers questions from Chapters 1–6, by searching the book in your browser and, optionally, writing an explanation with a small open language model from Hugging Face.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/distill-lite.css">
+<style>
+  .pipeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: var(--f-ui); font-size: .8rem; counter-reset: st; }
+  .pipeline > div { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; background: var(--paper); min-width: 0; }
+  .pipeline h4 { margin: 0 0 4px; font-family: var(--f-ui); font-size: .84rem; font-weight: 600; color: var(--ink); }
+  .pipeline h4::before { counter-increment: st; content: counter(st); display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: var(--paper); font-size: .7rem; margin-right: 6px; }
+  .pipeline p { margin: 0; color: var(--ink-2); }
+  @media (max-width: 760px) { .pipeline { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .kb-q { width: 100%; font: inherit; font-family: var(--f-ui); font-size: .9rem; padding: 7px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); }
+  .kb-hits { font-family: var(--f-ui); font-size: .8rem; margin-top: 8px; }
+  .kb-hits .hit { padding: 6px 0; border-bottom: 1px solid var(--rule); }
+  .kb-hits .hit a { font-weight: 600; color: var(--ink); text-decoration: none; }
+  .kb-hits .hit .sc { font-family: var(--f-mono); color: var(--muted); float: right; }
+  .kb-hits .hit div { color: var(--ink-2); margin-top: 2px; }
+  .kb-hits mark { background: var(--hi-wash); color: var(--ink); }
+</style>
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/js/distill-lite.js" data-root=".."></script>
+<script src="../assets/js/common.js"></script>
+<script src="../data/prof_index.js"></script>
+</head>
+<body>
+<d-site-header current="backup-a-virtual-prof"></d-site-header>
+
+<d-front-matter><script type="text/json">{
+  "title": "Ask the Virtual Prof",
+  "chapter": "A", "slug": "backup-a-virtual-prof",
+  "published": "October 2026",
+  "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/assets/js/prof.js",
+  "authors": [
+    {"author": "Joseph Morlier", "authorURL": "https://github.com/jomorlier", "affiliations": [{"name": "ISAE-SUPAERO, Université de Toulouse", "url": "https://www.isae-supaero.fr"}]}
+  ]
+}</script></d-front-matter>
+
+<d-title>
+  <div class="kicker l-middle">Backup chapter A · Materials &amp; the Environment</div>
+  <h1>Ask the Virtual Prof</h1>
+  <p>A chatbot that has read Chapters 1–6. It finds the passages that answer your question, shows you where to read them, and can explain them in its own words with a small open language model that runs on your device.</p>
+</d-title>
+<d-byline></d-byline>
+
+<d-article>
+  <d-toc></d-toc>
+
+  <h2 id="ask"><span class="sec">1</span>Ask a question</h2>
+  <p class="lede">The Virtual Prof answers from the book and nothing else. With <b>AI explanations</b> off, it replies instantly with the best passages, highlighted and linked. Turn them on and a language model reads those passages and writes a short answer that cites them; the model is downloaded once from the Materials &amp; the Environment organisation on Hugging Face and then runs in your browser, with no server and no account.</p>
+
+  <figure class="fig l-page" id="fig-chat">
+    <div id="prof-page"></div>
+    <figcaption><span class="fig-num">Figure A.1</span><b>The Virtual Prof.</b> Numbers in coloured boxes are citations: click them to open the section of the book they come from. The same assistant is available on every page through the <i>Ask the prof</i> button, where it looks first in the chapter you are reading.</figcaption>
+  </figure>
+
+  <h2 id="how"><span class="sec">2</span>How it works</h2>
+  <p>A language model small enough to run in a browser cannot remember a whole book, and when it tries it makes numbers up. The Virtual Prof therefore separates <em>finding</em> from <em>explaining</em>, a design known as retrieval-augmented generation.<d-cite key="rag"></d-cite></p>
+  <figure class="fig l-page" id="fig-pipeline">
+    <div class="pipeline">
+      <div><h4>Index the book</h4><p>Chapters 1–6 are cut into passages of about 170 words at section boundaries, plus fact cards generated from the book's data files: materials, fibres, composites, eco-audit products.</p></div>
+      <div><h4>Retrieve</h4><p>Your question is matched against every passage with BM25, a classic ranking function, with synonyms (stiff → modulus, CO₂ → carbon) and a boost for the chapter you are reading.</p></div>
+      <div><h4>Explain</h4><p>The best four passages are numbered and given to the model with one instruction: answer only from these notes, cite them, and say so if they do not contain the answer.</p></div>
+      <div><h4>Point back</h4><p>Every answer ends with links to the sections it used, so the book, not the model, has the last word.</p></div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.2</span><b>From question to answer.</b> Steps 1 and 2 run instantly in any browser. Step 3 needs the model download and, ideally, WebGPU.</figcaption>
+  </figure>
+  <p>Retrieval is lexical: it matches words, not meanings. It is fast, transparent and needs no download, and the synonym list covers the vocabulary of the book. You can watch it work below: type a question and see the passages it would hand to the model, with their scores.</p>
+
+  <figure class="fig l-page" id="fig-kb">
+    <div class="fig-panel">
+      <div class="fig-row">
+        <div>
+          <input class="kb-q" id="kb-q" type="text" value="Why does the use phase dominate for a kettle?" aria-label="Search the knowledge base">
+          <div class="kb-hits" id="kb-hits"></div>
+        </div>
+        <div><div id="kb-chart"></div><div class="readout" id="kb-stats"></div></div>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Figure A.3</span><b>Inside the knowledge base.</b> Left: the top passages for a query and their BM25 scores. Right: passages per chapter, split into text from the chapters and fact cards built from their data.</figcaption>
+  </figure>
+
+  <h2 id="models"><span class="sec">3</span>The models</h2>
+  <p>Two open models from the Qwen3 family<d-cite key="qwen3"></d-cite> are offered, used in their non-thinking mode, converted to ONNX and quantised to 4 bits for Transformers.js.<d-cite key="transformersjs"></d-cite> They are published under the <a href="https://huggingface.co/MaterialsandtheEnvironment">MaterialsandtheEnvironment</a> organisation on Hugging Face, with the book's index alongside them as a dataset; if a model is not found there, the page falls back to the public ONNX build it was copied from.</p>
+  <div class="table-wrap l-body">
+    <table>
+      <thead><tr><th>Option</th><th>Model</th><th class="n">Download</th><th>Best for</th></tr></thead>
+      <tbody>
+        <tr><td>Fast</td><td><code>virtual-prof-qwen3-0.6b</code></td><td class="n">≈ 0.6 GB</td><td>most laptops with WebGPU; short answers in 1–3 s, usually faithful, sometimes too confident</td></tr>
+        <tr><td>Better</td><td><code>virtual-prof-qwen3-1.7b</code></td><td class="n">≈ 1.4 GB</td><td>desktops with a recent GPU and plenty of memory; clearer explanations. Experimental: it may fail to load on smaller machines, in which case use Fast</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>With WebGPU (recent Chrome or Edge), answers start within a second or two; on the CPU fallback, expect several seconds per sentence. The download is cached by the browser, so it happens once.</p>
+
+  <h2 id="limits"><span class="sec">4</span>Limits</h2>
+  <ul>
+    <li><b>It only knows the book.</b> Questions outside Chapters 1–6 get an honest “not in the notes”, or a poor match. That is by design.</li>
+    <li><b>Small models still slip.</b> A 0.6B model can misread a passage, cite the wrong note or refuse a question its notes do answer. Every claim carries a citation: check it.</li>
+    <li><b>Retrieval is literal.</b> If a question uses words the book does not, rephrase it with the book's terms (modulus, embodied energy, eco-index, reinforcement form).</li>
+    <li><b>Figures are not read.</b> The prof sees captions and text, not the interactive charts. For exact rankings, use the figure itself; the prof will tell you which one.</li>
+  </ul>
+
+  <h2 id="history"><span class="sec">5</span>From a small model to a virtual prof</h2>
+  <p>An earlier version of this chapter fine-tuned a 360-million-parameter model (<a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a>) on 2 400 questions generated from nine calculators of Chapters 1–4. It learned to call the right calculator for about 80% of unseen questions, up from 0% for the base model, and its direct answers rose from 16% to 72% correct. It showed that a small model is a good <em>router</em> and a poor <em>memory</em>. The Virtual Prof keeps that lesson and scales it to the whole book: the memory is the book itself, searched exactly; the model only reads and explains. The training material remains in the repository's <code>training</code> folder.</p>
+
+  <d-chapter-nav current="backup-a-virtual-prof"></d-chapter-nav>
+</d-article>
+
+<d-appendix>
+  <h3>Reproduce</h3>
+  <p><code>python3 tools/build_prof_index.py</code> rebuilds the knowledge base (<code>data/prof_index.js</code> and <code>.json</code>) from the chapters and their data files; run it after editing a chapter. <code>python3 tools/publish_virtual_prof.py</code> (or <code>training/publish_virtual_prof.ipynb</code> on Colab) copies the two ONNX models and the index to the Hugging Face organisation with model cards. The assistant itself is <code>assets/js/prof.js</code>; the floating button is <code>assets/js/prof-widget.js</code>.</p>
+  <d-footnote-list></d-footnote-list>
+  <d-citation-list></d-citation-list>
+  <d-cite-this></d-cite-this>
+</d-appendix>
+
+<d-bibliography><script type="text/bibtex">
+@inproceedings{rag, author = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and others}, title = {Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}, booktitle = {Advances in Neural Information Processing Systems}, volume = {33}, pages = {9459--9474}, year = {2020}, url = {https://arxiv.org/abs/2005.11401}}
+@misc{qwen3, author = {{Qwen Team}}, title = {Qwen3 Technical Report}, howpublished = {arXiv:2505.09388}, year = {2025}, url = {https://arxiv.org/abs/2505.09388}}
+@misc{transformersjs, author = {{Hugging Face}}, title = {Transformers.js: state-of-the-art machine learning for the web}, howpublished = {GitHub repository}, url = {https://github.com/huggingface/transformers.js}}
+</script></d-bibliography>
+
+<script type="module">
+  import { mountChat, loadIndex, search, snippet, cite, url } from "../assets/js/prof.js";
+  mountChat(document.getElementById("prof-page"), { chapter: 0 });
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const I = await loadIndex();
+  const q = document.getElementById("kb-q");
+  const run = () => {
+    const hits = search(q.value, { k: 6 });
+    document.getElementById("kb-hits").innerHTML = hits.length ? hits.map((h, i) => `<div class="hit"><span class="sc">${h.s.toFixed(2)}</span><a href="${url(h.d.url)}">${i + 1}. ${esc(cite(h.d))} · ${esc(h.d.secTitle)}</a>${h.d.kind === "data" ? ' <span class="pill">data card</span>' : ""}<div>${snippet(h.d.text, q.value, 34)}</div></div>`).join("") : `<p class="warn">No passage matches.</p>`;
+  };
+  q.addEventListener("input", run); run();
+  const { css, mount } = window.MATENV;
+  const by = d3.range(1, 7).map((c) => ({ c, text: I.docs.filter((d) => d.ch === c && d.kind === "text").length, data: I.docs.filter((d) => d.ch === c && d.kind === "data").length }));
+  mount("#kb-chart", () => 200, (svg, w, h) => {
+    const m = { t: 8, r: 30, b: 28, l: 40 };
+    const x = d3.scaleLinear().domain([0, d3.max(by, (d) => d.text + d.data)]).range([m.l, w - m.r]).nice();
+    const y = d3.scaleBand().domain(by.map((d) => d.c)).range([m.t, h - m.b]).padding(0.25);
+    svg.append("g").attr("class", "axis").attr("transform", `translate(0,${h - m.b})`).call(d3.axisBottom(x).ticks(5));
+    by.forEach((d) => {
+      svg.append("rect").attr("x", m.l).attr("y", y(d.c)).attr("width", x(d.text) - m.l).attr("height", y.bandwidth()).attr("rx", 2).attr("fill", css("--s1"));
+      svg.append("rect").attr("x", x(d.text)).attr("y", y(d.c)).attr("width", x(d.text + d.data) - x(d.text)).attr("height", y.bandwidth()).attr("rx", 2).attr("fill", css("--s4"));
+      svg.append("text").attr("x", m.l - 8).attr("y", y(d.c) + y.bandwidth() / 2 + 4).attr("text-anchor", "end").style("fill", css("--ink")).text("Ch." + d.c);
+      svg.append("text").attr("x", x(d.text + d.data) + 4).attr("y", y(d.c) + y.bandwidth() / 2 + 4).style("font-family", "var(--f-mono)").style("font-size", "10px").text(d.text + d.data);
+    });
+  }, { label: "Passages per chapter" });
+  const nt = I.docs.filter((d) => d.kind === "text"), words = I.docs.reduce((a, d) => a + d.text.split(/\s+/).length, 0);
+  document.getElementById("kb-stats").innerHTML = `<span style="color:var(--s1)">■</span> ${nt.length} text passages &nbsp; <span style="color:var(--s4)">■</span> ${I.docs.length - nt.length} data cards &nbsp;· ${words.toLocaleString("en")} words in all.`;
+</script>
+</body>
+</html>

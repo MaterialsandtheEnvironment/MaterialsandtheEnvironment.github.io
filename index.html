@@ -89,7 +89,7 @@
     <div>
       <p class="eyebrow">ISAE-SUPAERO · Université de Toulouse</p>
       <h1 id="hero-title">Materials &amp; the <em>Environment</em></h1>
-      <p class="lead">An open, interactive book exploring how we choose materials for a more sustainable world, balancing performance, weight, cost and environmental impact. From Ashby charts and eco-indicators to machine-learned latent spaces, natural-fibre composites, and a benchmark of 1,516 simulated jet-engine bracket–alloy combinations, it connects classical materials selection with modern machine learning and life-cycle assessment—all through interactive figures, open data, and even a small language model trained on the book itself.</p>
+      <p class="lead">An open, interactive book on choosing what things are made of when mass, cost and the planet all sit on the axes. From Ashby's charts to learned latent spaces, eco-indicators, 1 516 simulated jet-engine brackets and a small language model taught by the book itself.</p>
       <div class="cta">
         <a class="primary" href="book/ch1-ashby-maps.html">Start reading Chapter 1</a>
         <a class="ghost" href="#book">Table of contents</a>
@@ -109,11 +109,7 @@
       <div class="dates">Died 29 October 2025</div>
     </div>
     <div>
-      <p>This book is dedicated to my father, Pierre Morlier, professor, engineer, and researcher in wood science and structural mechanics.
-
-A graduate of the École des Mines de Paris, he went on to conduct research at the École Polytechnique, first at the Laboratoire de Mécanique des Solides and later moved to the University of Bordeaux. There, he founded the Laboratoire de Rhéologie du Bois de Bordeaux. His research spanning civil engineering and wood science (from timber creep and the density and hardness of tropical woods to historic timber structures) became a point of reference for researchers across Europe.
-
-A pioneer of multidisciplinary research, he helped establish the XYLOFUTUR competitiveness cluster and led the European COST Action E8 on forests and forestry products. Throughout his career, he also mentored generations of students, guiding them with patience, humility, and integrity.</p>
+      <p>This book is dedicated to my dad, Pierre Morlier, professor, engineer and researcher in wood science and structural mechanics. A graduate of the École des Mines de Paris, then researcher at the École Polytechnique, he worked at the Laboratoire de Mécanique des Solides, then moved to the University of Bordeaux. Founder of the Laboratoire de Rhéologie du Bois de Bordeaux, his studies across civil engineering and wood sciences (timber creep, tropical wood density and hardness, and historic timber structures) became references across Europe. A pioneer in multidisciplinary research, he helped organise the XYLOFUTUR competitiveness cluster, led the European COST E8 action on forests and forestry products, and mentored generations of students with patience, humility and integrity.</p>
       <p class="wood"><b>Why wood matters here.</b> Wood is the original eco-material, and the thread that runs through this book. It grows from sunlight, and about half of its dry mass is carbon drawn from the atmosphere, so a building or a product made of wood stores carbon for as long as it lasts. It needs little energy to process compared with metals, polymers or glass, it can be reused, recycled or burnt for energy at the end of its life, and along the grain its stiffness per unit weight rivals that of steel. On the Ashby charts of Chapter 1, softwood, hardwood and plywood come out on top for light, stiff panels; Chapter 5 follows the same logic to the plant fibres of flax, hemp and jute. Making wood and its composites reliable for engineers, through their creep, variability and durability, was Pierre's life's work.</p>
     </div>
   </section>
@@ -175,10 +171,10 @@ A pioneer of multidisciplinary research, he helped establish the XYLOFUTUR compe
     <p style="font-family:var(--f-ui);font-size:.86rem;color:var(--ink-2);margin:0 0 10px">Earlier material kept for reference, outside the main sequence.</p>
     <ol class="chapters">
       <li class="chapter"><div class="num" aria-hidden="true">A</div><div class="body">
-        <h3><a href="book/backup-a-small-model.html">A Model That Read the Book</a></h3>
-        <p class="sub">Fine-tuning a free small LLM on Chapters 1–4</p>
-        <ul><li>A.2 Nine exact tools built from the book</li><li>A.4 Ask a 360M model running in your browser</li><li>A.5 Held-out accuracy, base vs fine-tuned</li></ul>
-        <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">model</a></div>
+        <h3><a href="book/backup-a-virtual-prof.html">Ask the Virtual Prof</a></h3>
+        <p class="sub">A chatbot that answers from Chapters 1–6</p>
+        <ul><li>A.1 Ask a question, get cited passages or an explanation</li><li>A.2 Retrieve, then explain: how it works</li><li>A.3 Inside the knowledge base</li></ul>
+        <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment">models on Hugging Face</a></div>
       </div></li>
     </ol>
   </section>
@@ -202,7 +198,7 @@ A pioneer of multidisciplinary research, he helped establish the XYLOFUTUR compe
           <tr><td><a href="https://github.com/mid2SUPAERO/TOSM">mid2SUPAERO/TOSM</a></td><td><code>FinalResults.xlsx</code>, <code>Materials.xlsx</code>, OptiStruct and Pareto notebooks</td><td>Ch. 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/HybML-EvoMatDesEco">mid2SUPAERO/HybML-EvoMatDesEco</a></td><td>Eco-material database and hybrid VAE + evolutionary design code</td><td>Ch. 2, 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/ashby-vae">mid2SUPAERO/ashby-vae</a></td><td>Ashby-VAE case-study notebooks</td><td>Ch. 2</td></tr>
-          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a></td><td>Fine-tuned SmolLM2 model (Hugging Face Hub)</td><td>Backup A</td></tr>
+          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment">MaterialsandtheEnvironment on Hugging Face</a></td><td>Virtual Prof models and knowledge base; earlier fine-tuned SmolLM2</td><td>Backup A</td></tr>
           <tr><td><a href="https://doi.org/10.1016/j.matdes.2014.05.002">Shah (2014), supplementary tables</a></td><td>Plant fibre, PFRP and fatigue data, as <code>data/nfc.js</code></td><td>Ch. 5</td></tr>
           <tr><td><a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb">ecolizer_vae.ipynb</a></td><td>Digitised Ecolizer 2.0 tables and the masked VAE</td><td>Ch. 3</td></tr>
         </tbody>

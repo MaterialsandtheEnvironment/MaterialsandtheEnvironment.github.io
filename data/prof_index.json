@@ -1,0 +1,2182 @@
+{
+"version": 1,
+"docs": [
+{
+"id": "1.0.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "How a log–log chart turns a mechanics derivation into a straight line, what to do when one line is not enough, and how the same mathematics carries an eco-cost axis. Every engineering component is a compromise between what a material can do and what it costs us: in mass, in money and, increasingly, in damage to the environment. Michael Ashby's contribution was to make that compromise visible. Plot two properties of every candidate material on logarithmic axes, and the best choice for a given job sits on one side of a straight line whose slope comes from mechanics. This chapter rebuilds that method from first principles, extends it to several objectives through a value function, and swaps price for an eco-cost to obtain the eco-Ashby chart. It ends where two-dimensional charts run out of room, which is where Chapter 2 begins."
+},
+{
+"id": "1.1.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "1",
+"secTitle": "Ashby's method, as code",
+"url": "book/ch1-ashby-maps.html#method",
+"figs": [],
+"text": "Take a flat panel of fixed length $L$ and width $b$, loaded in bending. It must not deflect more than a set amount, so its bending stiffness $S$ is fixed. Its thickness $t$ is free. We want the lightest panel. Eliminate the free variable $t$ using the stiffness constraint, and the mass becomes Every term except the last is set by the design. The material enters only through $\\rho/E^{1/3}$, so the lightest panel is the one that maximises the material index $M = E^{1/3}/\\rho$. Take logarithms of any index of the form $M = E^{a}/\\rho$ : On log–log axes, all materials with the same $M$ lie on a straight line of slope $1/a$. Sliding that line upward raises $M$ ; the materials that remain above it are the better choices. The mechanics sets the slope, and the chart does the ranking. Loading case a Index M Guideline slope Tie, axial, stiffness-limited 1 $E/\\rho$ 1 Beam or shaft, bending/torsion, stiffness-limited 1/2 $E^{1/2}/\\rho$ 2 Panel, bending, stiffness-limited 1/3 $E^{1/3}/\\rho$ 3"
+},
+{
+"id": "1.1.1",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "1",
+"secTitle": "Ashby's method, as code",
+"url": "book/ch1-ashby-maps.html#method",
+"figs": [
+"1.1"
+],
+"text": "Figure 1.1 A live Ashby chart. Choose a property pair and a loading case, then drag the ochre guideline up or down. Materials below the line fade out; the material with the highest index is starred. The 22 materials and their densities and moduli are the CES/Granta set used throughout the book. Strengths and prices are approximate handbook values added for teaching."
+},
+{
+"id": "1.2.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "2",
+"secTitle": "Why one index is rarely enough",
+"url": "book/ch1-ashby-maps.html#one-index",
+"figs": [],
+"text": "A single index answers a single question: the lightest panel, the cheapest tie, the stiffest beam per unit mass. Real components ask several at once. An aircraft panel must be light and affordable; a car door must be stiff, cheap and recyclable. Each requirement has its own index, and the indices disagree. Beryllium makes a superb light panel and a ruinous cheap one. When objectives conflict there is no single best material, only a set of best compromises. Finding that set, and then choosing a point on it, is the subject of the next two sections."
+},
+{
+"id": "1.3.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "3",
+"secTitle": "Trade-off surfaces and the Pareto set",
+"url": "book/ch1-ashby-maps.html#pareto",
+"figs": [],
+"text": "Plot each candidate by two performance metrics that we want to minimise, say a mass index $P_1$ and a cost index $P_2$. A candidate is dominated when another candidate is better on both metrics at once. Dominated candidates can be discarded without knowing how much we value mass against money. What remains is the non-dominated set, the Pareto front or, in Ashby's vocabulary, the trade-off surface. Moving along it, every gain on one metric costs something on the other. The front tells us which materials are worth arguing about. It does not tell us which one to pick."
+},
+{
+"id": "1.4.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "4",
+"secTitle": "Value functions and exchange constants",
+"url": "book/ch1-ashby-maps.html#value",
+"figs": [],
+"text": "To pick a single point we need a price for each property. The value function adds the penalised properties with weights: The exchange constant $\\alpha_i$ is what one unit of property $P_i$ is worth. If $P_2$ is a cost, then $\\alpha_2 = 1$ and $\\alpha_1$ is the money we would pay to save one kilogram. The lowest $V$ wins. Geometrically, lines of constant $V$ are straight on linear axes and curved on log axes; the optimum is where the lowest such contour touches the trade-off surface. Sector Exchange constant α₁ (£ per kg saved) Family car (mass and fuel) ≈ 1 Civil aircraft 100 – 500 Space vehicle 3 000 – 10 000 The spread is four orders of magnitude. The same material data, valued by a car maker and by a satellite builder, lead to different materials."
+},
+{
+"id": "1.5.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "5",
+"secTitle": "Worked application: co-minimising mass and cost",
+"url": "book/ch1-ashby-maps.html#worked",
+"figs": [
+"1.2"
+],
+"text": "Return to the stiffness-limited panel. Its mass index is $P_1 = \\rho/E^{1/3}$ and its material cost index is $P_2 = C_m P_1$, with $C_m$ the price per kilogram. The value function is $V = \\alpha_1 P_1 + P_2$. The six candidates are those of Ashby's own example. Figure 1.2 Choosing along the trade-off surface. Top: mass index against cost index on log axes. Hollow markers are dominated; the dashed curve is the constant- V contour through the current winner. Bottom: the winner across the full range of exchange constants. It changes only at a few discrete crossover points. At $\\alpha_1$ = £0.5/kg, a value typical of commodity products, nodular cast iron wins with $V = 0.98$ : cheap, stiff enough, and heavy enough not to matter. At $\\alpha_1$ = £500/kg, the value of mass in aerospace, beryllium wins with $V = 205$ despite costing a thousand times more per kilogram. These figures match Ashby's published table to rounding."
+},
+{
+"id": "1.5.1",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "5",
+"secTitle": "Worked application: co-minimising mass and cost",
+"url": "book/ch1-ashby-maps.html#worked",
+"figs": [],
+"text": "Between the two extremes the winner changes only three times: from cast iron to the aluminium alloy near £0.55/kg, to the aluminium–SiC composite in a narrow window around £140–170/kg, and to beryllium beyond that. Each crossover is an exchange constant at which two materials have equal value. Knowing those crossovers is often more useful than knowing the winner at a single guessed constant."
+},
+{
+"id": "1.6.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "6",
+"secTitle": "Eco-costs and the eco-Ashby chart",
+"url": "book/ch1-ashby-maps.html#eco",
+"figs": [],
+"text": "Price is one axis among many. The eco-cost method assigns an environmental burden a monetary value: the marginal cost of preventing that burden so that it stays within what the Earth can carry. For greenhouse gases the prevention cost is of the order of €0.13–0.15 per kilogram of CO₂-equivalent. Unlike a classical life-cycle assessment, which reports a dozen impact categories in different units, eco-costs reduce to one number in euros, and that number can go on an Ashby axis. Eco-costs are tabulated per kilogram. A component is sized by volume, so multiply by density: The same derivations as in Section 1 now give eco-material indices, to be minimised: At product level the companion measure is the eco-efficient value ratio, $\\text{EVR} = \\text{eco-costs}/\\text{value}$ : the environmental cost per euro a customer is willing to pay."
+},
+{
+"id": "1.6.1",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "6",
+"secTitle": "Eco-costs and the eco-Ashby chart",
+"url": "book/ch1-ashby-maps.html#eco",
+"figs": [
+"1.3"
+],
+"text": "Figure 1.3 An eco-Ashby chart. Eco-cost per cubic metre against modulus (guideline slope 1/2) or yield strength (slope 2/3). The best materials sit to the lower right; drag the guideline to filter. Right: the six materials ranked by the selected eco-index. All values are illustrative order-of-magnitude teaching figures, not Idemat or CES data. Wood and concrete lead both rankings, because their eco-cost per kilogram is tiny and their density moderate. Aluminium, PET and GFRP trail by one to two orders of magnitude. This is the eco-Ashby chart's main lesson: per unit of function, the ordering of materials can differ completely from the ordering per kilogram."
+},
+{
+"id": "1.7.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "7",
+"secTitle": "Preliminary conclusion",
+"url": "book/ch1-ashby-maps.html#conclusion",
+"figs": [],
+"text": "Three tools, one lineage: Charts reduce a mechanics derivation to a slope on log axes, but they show one index and two properties at a time. Value functions combine any number of objectives into one score, at the price of the picture. Eco-Ashby charts keep the mathematics and replace price with a defined environmental prevention cost. All three still need a person to choose the axes. When a decision hinges on three or more properties, the chart runs out of dimensions. Chapter 2 replaces the chart with a learned, continuous map and turns selection into a search."
+},
+{
+"id": "1.A.0",
+"kind": "text",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch1-ashby-maps.html",
+"figs": [
+"1.1",
+"1.3"
+],
+"text": "Contributions Joseph Morlier proposed the extension and supplied the source notebooks ( ashby_method_step_by_step.ipynb, eco_costs_and_ashby_charts.ipynb ) and LaTeX notes. The original interactive widget and eco-cost derivations were drafted with Claude; this book chapter was rewritten and re-implemented as interactive D3 figures for the Materials & the Environment site. Data Densities and moduli of the 22 materials: CES/Granta, as tabulated in Chapter 2. Strengths and prices in Figure 1.1 are approximate mid-range handbook values. The six-material worked example follows Ashby (2000). Eco-cost values in Figure 1.3 are illustrative teaching values."
+},
+{
+"id": "2.0.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch2-latent-maps.html",
+"figs": [],
+"text": "Train a small variational autoencoder on 22 materials, and material selection becomes a walk uphill through a continuous, learned map. Any performance index, one network."
+},
+{
+"id": "2.1.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "1",
+"secTitle": "From charts to a learned space",
+"url": "book/ch2-latent-maps.html#from-charts",
+"figs": [],
+"text": "Chapter 1 ended at a wall. An Ashby chart has two axes; a value function has as many objectives as we like but no picture; an eco-Ashby chart changes the axes but not their number. Each still asks a person to decide which properties to plot. Once a choice depends on three or more properties at once, reading charts becomes guesswork. This chapter takes a different route. A variational autoencoder (VAE) compresses each material's properties into a point in a low-dimensional latent space and learns to decode any point of that space back into properties. The decoder is smooth and differentiable, so a performance index computed on its output can be maximised by gradient ascent. The chart is replaced by a search, and the same trained network answers any index built from its inputs."
+},
+{
+"id": "2.2.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "2",
+"secTitle": "Method",
+"url": "book/ch2-latent-maps.html#method",
+"figs": [],
+"text": "Dataset: Twenty-two materials from the CES/Granta database, spanning seven families: composites, elastomers, foams, metals and alloys, polymers, natural materials and technical ceramics. Each entry has a Young's modulus $E$ and a density $\\rho$. Properties span many decades, so each is log-transformed and min–max normalised to $[0,1]$ : A variational autoencoder for material properties: The encoder maps the two normalised properties through one fully connected layer of 250 ReLU units to the mean $\\mu$ and log-variance of a two-dimensional Gaussian. A latent code is sampled with the reparameterisation trick, $z = \\mu + \\sigma \\odot \\varepsilon$, and the decoder, a mirror image of the encoder with a sigmoid output, maps it back to properties. Training minimises the negative evidence lower bound: The small $\\beta$, found by grid search, lets the network reconstruct accurately while keeping the latent space continuous. Training runs for 10 000 Adam iterations at a learning rate of $2\\times10^{-3}$."
+},
+{
+"id": "2.2.1",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "2",
+"secTitle": "Method",
+"url": "book/ch2-latent-maps.html#method",
+"figs": [
+"2.1"
+],
+"text": "Figure 2.1 The network and its training. Left: two log-normalised properties pass through a 250-unit encoder to a two-dimensional Gaussian latent code, and back out through a 250-unit decoder. Right: training loss for the network used on this page. Even with β this small, the weighted KL term settles above the reconstruction error by the end of training: the network spreads the 22 codes widely and keeps the plane smooth between them. The network on this page was re-trained in the browser-friendly form of the published recipe, so its numbers differ slightly from the original notebook. Across the 22 materials, the encode–decode round trip reproduces $E$ with a mean error of — and $\\rho$ with —. The original study reported 5.5% and 2.8% (worst cases 17.4% and 8.4%). Both sets of errors are measured on the training materials; with 22 points, a held-out split would say little. A continuous, differentiable material space:"
+},
+{
+"id": "2.2.2",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "2",
+"secTitle": "Method",
+"url": "book/ch2-latent-maps.html#method",
+"figs": [],
+"text": "No family labels were given to the network, yet materials of the same family land next to each other in the latent plane. More importantly, every point of the plane, including the empty space between materials, decodes to a pair $(E, \\rho)$. The material space has become a continuous field. Optimising the index in latent space: For an index $M(E,\\rho) = E^{a}/\\rho$, we minimise with Adam (step 0.05, up to 600 iterations) from 35 starting points on a grid over the latent plane, clamping codes to the observed range. The first penalty, $\\lambda = 10^{-3}$, is the one of the original study. The second is added here to keep the walk near real materials, in the spirit of the vacant-space constraint of Yepes Llorente et al. Set $\\mu = 0$ in the figure below to see why it is needed. The answer reported is the training material nearest to the best final code."
+},
+{
+"id": "2.2.3",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "2",
+"secTitle": "Method",
+"url": "book/ch2-latent-maps.html#method",
+"figs": [
+"2.2"
+],
+"text": "Figure 2.2 Selecting a material by walking through latent space. Left: the 22 materials at their encoded positions, over a background decoded at every point of the plane. Click anywhere to start a gradient walk from there, or run the full multi-start search. Right: the same walk decoded onto a classical stiffness–density chart, with the guideline of the chosen index through the optimum. The walk runs live in your browser on the trained decoder."
+},
+{
+"id": "2.3.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "3",
+"secTitle": "Two baseline cases, checked against the exact chart",
+"url": "book/ch2-latent-maps.html#baseline",
+"figs": [
+"2.2"
+],
+"text": "Bar, stiffness-limited: For a tie, $M = E/\\rho$. With the defaults of Figure 2.2, the multi-start search converges into the technical-ceramics corner of the latent plane, and the nearest real material is silicon carbide, which is also the exact winner on the chart. In the original study, with a slightly different network and no proximity penalty, the optimum decoded to $\\rho \\approx 2\\,704$ kg/m³ and $E \\approx 313$ GPa, nearest to silicon nitride, which the classical chart ranks a close second. Beam and panel, deflection-limited: For a panel, $M = E^{1/3}/\\rho$, the search walks into the natural-materials region and returns softwood pine, again matching the exact ranking. The beam index $E^{1/2}/\\rho$ is the delicate case. On this 22-material set silicon carbide beats pine by under 10%, and the in-browser search returns silicon carbide, the exact winner. The original study, with a different network, landed nearest to pine. When two candidates are that close, the latent search and the chart should both be read as a short list, not a verdict."
+},
+{
+"id": "2.3.1",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "3",
+"secTitle": "Two baseline cases, checked against the exact chart",
+"url": "book/ch2-latent-maps.html#baseline",
+"figs": [],
+"text": "Drag the μ slider to zero and run the multi-start search again. The walks now leave the data. For the bar, the best walk ends at about 260 GPa and 1 540 kg/m³: five times stiffer than CFRP at the same density, a material that does not exist. Its nearest real neighbour is CFRP, so the reported answer changes too, and the readout flags the optimum as an extrapolation. The decoder is defined everywhere, but it is only trustworthy where it has seen data."
+},
+{
+"id": "2.4.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "4",
+"secTitle": "Beyond two properties",
+"url": "book/ch2-latent-maps.html#beyond",
+"figs": [
+"2.2"
+],
+"text": "The method's value appears when the index involves more properties than a chart can show. The study extended the VAE to the cases of the Ansys/Granta Performance Indices booklet, adding yield strength, shear modulus, thermal conductivity, expansion coefficient and cost as inputs, and compared the material nearest the latent optimum with the exact winner. (The source text speaks of thirteen extended cases with eleven matches, while its table lists sixteen rows, fourteen of them matching. The table is reproduced here as published; the counts should be checked against the case-study notebooks.) Case Index Exact-Ashby winner VAE match Where the method needs care: Thermal shock, with four properties $(E, \\sigma_y, \\alpha, k)$, is the genuine failure. Data are scarce for that combination and the decoder extrapolates away from real materials, as in Figure 2.2 with μ at zero. Earlier runs with a fixed two-dimensional latent space produced unphysical extrapolations for three-property cases too. Setting the latent dimension equal to the number of properties fixed those cases."
+},
+{
+"id": "2.5.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "5",
+"secTitle": "Final conclusion",
+"url": "book/ch2-latent-maps.html#conclusion",
+"figs": [],
+"text": "Read the two chapters together as a lineage in four stages, each lifting a limit of the one before: The two-dimensional chart : one index, two properties, ranking by eye. The value function : many objectives, one score, no picture. The eco-Ashby chart : the same geometry with an environmental price on an axis. The latent space : any index over all the properties the network has seen, solved by search. The next natural experiment is to put eco-indicators into the same latent space, which is exactly what Chapter 3 does with the Ecolizer database. Every index, learned or charted, still encodes one question and one failure mode. The network does not remove the need to choose that question well. Table 2.1 · The 22-material dataset: Family Material ρ (kg/m³) E (GPa) E decoded ρ decoded"
+},
+{
+"id": "2.A.0",
+"kind": "text",
+"ch": 2,
+"chTitle": "Ashby's Maps, Renewed",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch2-latent-maps.html",
+"figs": [],
+"text": "Contributions Joseph Morlier posed the extension, supervised the study and supplied the extended 13-case notebooks. Almudena Cobo-Urios and Álvaro Silva-Vilela-Caridade developed the VAE methodology, the dataset preparation and the latent-space optimisation for the bar and beam cases. The narrative synthesis was drafted with Claude; the in-browser network, proximity penalty and interactive figures were built for this book. Limitations Reconstruction errors are training-set errors. The thermal-shock case does not reliably reproduce the exact ranking. The network on this page is a re-implementation and will not reproduce the original notebook's numbers digit for digit."
+},
+{
+"id": "3.0.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch3-ecolizer.html",
+"figs": [],
+"text": "A booklet of eco-indicators becomes a dataset, an eco-Ashby chart and finally a continuous map. Then we ask what that map cannot do. The Ecolizer 2.0 is a pocket booklet published by OVAM, the Flemish public waste agency. On a few dozen sheets it gives designers one number per material, process or energy carrier: an eco-indicator. This chapter digitises that booklet, applies the Ashby machinery of Chapter 1 to it, and trains the kind of latent map built in Chapter 2, this time on environmental data with holes in it."
+},
+{
+"id": "3.1.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "1",
+"secTitle": "What is an eco-indicator?",
+"url": "book/ch3-ecolizer.html#indicator",
+"figs": [],
+"text": "Each entry is a single life-cycle score in millipoints (mPt), computed with the ReCiPe method. ReCiPe first characterises emissions and resource use into 19 midpoint categories, such as climate change, acidification and land use, then aggregates them into three damage areas (human health, ecosystems and resources), and finally weights them into one score. One point is a fraction of the yearly environmental load of an average European. The booklet warns that scores carry real uncertainty and that only relative comparisons are meaningful. For materials the Ecolizer lists a production indicator per kilogram, a recycling indicator, a waste-treatment indicator and indicators for processing steps. Energy is listed per kWh or MJ and transport per tonne-kilometre. The digitised set covers 64 sheets: 193 materials in 14 families, 294 processes and 61 energy and transport entries."
+},
+{
+"id": "3.1.1",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "1",
+"secTitle": "What is an eco-indicator?",
+"url": "book/ch3-ecolizer.html#indicator",
+"figs": [
+"3.1"
+],
+"text": "Figure 3.1 Production impact by family. Each bar spans the lowest and highest production indicator in the family, in millipoints per kilogram, on a log scale; the dot marks the median. The right-hand column counts the entries that also have a density and modulus, the ones usable in eco-Ashby charts. Production impact covers about ten orders of magnitude, from 0.001 mPt/kg for some chemicals to 9.6 million for rhodium. Two patterns stand out. First, production nearly always dominates end-of-life: recycling credits and waste treatment move the total by much less than the choice of material does. Second, the route matters as much as the material. Primary aluminium scores 1 045 mPt/kg; secondary aluminium from new scrap scores 45 mPt/kg, more than twenty times less."
+},
+{
+"id": "3.2.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "2",
+"secTitle": "From impact per kilogram to impact per function",
+"url": "book/ch3-ecolizer.html#function",
+"figs": [
+"3.1",
+"3.2"
+],
+"text": "Per-kilogram scores mislead, because nobody buys a kilogram of material: they buy stiffness, strength or volume. Following Chapter 1, multiply by density and divide by the property that sizes the part: Minimising $I_a$ gives the material with the lowest production impact for a required stiffness. Density and modulus are not in the Ecolizer, so approximate handbook values were added for 118 of the 193 materials. Figure 3.2 Eco-index by family, per unit of stiffness. Each family is represented by its median production indicator from Figure 3.1 and a representative handbook density and modulus (listed in the tooltip). This is a family-level sketch of the material-level ranking in the source notebook; it reproduces its main result. Minerals and cement, which include limestone and concrete, win for all three loading cases."
+},
+{
+"id": "3.2.1",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "2",
+"secTitle": "From impact per kilogram to impact per function",
+"url": "book/ch3-ecolizer.html#function",
+"figs": [],
+"text": "In the full material-level analysis, limestone and concrete win all three loading cases, followed by brick. The index has blind spots, which matter more here than in Chapter 1. It ignores mass-critical use phases, so a heavy concrete part that has to be moved around loses its advantage at once. It ignores durability and service life. And for many products the use phase, not production, dominates total impact. When energy dominates: The Ecolizer lists electricity by country, and the spread is wide: low-voltage electricity scores 3 mPt/kWh in Switzerland and 113 mPt/kWh in Greece, a factor of 38. For anything that consumes power in use, the grid can outweigh every material decision."
+},
+{
+"id": "3.2.2",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "2",
+"secTitle": "From impact per kilogram to impact per function",
+"url": "book/ch3-ecolizer.html#function",
+"figs": [
+"3.3"
+],
+"text": "Figure 3.3 Production route against electricity mix. A product made of an aluminium part that uses electricity over its life. Production uses the Ecolizer indicators for primary (1 045 mPt/kg) and secondary (45 mPt/kg) aluminium; use uses Swiss (3 mPt/kWh) and Greek (113 mPt/kWh) low-voltage electricity. Move the sliders to find where the grid starts to outweigh the material."
+},
+{
+"id": "3.3.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "3",
+"secTitle": "Why a map?",
+"url": "book/ch3-ecolizer.html#why-map",
+"figs": [],
+"text": "A chart shows two properties. The Ecolizer gives three eco-indicators per material, and with density and modulus we have five numbers, many of them missing. Seventy-five of the 193 materials lack density and modulus altogether; recycled plastics and chemicals have none. A method that needs complete rows would throw away a third of the booklet. A variational autoencoder can learn from incomplete rows if the loss only counts the values that exist. That gives a single continuous map on which every material, complete or not, has a place."
+},
+{
+"id": "3.4.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "4",
+"secTitle": "The model",
+"url": "book/ch3-ecolizer.html#model",
+"figs": [],
+"text": "Each material is described by five standardised inputs: log production, log waste treatment, recycling gain, log density and log modulus. Next to the values sits a 0/1 mask that says which are known. The encoder sees both; during training a random share of known values is also hidden, so the network learns to fill gaps. The loss is a masked reconstruction error plus a weighted KL term: The encoder and decoder are small dense networks with tanh activations around a two-dimensional code. The KL weight is ramped up over the first 30% of training ( KL annealing ) to stop the codes collapsing early. Five models were trained with $\\beta$ between 0.05 and 2; $\\beta = 0.5$ is the default. At $\\beta = 0.05$ the model memorises; at $\\beta = 2$ it blurs everything together."
+},
+{
+"id": "3.4.1",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "4",
+"secTitle": "The model",
+"url": "book/ch3-ecolizer.html#model",
+"figs": [
+"3.4"
+],
+"text": "Figure 3.4 Masked inputs. Three materials as the encoder sees them. Filled cells are known, hatched cells are missing (mask = 0) and do not count in the loss. Hover a row to see what the decoder must supply."
+},
+{
+"id": "3.5.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "5",
+"secTitle": "The latent map",
+"url": "book/ch3-ecolizer.html#latent",
+"figs": [],
+"text": "Each material is placed at its encoder mean. Without being told the family, the map groups them: a leave-one-out three-nearest-neighbour check on the latent coordinates recovers the family 76% of the time, against 16% for always guessing the largest family. Coloured by any decoded property or eco-index, the background becomes a continuous field. Materials without density and modulus were left out of training on those inputs but can still be placed on the map through their eco-indicators. The interactive latent map, decoder sliders and β comparison of the original article run on the full 193-material dataset and are available in the source article and its notebook."
+},
+{
+"id": "3.6.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "6",
+"secTitle": "Walking downhill",
+"url": "book/ch3-ecolizer.html#downhill",
+"figs": [],
+"text": "As in Chapter 2, the decoder is differentiable, so we can run gradient descent in latent space to minimise the log eco-index, with a penalty that keeps codes near the origin. For the beam index, every starting point converges to the same profile: about 6 mPt/kg production impact, a density of about 2 300 kg/m³ and a modulus of about 25 GPa. That is concrete or natural stone, and limestone is the nearest real entry. The walk is right about the index and silent about everything the index ignores. A stone beam is a poor answer for most products. The value of the walk is that it makes the index's preference explicit and lets us check it against the data."
+},
+{
+"id": "3.7.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "7",
+"secTitle": "What the map cannot do",
+"url": "book/ch3-ecolizer.html#limits",
+"figs": [
+"3.5"
+],
+"text": "A fair test is imputation: hide 25% of the known densities and moduli, ask the model to fill them in, and compare with simple rules. Errors are root-mean-square, in decades (log₁₀ units). Figure 3.5 Imputation error. The VAE beats the global mean by 15–25%, but a rule it was never given, the mean of the same family, does better still. Lower is better. Low training error reflects memorisation, not prediction. The map is a way to see and interpolate the booklet, not an oracle: any synthesised \"material\" found by a walk must be checked against real data. The booklet's own uncertainty and the approximate densities and moduli add to that limit."
+},
+{
+"id": "3.8.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "8",
+"secTitle": "For the ecodesign course",
+"url": "book/ch3-ecolizer.html#course",
+"figs": [
+"3.2",
+"3.3"
+],
+"text": "ReCiPe weights three damage areas into one score. Which weighting choices could change the ranking in Figure 3.2? At what lifetime electricity use does a Greek grid outweigh the switch from primary to secondary aluminium for a 2 kg part? Use Figure 3.3. The recycling indicator is a credit. Should it be counted at production, at end of life, or split between them? Run the gradient walk of Chapter 2 with the proximity weight μ set to 0. Where does it go, and why? Add yield strength to the inputs. Which index becomes possible, and which materials would you expect to win?"
+},
+{
+"id": "3.A.0",
+"kind": "text",
+"ch": 3,
+"chTitle": "Mapping the Ecolizer",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch3-ecolizer.html",
+"figs": [
+"3.1",
+"3.2",
+"3.5"
+],
+"text": "Data and code The companion notebook ecolizer_vae.ipynb reproduces all numbers of the source article. Its repository contains ecolizer_materials.csv (193 materials), ecolizer_processes.csv (294 processes), ecolizer_energy_transport.csv (61 entries) and the PDF-parsing scripts. Worked-example checks against the booklet pass. The family statistics in Figure 3.1 and the imputation results in Figure 3.5 are those of the source article; Figure 3.2 uses representative family values, as stated in its caption. Licence of the source data The Ecolizer 2.0 is © OVAM. It is intended for internal ecodesign use, not for marketing claims; figures are reproduced here for teaching. Authorship The source article does not name its authors. It was published by the mid2SUPAERO group as the third part of the series; this chapter was rewritten for the book."
+},
+{
+"id": "4.0.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch4-tosm.html",
+"figs": [],
+"text": "Which bracket, in which metal, for the least carbon? 379 crowd-designed jet-engine brackets, four aerospace alloys, 1 516 finite-element runs and their footprints."
+},
+{
+"id": "4.1.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "1",
+"secTitle": "Which bracket, in which metal, for the least carbon?",
+"url": "book/ch4-tosm.html#question",
+"figs": [],
+"text": "The first three chapters chose a material for a fixed shape class: a tie, a beam, a panel. Real parts are shaped and specified together. Topology optimisation changes the shape, and the material changes what the shape must do. The TOSM benchmark (Topology Optimisation & Sustainable Metals) puts numbers on that coupling. It takes a large set of independently designed parts, simulates each one in several alloys, and attaches production and lifetime footprints to every result. Every figure in this chapter is computed in your browser from the benchmark's own result files: 379 brackets × 4 alloys = 1 516 runs."
+},
+{
+"id": "4.2.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "2",
+"secTitle": "The brackets",
+"url": "book/ch4-tosm.html#brackets",
+"figs": [],
+"text": "In 2013 GE ran an open challenge to design the lightest possible jet-engine bracket. Every entry had the same four bolt holes and the same interface point, and had to keep its peak stress below the yield stress of Ti-6Al-4V under four load cases: vertical, diagonal, horizontal and torsional. The SimJEB dataset collects 381 of those designs with clean meshes and finite-element models. Of these, 379 run cleanly in every alloy and form the benchmark. Their shapes range from chunky blocks to lattice-like organic forms; the source article includes a 3-D gallery of them. The SimJEB decks are Altair OptiStruct models. A notebook ( OptistructAuto ) rewrites the material card of each deck for each alloy and runs linear static solves. Each run records the bracket's mass, its peak displacement and its peak von Mises stress over the four load cases."
+},
+{
+"id": "4.3.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "3",
+"secTitle": "Four alloys and their footprints",
+"url": "book/ch4-tosm.html#alloys",
+"figs": [
+"4.1"
+],
+"text": "The alloys and their per-kilogram production footprints come from the eco-design database of Yepes Llorente and Morlier. Alloy ρ (kg/m³) E (GPa) σy (MPa) CO₂ (kg/kg) Energy (MJ/kg) Water (L/kg) Cost ($/kg) For carbon, the benchmark adds a use phase. A kilogram carried on an aircraft for its whole service life burns fuel, and Duriez et al. estimate that at 98.8 tonnes of CO₂ per kilogram of structure. Titanium's production footprint is 19.7 kg CO₂/kg, or 0.0197 t/kg: the use phase outweighs it by a factor of about 5 000. Minimising lifetime CO₂ is, to within a rounding error, minimising mass. Figure 4.1 Production against use phase. Lifetime CO₂ of the median-mass bracket in each alloy, split into production and use. Slide the factor to zero to see production on its own."
+},
+{
+"id": "4.4.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "4",
+"secTitle": "What changes when you swap the alloy",
+"url": "book/ch4-tosm.html#swap",
+"figs": [
+"4.2"
+],
+"text": "The geometry is fixed and the analysis is linear, so swapping alloys changes outputs in predictable ways. Mass scales with density. Displacement scales roughly with $1/E$. Peak stress hardly moves: with prescribed loads and one homogeneous material, linear elastic stresses do not depend on the modulus at all, and only weakly on Poisson's ratio. That is the source of the 1–3% shifts. Figure 4.2 Change relative to titanium. Median over the 379 brackets of each output's change when the same bracket is made in another alloy. Aluminium is about 37% lighter and cheaper in carbon, but deflects 56% more. Stainless steel and beryllium copper are nearly twice as heavy."
+},
+{
+"id": "4.5.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "5",
+"secTitle": "Most designs are over-stressed",
+"url": "book/ch4-tosm.html#overstressed",
+"figs": [
+"4.3"
+],
+"text": "A design is admissible when its peak stress stays below the yield stress divided by a safety factor, $\\sigma \\le \\sigma_y/\\text{SF}$. Because stress depends on geometry and not on alloy, the alloy choice decides admissibility through $\\sigma_y$ alone. Figure 4.3 Utilisation by alloy. Cumulative share of brackets whose peak stress is below a given fraction of yield, σ/σy. The vertical line is the admissibility limit 1/SF ; curves left of it count as passing."
+},
+{
+"id": "4.5.1",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "5",
+"secTitle": "Most designs are over-stressed",
+"url": "book/ch4-tosm.html#overstressed",
+"figs": [],
+"text": "Even in titanium, the alloy the challenge was set for, the median bracket peaks at about 1.6 times its yield stress. At SF = 1.25 only 22 of the 1 516 runs pass, 21 of them in titanium. No aluminium bracket passes at any safety factor. Part of this is the solver: peak von Mises stress at sharp re-entrant corners is mesh-dependent, and with SimJEB's own stress values 74 titanium brackets would pass instead of 21. The rest is material: every alloy here has a far lower yield stress than titanium, while the shapes were drawn for titanium."
+},
+{
+"id": "4.6.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "6",
+"secTitle": "Finding the trade-off",
+"url": "book/ch4-tosm.html#tradeoff",
+"figs": [
+"4.4"
+],
+"text": "The benchmark poses a multi-objective problem: minimise peak stress, lifetime CO₂, energy and water, subject to the stress constraint. The original notebooks solve it with NSGA-II through pymoo. With 1 516 discrete candidates there is no need for a genetic algorithm: the exact Pareto front can be found by enumeration, which the figure below does live. Figure 4.4 Pareto explorer. Every bracket–alloy run, with admissible runs in colour and the exact non-dominated front connected. Hover a point for its bracket number; click it to link the same bracket across all four alloys. Switch the constraint to the notebook's version to reproduce the original optimiser's result. On the stress–CO₂ plane at SF = 1.25, the front holds five titanium brackets. Bracket 120 is the lightest admissible design, at 65.9 t of lifetime CO₂ and 666 MPa. Bracket 271 trades 32 t more CO₂ for a peak stress of 404 MPa, and bracket 180 buys only 5 MPa more margin for another 45 t."
+},
+{
+"id": "4.7.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "7",
+"secTitle": "A note on the constraint sign",
+"url": "book/ch4-tosm.html#sign",
+"figs": [
+"4.4"
+],
+"text": "pymoo treats a constraint $g(x) \\le 0$ as satisfied. The notebook codes the stress constraint as which is non-positive exactly when $\\sigma \\ge \\sigma_y/\\text{SF}$, the opposite of the intent. The optimiser therefore searched only among over-stressed designs. Its saved result, ParetoFrontResults.xlsx, lists fourteen Al-2024 designs stressed between 2.4 and 57 times their yield limit, and re-running the notebook's setup (population 100, 500 generations, seed 1) reproduces them. Choose “Notebook (inverted)” in Figure 4.4: the exact enumeration over the inverted feasible set returns the same fourteen Al-2024 brackets, from bracket 180 at 2.4 times yield to bracket 373 at 57 times. The fix is one line: G = stress - yield_stress / safety_factor With the sign corrected, the front moves to titanium."
+},
+{
+"id": "4.8.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "8",
+"secTitle": "Three objectives at once",
+"url": "book/ch4-tosm.html#three",
+"figs": [
+"4.4"
+],
+"text": "Stress, CO₂ and displacement pull in three directions. Aluminium wins on CO₂ and loses on displacement; steel wins on displacement and loses on CO₂; titanium sits between them and is the only alloy that is admissible in practice. Pick displacement and CO₂ as the axes in Figure 4.4 and lower the safety factor to 1 to see the alloys separate into bands. The source article shows the three-objective fronts as rotatable 3-D plots."
+},
+{
+"id": "4.9.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "9",
+"secTitle": "Where this goes next",
+"url": "book/ch4-tosm.html#next",
+"figs": [],
+"text": "Stress measures that are insensitive to singularities, such as p-norm aggregates or stress at a distance from corners, so admissibility does not depend on the mesh. Continuous design variables : let topology optimisation reshape each bracket for each alloy, instead of re-using titanium shapes. Surrogate models trained on the 1 516 runs, to predict stress and mass for new shapes and alloys without a finite-element solve. A single environmental score, such as eco-costs or ReCiPe points from Chapters 1 and 3, in place of three separate footprints. More alloys, including recycled aluminium and additively manufactured titanium, whose footprints differ strongly by route."
+},
+{
+"id": "4.A.0",
+"kind": "text",
+"ch": 4,
+"chTitle": "Brackets, Metals and Carbon",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch4-tosm.html",
+"figs": [],
+"text": "Reproducing these figures All figures read FinalResults.xlsx (1 516 runs) and Materials.xlsx from the TOSM repository, converted to data/tosm.js in this site. Lifetime CO₂, energy, water and cost are recomputed from mass and the per-kilogram values; they match the repository's columns to machine precision. Bracket models and renderings are from the SimJEB repository (MIT licence)."
+},
+{
+"id": "5.0.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch5-natural-fibres.html",
+"figs": [],
+"text": "Flax, hemp and jute in a plastic matrix: how stiff, how strong, how light, how cheap and how green? Ashby charts for 12 fibres and 35 plant fibre composites, with the reinforcement form as the deciding parameter."
+},
+{
+"id": "5.1.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "1",
+"secTitle": "Why plant fibres need selection charts",
+"url": "book/ch5-natural-fibres.html#why",
+"figs": [],
+"text": "Plant fibre reinforced plastics (PFRPs) replace the glass in a glass fibre composite with a fibre that grows. They are renewable, light and usually cheap, and two decades of research have shown respectable mechanical properties. Yet outside car interiors, decking and some consumer goods they are rarely used. Shah argues that one overlooked reason is simple: engineers select materials from databases and charts, and PFRPs are mostly missing from them. His paper fills that gap with Ashby-type charts built from a literature survey: 12 fibres, and composites spanning four reinforcement forms, thermoplastic and thermoset matrices and six manufacturing routes. This chapter redraws those charts live from the paper's four supplementary tables, so you can switch between absolute, specific, per-cost and per-energy properties, rank the composites against a performance index, and place them among the materials of Chapter 1."
+},
+{
+"id": "5.2.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "2",
+"secTitle": "The fibres",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [
+"5.1"
+],
+"text": "Plant fibres are grouped by where they come from in the plant. Bast fibres (flax, hemp, jute) are the stem's load-bearing tissue: highly crystalline cellulose with microfibrils nearly parallel to the fibre axis. Leaf fibres (sisal, pineapple, banana) are strong but less stiff. Seed fibres (cotton, coir, oil palm) have no structural role in the plant, low crystallinity and steep microfibril angles, and are weak and compliant. The groups stay together on every chart. Figure 5.1 Plant fibres against E-glass. Tensile strength against tensile modulus (log scales). Each balloon spans the property range reported for one fibre; switch the basis to divide by density, by cost per kg × density, or by embodied energy per kg × density. Data: Shah (2014), Supplementary Table 1."
+},
+{
+"id": "5.2.1",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "2",
+"secTitle": "The fibres",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "In absolute terms E-glass is in another league. Per unit density the gap closes: glass is 2.55 g/cm³, plant fibres about 1.3–1.6, so flax and hemp approach glass in specific stiffness. Per unit cost, jute and wood pulp beat everything, and cotton is the clear under-performer, despite being, after wood, the most used natural reinforcement in European plastics. Per unit embodied energy almost every plant fibre beats glass, and the chart reorganises by use rather than by plant part: by-product fibres (pineapple, banana, coir, oil palm) carry none of the burden of growing the plant and leap ahead, while cotton, with its fertiliser and pesticide demand, falls behind. These are raw fibres. A yarn, a roving or a woven fabric costs and embodies much more, and the cheapest, greenest fibres are short and have no textile industry to turn them into aligned reinforcements. The form the fibre takes in the composite matters more than the fibre itself."
+},
+{
+"id": "5.3.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "3",
+"secTitle": "From fibre to composite: the reinforcement form",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [
+"5.2"
+],
+"text": "A composite's stiffness is roughly a rule of mixtures, corrected for how much of the fibre's stiffness the matrix can actually use. Krenchel's efficiency factors split that correction into fibre length ( $\\eta_l$ ) and fibre orientation ( $\\eta_o$ ): Four reinforcement forms span the range, from injection-moulded pellets of sub-millimetre fibres to continuous aligned yarns: Table 5.1 Reinforcement forms. Typical fibre length, efficiency factors, and cost and embodied energy of the reinforcement per kg. Data: Shah (2014), Supplementary Table 3. Figure 5.2 Rule of mixtures and measured composites. Bands: modulus predicted for each reinforcement form across its range of η l η o, against fibre volume fraction. Points: the 35 measured composites of Supplementary Table 2 (weight fractions converted to volume fractions). The dashed band repeats the calculation with E-glass fibres (78.5 GPa, 2.55 g/cm³)."
+},
+{
+"id": "5.3.1",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "3",
+"secTitle": "From fibre to composite: the reinforcement form",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [],
+"text": "Most measured unidirectional composites sit inside or just below the unidirectional band; porosity, fibre damage and imperfect alignment explain the shortfall. Nonwovens sit inside theirs, and pellets barely improve on the neat matrix. Switch to specific modulus and turn on the glass bands: aligned flax and E-glass composites with the same form and fibre fraction come out close, because glass is 70% denser. That is the core of the case for plant fibres in stiffness-limited, weight-sensitive parts."
+},
+{
+"id": "5.4.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "4",
+"secTitle": "Selection charts for plant fibre composites",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [
+"5.3"
+],
+"text": "The literature survey of Supplementary Table 2 covers 35 bast fibre composites with petrochemical matrices. Cost and embodied energy per kg are not tabulated; following the paper's own recipe, they are estimated here from the weight fractions of fibre and matrix, with reinforcement values by form from Table 5.1 and typical matrix values (see the appendix). Manufacturing energy and cost are excluded, as in the paper. Figure 5.3 Plant fibre composites. Tensile strength against modulus, on four bases. Filled points: thermoset matrices; open points: thermoplastic. Balloons enclose each reinforcement form; grey crosses are the neat matrices. The ranked list highlights the top five composites for the chosen performance index. Hover a point for its source. Four observations stand out, all visible in the figure."
+},
+{
+"id": "5.4.1",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "4",
+"secTitle": "Selection charts for plant fibre composites",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "The form governs. The composites fall into four groups in order of properties: injection-moulded pellets (about the matrix itself), nonwovens, multiaxial fabrics and unidirectionals. Unidirectional PFRPs are 2 to 20 times stiffer and stronger than nonwovens. Strength rises with stiffness at roughly 10 MPa per GPa (a least-squares fit of the 35 points gives 9.2). Matrix and process shift properties within a group. Thermosets do better than thermoplastics. Achievable fibre fraction rises and porosity falls from hand lay-up through vacuum infusion, RTM and compression moulding to prepregging, and properties follow. Per unit cost, the order flips. Aligned yarns and fabrics cost 10–50 £/kg against 0.5–2 £/kg for pellets and mats. Nonwoven polypropylene composites top every cost-based index, pellets match unidirectionals, and multiaxial fabrics, which combine a costly reinforcement with misaligned fibres, come last. This is why nonwoven PFRPs dominate cost-driven car interiors. Per unit embodied energy, the specific order returns. The reinforcement forms differ less in embodied energy than in cost, and the matrix carries much of the energy, so unidirectionals lead again, with nonwovens and multiaxials overlapping."
+},
+{
+"id": "5.5.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "5",
+"secTitle": "Against other engineering materials",
+"url": "book/ch5-natural-fibres.html#others",
+"figs": [
+"5.3",
+"5.4"
+],
+"text": "Placed among the materials of Chapter 1, plant fibre composites sit where woods, unreinforced engineering polymers and glass composites sit. Per unit density they climb: along the fibres, unidirectional PFRPs match or exceed the specific stiffness and strength of aluminium alloys and steels, which are three to six times denser. Off-axis, and in the other forms, they fall back among woods and polymers. Figure 5.4 PFRPs among engineering materials. Balloons: the four PFRP groups of Figure 5.3. Points: the materials of Chapter 1 (CES moduli and densities; strengths are approximate handbook values), leaving out elastomers and flexible foam, which sit far to the left. Log scales."
+},
+{
+"id": "5.5.1",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "5",
+"secTitle": "Against other engineering materials",
+"url": "book/ch5-natural-fibres.html#others",
+"figs": [],
+"text": "Against glass fibre composites of similar form, the paper reaches a clear verdict. Unidirectional PFRPs (thermoset or thermoplastic) and nonwoven thermoplastic PFRPs match comparable glass composites in absolute and specific stiffness, but their strength is lower. Plant fibres are an alternative to glass in stiffness-critical parts, not in strength-critical ones. A small wind turbine blade with flax skins illustrates the point: it came out 10% lighter than its glass equivalent with no loss of strength."
+},
+{
+"id": "5.6.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "6",
+"secTitle": "Fatigue",
+"url": "book/ch5-natural-fibres.html#fatigue",
+"figs": [
+"5.5"
+],
+"text": "Tensile modulus and strength are not the only design properties. For parts loaded millions of times, the stress that survives $10^6$ cycles is often used as an endurance limit. Fatigue data on PFRPs are still scarce; the 15 composites of Supplementary Table 4 show the endurance strength scaling with the static strength. Figure 5.5 Fatigue strength at 10⁶ cycles against tensile strength. The line is a least-squares fit through the origin. Data: Shah (2014), Supplementary Table 4."
+},
+{
+"id": "5.7.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "7",
+"secTitle": "Two design questions",
+"url": "book/ch5-natural-fibres.html#design",
+"figs": [
+"5.3"
+],
+"text": "Selection is about indices, not raw properties. Two examples, both runnable in Figure 5.3 with the “Rank by” menu: A car door trim panel, a stiff panel in bending at minimum cost: index $E^{1/3}/(C_m\\rho)$. Nonwoven flax/PP and jute/PP lead, with injection-moulded flax/PP and hemp/PP next. That is the panel the car industry actually makes. A light, stiff spar cap, a stiff tie at minimum mass: index $E/\\rho$. Unidirectional flax/epoxy prepreg leads at 31 GPa/(g/cm³), with compression-moulded jute/UP and RTM flax/epoxy close behind. With embodied energy in the denominator the same aligned composites stay on top. Charts only screen. A real choice also needs the properties the charts leave out: moisture uptake and its effect on stiffness, creep, impact, fire behaviour, and the variability of a natural product. The eco audit of the next chapter is the natural follow-up: a lighter PFRP part in a car saves fuel every kilometre, and that use-phase saving usually outweighs the difference in embodied energy."
+},
+{
+"id": "5.8.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "8",
+"secTitle": "From selection to shape: our work on natural fibres",
+"url": "book/ch5-natural-fibres.html#ours",
+"figs": [],
+"text": "Selection charts treat a material as a point; a part is a shape made of it. Two projects from our group couple the two, using topology optimisation to place natural fibres where they work best and to count the carbon of the result."
+},
+{
+"id": "5.8.1",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "8",
+"secTitle": "From selection to shape: our work on natural fibres",
+"url": "book/ch5-natural-fibres.html#ours",
+"figs": [],
+"text": "Ecodesign of 3-D volumetric fibre-composite structures ( SOMP_Ansys ). Designing a printed composite part means choosing many variables at once, some of them discrete, such as which fibre and which polymer to use, and testing every combination quickly becomes too expensive. This workflow splits the problem in two. An eco-informed material selection first picks the fibre and matrix from a candidate set, natural fibres such as bamboo included, using the rule of mixtures of Section 3 and the CO₂ footprint of each option, counting material production and use in a long-haul aircraft (98.8 t CO₂ per kg carried, as in Chapter 4). A topology optimisation then sets, element by element, where material goes and the in-plane and out-of-plane orientation of its fibres, under several load cases, with smoothly varying fibre angles so the part can be printed. Doing the two steps in sequence cuts the number of parameter sets to evaluate by orders of magnitude. The open-source code drives Ansys from Python (PyMAPDL) and updates the design with MMA. Eco-efficient multimaterial structures ( MMEcoTopOpt ). A multimaterial topology optimisation that minimises cradle-to-gate CO₂ under stiffness and volume constraints, with two density fields (carbon fibre and bamboo composites) and one fibre-orientation field. Life-cycle data enter the objective directly. A toolpath pipeline turns the orientation field into fibre-aligned paths for each material, and printed MBB beams, an L-beam and a bridge are checked against finite-element predictions by digital image correlation. The optimiser keeps carbon fibre where stiffness is needed and moves bamboo into low-stress regions, cutting the footprint while holding the stiffness constraint."
+},
+{
+"id": "5.8.2",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "8",
+"secTitle": "From selection to shape: our work on natural fibres",
+"url": "book/ch5-natural-fibres.html#ours",
+"figs": [],
+"text": "Both follow this chapter's verdict: plant fibres compete on stiffness per unit weight, not on strength, so they belong in the stiffness-limited, lightly stressed regions of a part, and an optimiser can find those regions for you."
+},
+{
+"id": "5.9.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "9",
+"secTitle": "The notebook",
+"url": "book/ch5-natural-fibres.html#notebook",
+"figs": [],
+"text": "The Jupyter notebook notebooks/natural_fibre_composites.ipynb rebuilds every chart of this chapter in Python with pandas and matplotlib, from the same data ( data/nfc.json ). It adds the ranking tables for all ten indices and four exercises: sizing a nonwoven for a target stiffness, the price at which aligned yarns become cost-competitive, the sensitivity to the assumed matrix energies, and the wind turbine blade. It runs locally or on Google Colab, and fetches the data from this site's repository when the file is not found. Open in Colab Download the notebook"
+},
+{
+"id": "5.A.0",
+"kind": "text",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch5-natural-fibres.html",
+"figs": [],
+"text": "About the data Fibre, composite, reinforcement-form and fatigue data are transcribed from the four supplementary tables of Shah (2014), as published; Supplementary Table 2 repeats three rows across a page break, kept once here. Specific properties are the paper's; composite density is recovered as modulus divided by specific modulus. Volume and weight fractions are converted with fibre densities of 1.5 g/cm³ (flax, hemp) and 1.4 g/cm³ (jute). Composite cost and embodied energy per kg are weight-fraction averages of the reinforcement (mid-range of Supplementary Table 3 for its form) and the matrix. Matrix costs follow the paper's ranges (thermoplastics 0.5–2 £/kg, thermosets 1–5 £/kg): PP 1.25, UP 2.5, VE 3.5, epoxy 4 £/kg. Matrix embodied energies are typical values, not from the paper: PP 95, UP 85, VE 100, epoxy 130 MJ/kg. Prices are in 2014 pounds. The generator is tools/nfc_data.py."
+},
+{
+"id": "6.0.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Introduction",
+"url": "book/ch6-eco-audit.html",
+"figs": [],
+"text": "Where does a product spend its energy and its carbon: in its materials, its making, its journey, its use or its disposal? Five numbers, a bill of materials and a calculator you can run in the page."
+},
+{
+"id": "6.1.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "1",
+"secTitle": "Roughly right before precisely wrong",
+"url": "book/ch6-eco-audit.html#why",
+"figs": [],
+"text": "A full life-cycle assessment needs hundreds of inputs, takes weeks and returns a precision that design decisions rarely need. Early in a design, the useful question is coarser: which phase of life dominates? If it is the material, choose a lighter or less energy-hungry one. If it is the use phase, cut mass or losses, and stop worrying about the packaging. The Eco Audit tool of CES (now Granta) EduPack answers that question from a short bill of materials and a few lines on transport and use. This chapter rebuilds that tool in its simplest form. Every number below is computed in your browser by about forty lines of code, using a small table of typical material, process and transport data. The same model, data and examples are in a Jupyter notebook for those who prefer Python."
+},
+{
+"id": "6.2.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "2",
+"secTitle": "Five phases and one potential",
+"url": "book/ch6-eco-audit.html#phases",
+"figs": [
+"6.1"
+],
+"text": "The audit splits life into five phases. Each is estimated from one or two inputs multiplied by an energy or carbon intensity from the database. Figure 6.1 The method. Inputs (in mono) and intensities for each phase; m is mass in kg, H an embodied energy or CO₂ per kg. Two formulas need a word. A product that sits still and uses power (a kettle, a fridge, a heater) is in static mode. Its delivered energy is converted to primary energy by an efficiency factor η that accounts for the power station or burner: A part that is carried (a bumper, a seat, the heater in the back of a van) is in mobile mode. It is charged the fuel needed to move its own mass, per tonne-kilometre: Recycled content lowers the material phase linearly: with a recycled fraction $f$, $H = (1-f)\\,H_v + f\\,H_{rec}$."
+},
+{
+"id": "6.3.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "3",
+"secTitle": "The data",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [
+"6.2"
+],
+"text": "The database holds 31 materials, 8 processes, 8 transport modes, 5 static conversions, 4 vehicles and 3 end-of-life routes. Values are rounded, typical figures in the spirit of Ashby's Materials and the Environment ; where the white paper prints a value (PET, polypropylene, polymer molding, the 14 t truck, the electric-to-mechanical factor) it is used as is. They are teaching data, close enough to reproduce the white paper's case studies within about 10%. Figure 6.2 Materials database. Embodied energy and CO₂ for primary (virgin) production, the energy of recycled production, and the recycled fraction in typical current supply. The bar compares virgin (dark) with recycled (light) energy."
+},
+{
+"id": "6.4.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "4",
+"secTitle": "The calculator",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [
+"6.3"
+],
+"text": "Pick a product or build your own. Edit any cell: the chart and the verdict update as you type. The presets are the white paper's case studies plus a reusable bottle. Figure 6.3 Eco audit calculator. Energy (or CO₂) per life phase; the hatched bar is the end-of-life potential of the components marked “Recycle”. The verdict names the dominant phase and the design strategy that targets it."
+},
+{
+"id": "6.5.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "5",
+"secTitle": "A bottle of water",
+"url": "book/ch6-eco-audit.html#bottle",
+"figs": [
+"6.4"
+],
+"text": "This is the EduPack tutorial case (Exercises 20–22). A brand of mineral water is sold in 1 litre PET bottles weighing 40 g, with 1 g polypropylene caps. Bottles and caps are molded, filled and trucked 550 km from the French Alps to England, refrigerated for two days, and sold. The functional unit is 100 bottles. The material phase dominates, at about 69% of the energy. Moving 100 kg of water 550 km costs only 10%, and the two days in the fridge 15%. Exercise 21 asks what 35% recycled PET would do. EduPack reports an 11% reduction in first-life energy; this model gives 13% with its rounded recycled-PET value. Slide the recycled fraction to see the trade: recycled content lowers the first life, and recycling at end of life credits the next one. Figure 6.4 Recycled content in the PET bottle. Energy per phase for 100 bottles, virgin PET (outline) against the chosen recycled fraction (filled)."
+},
+{
+"id": "6.5.1",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "5",
+"secTitle": "A bottle of water",
+"url": "book/ch6-eco-audit.html#bottle",
+"figs": [
+"6.5"
+],
+"text": "The bigger lever is reuse. A 300 g stainless-steel bottle shipped from Asia, refilled from the tap and washed a hundred times costs far more to make than one PET bottle, but it is made only once. Figure 6.5 One bottle, many uses. Cumulative life energy of single-use PET bottles (one per litre) against one reusable steel bottle, as a function of the number of fills."
+},
+{
+"id": "6.6.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "6",
+"secTitle": "A kettle: use dominates",
+"url": "book/ch6-eco-audit.html#kettle",
+"figs": [
+"6.3"
+],
+"text": "A 2 kW kettle, made in South-East Asia and air-freighted 11 000 km to Europe, boils one litre twice a day, five minutes in all, for three years. Its nine components weigh 1.3 kg. Choose “Electric jug kettle” in Figure 6.3: the use phase is 94% of the energy. Even air freight, the most energy-intensive mode, costs 3%. Switch it to sea freight and the transport bar vanishes, but the total moves by less than 3%. A kettle that wastes 20% less heat (better insulation, boiling only the water you need) saves more energy than all its materials embody. That is the white paper's lesson: the eco audit tells you where not to bother."
+},
+{
+"id": "6.7.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "7",
+"secTitle": "A car and its bumper",
+"url": "book/ch6-eco-audit.html#car",
+"figs": [
+"6.6"
+],
+"text": "The white paper audits a 1 800 kg family car driven 25 000 km a year for ten years. Material and use are the only phases that count: 151 GJ for the materials here (162 GJ in the paper) against 927 GJ of fuel (884 GJ). The audit makes a familiar point quantitative: in a vehicle, mass is energy. The white paper then asks whether a 10 kg aluminium bumper should replace a 14 kg steel one. Aluminium costs about four times more energy to produce, but saves fuel every kilometre. The break-even distance answers the question: Figure 6.6 Steel or aluminium bumper? Life energy (material plus fuel to carry the bumper) against distance driven. The crossing is the break-even distance; the band marks a typical 10-year life of 150 000–250 000 km."
+},
+{
+"id": "6.7.1",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "7",
+"secTitle": "A car and its bumper",
+"url": "book/ch6-eco-audit.html#car",
+"figs": [],
+"text": "With virgin aluminium the break-even is about 200 000 km, close to the car's whole life: the substitution barely pays. With recycled aluminium, whose production needs a tenth of the energy, it falls below 100 000 km and the aluminium bumper wins clearly. The same audit gives the opposite answer depending on the supply chain."
+},
+{
+"id": "6.8.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "8",
+"secTitle": "A heater in a van",
+"url": "book/ch6-eco-audit.html#heater",
+"figs": [
+"6.3"
+],
+"text": "The last white-paper case uses both use modes at once. A 9.3 kW portable LPG heater warms a workplace two hours a day, 20 days a year, and rides around in a light goods vehicle 60 km a day all year. Static use (burning gas) is 87% of the use energy; carrying the heater's 7 kg in the van is the other 13%. In Figure 6.3, choose the heater and set the van distance to zero: the use bar barely shrinks. Halve the heater's operating hours and it halves."
+},
+{
+"id": "6.9.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "9",
+"secTitle": "Checking against the white paper",
+"url": "book/ch6-eco-audit.html#check",
+"figs": [],
+"text": "The calculator's numbers, recomputed live, against the values printed in the white paper and the EduPack exercise. Product Phase White paper This model Difference The largest gap is in manufacture for the bottle, where the white paper's own table (6.8 MJ/kg for polymer molding) and its summary chart (36 MJ) disagree; this model follows the table. Everything else agrees within about 10%, well inside the accuracy an eco audit claims."
+},
+{
+"id": "6.10.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "10",
+"secTitle": "From audit to strategy",
+"url": "book/ch6-eco-audit.html#strategy",
+"figs": [],
+"text": "The audit's output is a direction, not a score. The dominant phase points to one of five strategies: Dominant phase What to do Examples above Three limits are worth remembering. Energy and CO₂ are two indicators among many: water, toxicity and land use, which Chapters 1 and 3 weigh with eco-costs and ReCiPe points, are absent. The database holds averages: a material's real footprint depends on its plant, its grid and its recycled share. And the end-of-life potential is a potential: it is realised only if the material is actually collected and recycled."
+},
+{
+"id": "6.11.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "11",
+"secTitle": "The notebook",
+"url": "book/ch6-eco-audit.html#notebook",
+"figs": [],
+"text": "The Jupyter notebook notebooks/eco_audit.ipynb contains the same model in Python ( audit(product, data) ), the same data ( data/ecoaudit.json ) and the seven products, with plots and the exercises: the 35% recycled bottle, sea versus air freight for the kettle, the bumper break-even, and a template to audit your own product. It runs locally or on Google Colab, and the data are fetched from this site's repository when the file is not found. Open in Colab Download the notebook"
+},
+{
+"id": "6.A.0",
+"kind": "text",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "A",
+"secTitle": "About the data",
+"url": "book/ch6-eco-audit.html",
+"figs": [],
+"text": "About the data The method follows the CES EduPack Eco Audit Tool white paper (Ashby, Coulter, Ball and Bream, 2012) and the bottle exercise of the Granta EduPack 2024 tutorials. The database in data/ecoaudit.js is a rounded teaching set built for this chapter, not the Granta database: use Granta EduPack or a full LCA database for real decisions. The reusable bottle is a new example. Data and model are generated by tools/ecoaudit_data.py and notebooks/ecoaudit.py."
+},
+{
+"id": "1.data.81",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Natural rubber (Elastomers). Density 950 kg/m3, Young's modulus 0.00165 GPa, strength about 22 MPa, price about 2.5 GBP/kg. Light-panel index E^(1/3)/rho = 0.12 (GPa^(1/3) per t/m3); specific stiffness E/rho = 0.0 GPa per t/m3."
+},
+{
+"id": "1.data.82",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Polyurethane (Elastomers). Density 1200 kg/m3, Young's modulus 0.01625 GPa, strength about 30 MPa, price about 4.5 GBP/kg. Light-panel index E^(1/3)/rho = 0.21 (GPa^(1/3) per t/m3); specific stiffness E/rho = 0.0 GPa per t/m3."
+},
+{
+"id": "1.data.83",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Al/SiC composite (Composites). Density 2780 kg/m3, Young's modulus 90.5 GPa, strength about 350 MPa, price about 25 GBP/kg. Light-panel index E^(1/3)/rho = 1.61 (GPa^(1/3) per t/m3); specific stiffness E/rho = 32.6 GPa per t/m3."
+},
+{
+"id": "1.data.84",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "CFRP epoxy (Composites). Density 1565 kg/m3, Young's modulus 54.9 GPa, strength about 750 MPa, price about 38 GBP/kg. Light-panel index E^(1/3)/rho = 2.43 (GPa^(1/3) per t/m3); specific stiffness E/rho = 35.1 GPa per t/m3."
+},
+{
+"id": "1.data.85",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "GFRP epoxy (Composites). Density 1860 kg/m3, Young's modulus 21.4 GPa, strength about 150 MPa, price about 18 GBP/kg. Light-panel index E^(1/3)/rho = 1.49 (GPa^(1/3) per t/m3); specific stiffness E/rho = 11.5 GPa per t/m3."
+},
+{
+"id": "1.data.86",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Flexible polymer foam (Foams). Density 54 kg/m3, Young's modulus 0.002 GPa, strength about 0.5 MPa, price about 2.5 GBP/kg. Light-panel index E^(1/3)/rho = 2.33 (GPa^(1/3) per t/m3); specific stiffness E/rho = 0.0 GPa per t/m3."
+},
+{
+"id": "1.data.87",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Rigid polymer foam (Foams). Density 320 kg/m3, Young's modulus 0.34 GPa, strength about 3 MPa, price about 14 GBP/kg. Light-panel index E^(1/3)/rho = 2.18 (GPa^(1/3) per t/m3); specific stiffness E/rho = 1.1 GPa per t/m3."
+},
+{
+"id": "1.data.88",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Al-alloys (Metals & alloys). Density 2755 kg/m3, Young's modulus 72 GPa, strength about 250 MPa, price about 2.2 GBP/kg. Light-panel index E^(1/3)/rho = 1.51 (GPa^(1/3) per t/m3); specific stiffness E/rho = 26.1 GPa per t/m3."
+},
+{
+"id": "1.data.89",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Nickel (Metals & alloys). Density 8890 kg/m3, Young's modulus 205 GPa, strength about 200 MPa, price about 20 GBP/kg. Light-panel index E^(1/3)/rho = 0.66 (GPa^(1/3) per t/m3); specific stiffness E/rho = 23.1 GPa per t/m3."
+},
+{
+"id": "1.data.90",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Stainless steel (Metals & alloys). Density 7740 kg/m3, Young's modulus 200 GPa, strength about 400 MPa, price about 5.5 GBP/kg. Light-panel index E^(1/3)/rho = 0.76 (GPa^(1/3) per t/m3); specific stiffness E/rho = 25.8 GPa per t/m3."
+},
+{
+"id": "1.data.91",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Titanium alloys (Metals & alloys). Density 4610 kg/m3, Young's modulus 115 GPa, strength about 900 MPa, price about 22 GBP/kg. Light-panel index E^(1/3)/rho = 1.05 (GPa^(1/3) per t/m3); specific stiffness E/rho = 24.9 GPa per t/m3."
+},
+{
+"id": "1.data.92",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Epoxies (Polymers). Density 1270 kg/m3, Young's modulus 2.41 GPa, strength about 55 MPa, price about 2.3 GBP/kg. Light-panel index E^(1/3)/rho = 1.06 (GPa^(1/3) per t/m3); specific stiffness E/rho = 1.9 GPa per t/m3."
+},
+{
+"id": "1.data.93",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Phenolics (Polymers). Density 1280 kg/m3, Young's modulus 3.795 GPa, strength about 40 MPa, price about 1.5 GBP/kg. Light-panel index E^(1/3)/rho = 1.22 (GPa^(1/3) per t/m3); specific stiffness E/rho = 3.0 GPa per t/m3."
+},
+{
+"id": "1.data.94",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Polyamides (Polymers). Density 1135 kg/m3, Young's modulus 1.49 GPa, strength about 60 MPa, price about 3 GBP/kg. Light-panel index E^(1/3)/rho = 1.01 (GPa^(1/3) per t/m3); specific stiffness E/rho = 1.3 GPa per t/m3."
+},
+{
+"id": "1.data.95",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Polycarbonate (Polymers). Density 1200 kg/m3, Young's modulus 2.38 GPa, strength about 63 MPa, price about 3.2 GBP/kg. Light-panel index E^(1/3)/rho = 1.11 (GPa^(1/3) per t/m3); specific stiffness E/rho = 2.0 GPa per t/m3."
+},
+{
+"id": "1.data.96",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Hardwood oak (Natural materials). Density 940 kg/m3, Young's modulus 22.9 GPa, strength about 45 MPa, price about 1.5 GBP/kg. Light-panel index E^(1/3)/rho = 3.02 (GPa^(1/3) per t/m3); specific stiffness E/rho = 24.4 GPa per t/m3."
+},
+{
+"id": "1.data.97",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Plywood (Natural materials). Density 750 kg/m3, Young's modulus 6.5 GPa, strength about 30 MPa, price about 0.8 GBP/kg. Light-panel index E^(1/3)/rho = 2.49 (GPa^(1/3) per t/m3); specific stiffness E/rho = 8.7 GPa per t/m3."
+},
+{
+"id": "1.data.98",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Softwood pine (Natural materials). Density 520 kg/m3, Young's modulus 9.35 GPa, strength about 40 MPa, price about 0.8 GBP/kg. Light-panel index E^(1/3)/rho = 4.05 (GPa^(1/3) per t/m3); specific stiffness E/rho = 18.0 GPa per t/m3."
+},
+{
+"id": "1.data.99",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Alumina (Technical ceramics). Density 3700 kg/m3, Young's modulus 330 GPa, strength about 300 MPa, price about 18 GBP/kg. Light-panel index E^(1/3)/rho = 1.87 (GPa^(1/3) per t/m3); specific stiffness E/rho = 89.2 GPa per t/m3."
+},
+{
+"id": "1.data.100",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Silicon carbide (Technical ceramics). Density 3100 kg/m3, Young's modulus 400 GPa, strength about 400 MPa, price about 15 GBP/kg. Light-panel index E^(1/3)/rho = 2.38 (GPa^(1/3) per t/m3); specific stiffness E/rho = 129.0 GPa per t/m3."
+},
+{
+"id": "1.data.101",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Silicon nitride (Technical ceramics). Density 3195 kg/m3, Young's modulus 310 GPa, strength about 600 MPa, price about 30 GBP/kg. Light-panel index E^(1/3)/rho = 2.12 (GPa^(1/3) per t/m3); specific stiffness E/rho = 97.0 GPa per t/m3."
+},
+{
+"id": "1.data.102",
+"kind": "data",
+"ch": 1,
+"chTitle": "Ashby's Maps",
+"sec": "",
+"secTitle": "Data: the 22 materials",
+"url": "book/ch1-ashby-maps.html",
+"figs": [],
+"text": "Zirconia (Technical ceramics). Density 5400 kg/m3, Young's modulus 200 GPa, strength about 700 MPa, price about 30 GBP/kg. Light-panel index E^(1/3)/rho = 1.08 (GPa^(1/3) per t/m3); specific stiffness E/rho = 37.0 GPa per t/m3."
+},
+{
+"id": "5.data.103",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Flax fibre (Bast). Density 1.45-1.55 g/cm3, tensile modulus 28-100 GPa, tensile strength 343-1035 MPa, specific modulus 19-65 GPa per g/cm3, failure strain 2.7-3.2%, cost 0.6-2.1 GBP/kg, embodied energy 9-15 MJ/kg."
+},
+{
+"id": "5.data.104",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Hemp fibre (Bast). Density 1.45-1.55 g/cm3, tensile modulus 32-60 GPa, tensile strength 310-900 MPa, specific modulus 22-39 GPa per g/cm3, failure strain 1.3-2.1%, cost 0.5-1.5 GBP/kg, embodied energy 7-14 MJ/kg."
+},
+{
+"id": "5.data.105",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Jute fibre (Bast). Density 1.35-1.45 g/cm3, tensile modulus 25-55 GPa, tensile strength 393-773 MPa, specific modulus 19-38 GPa per g/cm3, failure strain 1.4-3.1%, cost 0.1-0.3 GBP/kg, embodied energy 4-8 MJ/kg."
+},
+{
+"id": "5.data.106",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Sisal fibre (Leaf). Density 1.4-1.45 g/cm3, tensile modulus 9-28 GPa, tensile strength 347-700 MPa, specific modulus 6-19 GPa per g/cm3, failure strain 2-2.9%, cost 0.6-0.9 GBP/kg, embodied energy 7-14 MJ/kg."
+},
+{
+"id": "5.data.107",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Pineapple fibre (Leaf). Density 1.44-1.56 g/cm3, tensile modulus 6-42 GPa, tensile strength 170-727 MPa, specific modulus 4-27 GPa per g/cm3, failure strain 0.8-1.6%, cost 0.3-0.6 GBP/kg, embodied energy 1-3 MJ/kg."
+},
+{
+"id": "5.data.108",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Banana fibre (Leaf). Density 1.3-1.35 g/cm3, tensile modulus 8-32 GPa, tensile strength 503-790 MPa, specific modulus 6-24 GPa per g/cm3, failure strain 10-12%, cost 0.6-0.8 GBP/kg, embodied energy 1-3 MJ/kg."
+},
+{
+"id": "5.data.109",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Cotton fibre (Seed). Density 1.5-1.6 g/cm3, tensile modulus 5-13 GPa, tensile strength 287-597 MPa, specific modulus 8-12 GPa per g/cm3, failure strain 6-8%, cost 1.4-4 GBP/kg, embodied energy 40-55 MJ/kg."
+},
+{
+"id": "5.data.110",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Coir fibre (Seed). Density 1.1-1.2 g/cm3, tensile modulus 6-12 GPa, tensile strength 131-175 MPa, specific modulus 5-12 GPa per g/cm3, failure strain 15-30%, cost 0.1-0.3 GBP/kg, embodied energy 1-3 MJ/kg."
+},
+{
+"id": "5.data.111",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Oil palm fibre (Seed). Density 0.7-1.55 g/cm3, tensile modulus 4-12 GPa, tensile strength 248 MPa, specific modulus 4-12 GPa per g/cm3, failure strain 25%, cost 0.2-0.4 GBP/kg, embodied energy 1-3 MJ/kg."
+},
+{
+"id": "5.data.112",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Bamboo fibre (Other). Density 0.6-1.1 g/cm3, tensile modulus 11-30 GPa, tensile strength 140-230 MPa, specific modulus 18-27 GPa per g/cm3, failure strain 1.3%, cost 0.2-0.4 GBP/kg, embodied energy 3-5 MJ/kg."
+},
+{
+"id": "5.data.113",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "Wood pulp fibre (Other). Density 1.3-1.5 g/cm3, tensile modulus 40 GPa, tensile strength 1000 MPa, specific modulus 26-31 GPa per g/cm3, failure strain 4.4%, cost 0.5-0.6 GBP/kg, embodied energy 2-8 MJ/kg."
+},
+{
+"id": "5.data.114",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibres (Shah 2014, Table S1)",
+"url": "book/ch5-natural-fibres.html#fibres",
+"figs": [],
+"text": "E-glass fibre (Synthetic). Density 2.55 g/cm3, tensile modulus 78.5 GPa, tensile strength 1956 MPa, specific modulus 31 GPa per g/cm3, failure strain 2.5%, cost 1-2.3 GBP/kg, embodied energy 30-50 MJ/kg."
+},
+{
+"id": "5.data.115",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/PP, pellets, injection moulding. PP matrix (thermoplastic), fibre content 30 wt%, modulus 1.7 GPa, strength 27 MPa, density 1.06 g/cm3, specific modulus 1.6, specific strength 26; estimated cost 1.2 GBP/kg and embodied energy 70 MJ/kg."
+},
+{
+"id": "5.data.116",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Hemp/PP, pellets, injection moulding. PP matrix (thermoplastic), fibre content 30 wt%, modulus 1.5 GPa, strength 30 MPa, density 1.00 g/cm3, specific modulus 1.5, specific strength 29; estimated cost 1.2 GBP/kg and embodied energy 70 MJ/kg."
+},
+{
+"id": "5.data.117",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/PP + 5 wt% MAPP, pellets, injection moulding. PP matrix (thermoplastic), fibre content 30 wt%, modulus 2.1 GPa, strength 38 MPa, density 1.05 g/cm3, specific modulus 2.0, specific strength 36; estimated cost 1.2 GBP/kg and embodied energy 70 MJ/kg."
+},
+{
+"id": "5.data.118",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/PP, nonwoven, compression moulding. PP matrix (thermoplastic), fibre content 40 vol%, modulus 8.8 GPa, strength 57 MPa, density 1.10 g/cm3, specific modulus 8.0, specific strength 52; estimated cost 1.4 GBP/kg and embodied energy 62 MJ/kg."
+},
+{
+"id": "5.data.119",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/PP, nonwoven, compression moulding. PP matrix (thermoplastic), fibre content 30 vol%, modulus 3.7 GPa, strength 27 MPa, density 1.03 g/cm3, specific modulus 3.6, specific strength 26; estimated cost 1.4 GBP/kg and embodied energy 70 MJ/kg."
+},
+{
+"id": "5.data.120",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/PP + 3.5 wt% MAPP, nonwoven, compression moulding. PP matrix (thermoplastic), fibre content 40 vol%, modulus 8.6 GPa, strength 68 MPa, density 1.10 g/cm3, specific modulus 7.8, specific strength 62; estimated cost 1.4 GBP/kg and embodied energy 62 MJ/kg."
+},
+{
+"id": "5.data.121",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/UP, nonwoven, compression moulding. UP matrix (thermoset), fibre content 21 wt%, modulus 11.0 GPa, strength 80 MPa, density 1.26 g/cm3, specific modulus 8.7, specific strength 63; estimated cost 2.3 GBP/kg and embodied energy 74 MJ/kg."
+},
+{
+"id": "5.data.122",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Hemp/UP, nonwoven, compression moulding. UP matrix (thermoset), fibre content 47 wt%, modulus 5.6 GPa, strength 36 MPa, density 1.30 g/cm3, specific modulus 4.3, specific strength 28; estimated cost 2.0 GBP/kg and embodied energy 62 MJ/kg."
+},
+{
+"id": "5.data.123",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Hemp/UP, 5% NaOH, nonwoven, compression moulding. UP matrix (thermoset), fibre content 46 wt%, modulus 7.5 GPa, strength 46 MPa, density 1.29 g/cm3, specific modulus 5.8, specific strength 35; estimated cost 2.0 GBP/kg and embodied energy 62 MJ/kg."
+},
+{
+"id": "5.data.124",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/UP, nonwoven, vacuum infusion. UP matrix (thermoset), fibre content 30 vol%, modulus 6.3 GPa, strength 61 MPa, density 1.21 g/cm3, specific modulus 5.2, specific strength 50; estimated cost 2.1 GBP/kg and embodied energy 66 MJ/kg."
+},
+{
+"id": "5.data.125",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/UP, nonwoven, vacuum infusion. UP matrix (thermoset), fibre content 30 vol%, modulus 8.0 GPa, strength 50 MPa, density 1.27 g/cm3, specific modulus 6.3, specific strength 39; estimated cost 2.2 GBP/kg and embodied energy 68 MJ/kg."
+},
+{
+"id": "5.data.126",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy, 1% NaOH, nonwoven, vacuum infusion. Epoxy matrix (thermoset), fibre content 22 vol%, modulus 9.2 GPa, strength 60 MPa, density 1.42 g/cm3, specific modulus 6.5, specific strength 42; estimated cost 3.4 GBP/kg and embodied energy 108 MJ/kg."
+},
+{
+"id": "5.data.127",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/PP, unidirectional, compression moulding. PP matrix (thermoplastic), fibre content 43 vol%, modulus 26.9 GPa, strength 251 MPa, density 1.14 g/cm3, specific modulus 23.6, specific strength 220; estimated cost 14.7 GBP/kg and embodied energy 98 MJ/kg."
+},
+{
+"id": "5.data.128",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Hemp/PP, unidirectional, compression moulding. PP matrix (thermoplastic), fibre content 42 vol%, modulus 21.1 GPa, strength 215 MPa, density 1.16 g/cm3, specific modulus 18.2, specific strength 185; estimated cost 14.2 GBP/kg and embodied energy 98 MJ/kg."
+},
+{
+"id": "5.data.129",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Hemp/PP + 0.2 wt% MAPP, unidirectional, compression moulding. PP matrix (thermoplastic), fibre content 40 vol%, modulus 20.1 GPa, strength 208 MPa, density 1.15 g/cm3, specific modulus 17.5, specific strength 181; estimated cost 13.7 GBP/kg and embodied energy 98 MJ/kg."
+},
+{
+"id": "5.data.130",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/UP, unidirectional, hand lay-up. UP matrix (thermoset), fibre content 19 vol%, modulus 6.5 GPa, strength 150 MPa, density 1.25 g/cm3, specific modulus 5.2, specific strength 120; estimated cost 7.6 GBP/kg and embodied energy 88 MJ/kg."
+},
+{
+"id": "5.data.131",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/UP, unidirectional, hand lay-up. UP matrix (thermoset), fibre content 28 vol%, modulus 14.0 GPa, strength 140 MPa, density 1.30 g/cm3, specific modulus 10.8, specific strength 108; estimated cost 9.8 GBP/kg and embodied energy 90 MJ/kg."
+},
+{
+"id": "5.data.132",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/UP, unidirectional, compression moulding. UP matrix (thermoset), fibre content 58 vol%, modulus 29.9 GPa, strength 304 MPa, density 1.30 g/cm3, specific modulus 23.0, specific strength 233; estimated cost 17.6 GBP/kg and embodied energy 95 MJ/kg."
+},
+{
+"id": "5.data.133",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/UP, unidirectional, compression moulding. UP matrix (thermoset), fibre content 56 vol%, modulus 35.0 GPa, strength 248 MPa, density 1.24 g/cm3, specific modulus 28.2, specific strength 200; estimated cost 16.7 GBP/kg and embodied energy 94 MJ/kg."
+},
+{
+"id": "5.data.134",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/epoxy, 26% NaOH, unidirectional, compression moulding. Epoxy matrix (thermoset), fibre content 40 vol%, modulus 24.0 GPa, strength 220 MPa, density 1.28 g/cm3, specific modulus 18.8, specific strength 172; estimated cost 13.2 GBP/kg and embodied energy 117 MJ/kg."
+},
+{
+"id": "5.data.135",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy, unidirectional, vacuum infusion. Epoxy matrix (thermoset), fibre content 31 vol%, modulus 23.4 GPa, strength 277 MPa, density 1.30 g/cm3, specific modulus 18.0, specific strength 212; estimated cost 11.5 GBP/kg and embodied energy 119 MJ/kg."
+},
+{
+"id": "5.data.136",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/UP, unidirectional, vacuum infusion. UP matrix (thermoset), fibre content 35 vol%, modulus 15.0 GPa, strength 186 MPa, density 1.24 g/cm3, specific modulus 12.1, specific strength 150; estimated cost 11.4 GBP/kg and embodied energy 91 MJ/kg."
+},
+{
+"id": "5.data.137",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy, unidirectional, rtm. Epoxy matrix (thermoset), fibre content 42 vol%, modulus 35.0 GPa, strength 280 MPa, density 1.24 g/cm3, specific modulus 28.2, specific strength 226; estimated cost 14.7 GBP/kg and embodied energy 115 MJ/kg."
+},
+{
+"id": "5.data.138",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/VE, unidirectional, rtm. VE matrix (thermoset), fibre content 37 vol%, modulus 24.0 GPa, strength 248 MPa, density 1.42 g/cm3, specific modulus 16.9, specific strength 175; estimated cost 11.9 GBP/kg and embodied energy 100 MJ/kg."
+},
+{
+"id": "5.data.139",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy, unidirectional, prepregging. Epoxy matrix (thermoset), fibre content 42 vol%, modulus 39.9 GPa, strength 378 MPa, density 1.27 g/cm3, specific modulus 31.3, specific strength 296; estimated cost 14.4 GBP/kg and embodied energy 115 MJ/kg."
+},
+{
+"id": "5.data.140",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy, unidirectional, prepregging. Epoxy matrix (thermoset), fibre content 48 vol%, modulus 32.0 GPa, strength 268 MPa, density 1.30 g/cm3, specific modulus 24.7, specific strength 207; estimated cost 15.7 GBP/kg and embodied energy 113 MJ/kg."
+},
+{
+"id": "5.data.141",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [0, 90], multiaxial, compression moulding. Epoxy matrix (thermoset), fibre content 44 vol%, modulus 14.3 GPa, strength 170 MPa, density 1.28 g/cm3, specific modulus 11.2, specific strength 133; estimated cost 17.4 GBP/kg and embodied energy 114 MJ/kg."
+},
+{
+"id": "5.data.142",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [±45], multiaxial, compression moulding. Epoxy matrix (thermoset), fibre content 44 vol%, modulus 6.5 GPa, strength 79 MPa, density 1.27 g/cm3, specific modulus 5.1, specific strength 62; estimated cost 17.5 GBP/kg and embodied energy 114 MJ/kg."
+},
+{
+"id": "5.data.143",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/VE [0, 90], multiaxial, rtm. VE matrix (thermoset), fibre content 33 vol%, modulus 7.3 GPa, strength 81 MPa, density 1.52 g/cm3, specific modulus 4.8, specific strength 54; estimated cost 12.1 GBP/kg and embodied energy 100 MJ/kg."
+},
+{
+"id": "5.data.144",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/VE [0, 90], multiaxial, rtm. VE matrix (thermoset), fibre content 35 vol%, modulus 8.6 GPa, strength 89 MPa, density 1.51 g/cm3, specific modulus 5.7, specific strength 59; estimated cost 12.7 GBP/kg and embodied energy 100 MJ/kg."
+},
+{
+"id": "5.data.145",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Jute/VE [0, 90], multiaxial, rtm. VE matrix (thermoset), fibre content 41 vol%, modulus 10.0 GPa, strength 111 MPa, density 1.49 g/cm3, specific modulus 6.7, specific strength 74; estimated cost 13.7 GBP/kg and embodied energy 100 MJ/kg."
+},
+{
+"id": "5.data.146",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [0, 90], multiaxial, prepregging. Epoxy matrix (thermoset), fibre content 45 vol%, modulus 11.2 GPa, strength 94 MPa, density 1.37 g/cm3, specific modulus 8.2, specific strength 69; estimated cost 16.9 GBP/kg and embodied energy 115 MJ/kg."
+},
+{
+"id": "5.data.147",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [0, 90], multiaxial, prepregging. Epoxy matrix (thermoset), fibre content 36 vol%, modulus 10.0 GPa, strength 104 MPa, density 1.33 g/cm3, specific modulus 7.5, specific strength 78; estimated cost 14.5 GBP/kg and embodied energy 118 MJ/kg."
+},
+{
+"id": "5.data.148",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [0, 90], multiaxial, prepregging. Epoxy matrix (thermoset), fibre content 37 vol%, modulus 11.2 GPa, strength 77 MPa, density 1.32 g/cm3, specific modulus 8.5, specific strength 59; estimated cost 14.9 GBP/kg and embodied energy 117 MJ/kg."
+},
+{
+"id": "5.data.149",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: plant fibre composites (Shah 2014, Table S2)",
+"url": "book/ch5-natural-fibres.html#charts",
+"figs": [],
+"text": "Flax/epoxy [0, 90], multiaxial, prepregging. Epoxy matrix (thermoset), fibre content 54 vol%, modulus 9.3 GPa, strength 78 MPa, density 1.37 g/cm3, specific modulus 6.8, specific strength 57; estimated cost 19.4 GBP/kg and embodied energy 112 MJ/kg."
+},
+{
+"id": "5.data.150",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: reinforcement forms (Shah 2014, Table S3)",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [],
+"text": "Reinforcement form: Pellets. Fibre length <1 mm, efficiency factor eta_l*eta_o 0.0-0.11, reinforcement cost 0.5-1.5 GBP/kg, embodied energy 5-15 MJ/kg."
+},
+{
+"id": "5.data.151",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: reinforcement forms (Shah 2014, Table S3)",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [],
+"text": "Reinforcement form: Nonwoven. Fibre length 3-30 mm, efficiency factor eta_l*eta_o 0.19-0.36, reinforcement cost 1-2 GBP/kg, embodied energy 30-40 MJ/kg."
+},
+{
+"id": "5.data.152",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: reinforcement forms (Shah 2014, Table S3)",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [],
+"text": "Reinforcement form: Multiaxial. Fibre length >30 mm, efficiency factor eta_l*eta_o 0.25-0.5, reinforcement cost 10-50 GBP/kg, embodied energy 54-146 MJ/kg."
+},
+{
+"id": "5.data.153",
+"kind": "data",
+"ch": 5,
+"chTitle": "Natural Fibre Composites",
+"sec": "",
+"secTitle": "Data: reinforcement forms (Shah 2014, Table S3)",
+"url": "book/ch5-natural-fibres.html#forms",
+"figs": [],
+"text": "Reinforcement form: Unidirectional. Fibre length >30 mm, efficiency factor eta_l*eta_o 1.0-1.0, reinforcement cost 10-40 GBP/kg, embodied energy 54-146 MJ/kg."
+},
+{
+"id": "6.data.154",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "PET (Polymers), eco data. Embodied energy 84 MJ/kg and 2.3 kg CO2/kg (virgin); recycled production 36 MJ/kg and 0.95 kg CO2/kg; typical recycled content 21%."
+},
+{
+"id": "6.data.155",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polypropylene (PP) (Polymers), eco data. Embodied energy 95 MJ/kg and 2.7 kg CO2/kg (virgin); recycled production 40 MJ/kg and 1.4 kg CO2/kg; typical recycled content 6%."
+},
+{
+"id": "6.data.156",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polyethylene (PE) (Polymers), eco data. Embodied energy 80 MJ/kg and 2.1 kg CO2/kg (virgin); recycled production 38 MJ/kg and 1.0 kg CO2/kg; typical recycled content 9%."
+},
+{
+"id": "6.data.157",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "PVC (Polymers), eco data. Embodied energy 60 MJ/kg and 2.4 kg CO2/kg (virgin); recycled production 30 MJ/kg and 1.2 kg CO2/kg; typical recycled content 8%."
+},
+{
+"id": "6.data.158",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polycarbonate (PC) (Polymers), eco data. Embodied energy 110 MJ/kg and 3.8 kg CO2/kg (virgin); recycled production 50 MJ/kg and 2.0 kg CO2/kg; typical recycled content 1%."
+},
+{
+"id": "6.data.159",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polyurethane (PU) (Polymers), eco data. Embodied energy 90 MJ/kg and 3.5 kg CO2/kg (virgin); recycled production 45 MJ/kg and 1.8 kg CO2/kg; typical recycled content 3%."
+},
+{
+"id": "6.data.160",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polyester (thermoset) (Polymers), eco data. Embodied energy 85 MJ/kg and 3.5 kg CO2/kg (virgin); recycled production 85 MJ/kg and 3.5 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.161",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Phenolic (Polymers), eco data. Embodied energy 90 MJ/kg and 3.0 kg CO2/kg (virgin); recycled production 90 MJ/kg and 3.0 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.162",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Rigid polymer foam (Polymers), eco data. Embodied energy 100 MJ/kg and 3.8 kg CO2/kg (virgin); recycled production 100 MJ/kg and 3.8 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.163",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Natural rubber (NR) (Elastomers), eco data. Embodied energy 65 MJ/kg and 1.6 kg CO2/kg (virgin); recycled production 65 MJ/kg and 1.6 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.164",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Butyl rubber (Elastomers), eco data. Embodied energy 110 MJ/kg and 4.0 kg CO2/kg (virgin); recycled production 110 MJ/kg and 4.0 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.165",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Polyester fibre (textile) (Polymers), eco data. Embodied energy 85 MJ/kg and 3.0 kg CO2/kg (virgin); recycled production 40 MJ/kg and 1.4 kg CO2/kg; typical recycled content 5%."
+},
+{
+"id": "6.data.166",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Low carbon steel (Metals), eco data. Embodied energy 26 MJ/kg and 1.9 kg CO2/kg (virgin); recycled production 9.0 MJ/kg and 0.6 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.167",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Low alloy steel (Metals), eco data. Embodied energy 32 MJ/kg and 2.3 kg CO2/kg (virgin); recycled production 9.3 MJ/kg and 0.6 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.168",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Stainless steel (Metals), eco data. Embodied energy 81 MJ/kg and 5.1 kg CO2/kg (virgin); recycled production 18 MJ/kg and 1.2 kg CO2/kg; typical recycled content 36%."
+},
+{
+"id": "6.data.169",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Cast iron (Metals), eco data. Embodied energy 17 MJ/kg and 1.3 kg CO2/kg (virgin); recycled production 7.0 MJ/kg and 0.4 kg CO2/kg; typical recycled content 69%."
+},
+{
+"id": "6.data.170",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Iron (Metals), eco data. Embodied energy 20 MJ/kg and 1.5 kg CO2/kg (virgin); recycled production 7.0 MJ/kg and 0.4 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.171",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Cast aluminium alloy (Metals), eco data. Embodied energy 209 MJ/kg and 12.0 kg CO2/kg (virgin); recycled production 21.7 MJ/kg and 1.7 kg CO2/kg; typical recycled content 55%."
+},
+{
+"id": "6.data.172",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Wrought aluminium alloy (Metals), eco data. Embodied energy 200 MJ/kg and 12.0 kg CO2/kg (virgin); recycled production 22 MJ/kg and 1.7 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.173",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Copper (Metals), eco data. Embodied energy 65 MJ/kg and 4.2 kg CO2/kg (virgin); recycled production 14 MJ/kg and 0.9 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.174",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Brass (Metals), eco data. Embodied energy 70 MJ/kg and 4.0 kg CO2/kg (virgin); recycled production 14 MJ/kg and 0.9 kg CO2/kg; typical recycled content 42%."
+},
+{
+"id": "6.data.175",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Nickel-chromium alloy (Metals), eco data. Embodied energy 140 MJ/kg and 8.5 kg CO2/kg (virgin); recycled production 30 MJ/kg and 2.0 kg CO2/kg; typical recycled content 30%."
+},
+{
+"id": "6.data.176",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Titanium alloy (Metals), eco data. Embodied energy 650 MJ/kg and 44 kg CO2/kg (virgin); recycled production 90 MJ/kg and 6.0 kg CO2/kg; typical recycled content 22%."
+},
+{
+"id": "6.data.177",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "CFRP (Composites), eco data. Embodied energy 270 MJ/kg and 21 kg CO2/kg (virgin); recycled production 270 MJ/kg and 21 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.178",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "GFRP (Composites), eco data. Embodied energy 110 MJ/kg and 7.5 kg CO2/kg (virgin); recycled production 110 MJ/kg and 7.5 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.179",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Borosilicate glass (Ceramics & glass), eco data. Embodied energy 25 MJ/kg and 1.4 kg CO2/kg (virgin); recycled production 12 MJ/kg and 0.7 kg CO2/kg; typical recycled content 20%."
+},
+{
+"id": "6.data.180",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Soda-lime glass (Ceramics & glass), eco data. Embodied energy 11 MJ/kg and 0.75 kg CO2/kg (virgin); recycled production 7 MJ/kg and 0.45 kg CO2/kg; typical recycled content 25%."
+},
+{
+"id": "6.data.181",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Concrete (Ceramics & glass), eco data. Embodied energy 1.2 MJ/kg and 0.14 kg CO2/kg (virgin); recycled production 0.8 MJ/kg and 0.1 kg CO2/kg; typical recycled content 10%."
+},
+{
+"id": "6.data.182",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Cardboard (Natural), eco data. Embodied energy 28 MJ/kg and 1.1 kg CO2/kg (virgin); recycled production 18 MJ/kg and 0.7 kg CO2/kg; typical recycled content 70%."
+},
+{
+"id": "6.data.183",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit materials",
+"url": "book/ch6-eco-audit.html#data",
+"figs": [],
+"text": "Softwood (Natural), eco data. Embodied energy 10 MJ/kg and 0.6 kg CO2/kg (virgin); recycled production 10 MJ/kg and 0.6 kg CO2/kg; typical recycled content 0%."
+},
+{
+"id": "6.data.184",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Bottled water, 100 × 1 L PET bottles. Life 1 years. Bill of materials: Bottles (100) (PET, 4.0 kg), Caps (100) (Polypropylene (PP), 0.1 kg), Water, 100 L (dead weight) (Water (dead weight), 100 kg). Transport: Filling plant to shop: 14 tonne truck 550 km. Use: static Electric to mechanical 0.12 kW x 24 h/day x 2 days/yr. Polymer production dominates; transport of 100 kg of water over 550 km is only about 10%."
+},
+{
+"id": "6.data.185",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Reusable steel bottle, 100 refills from the tap. Life 1 years. Bill of materials: Bottle (Stainless steel, 0.3 kg), Cap (Polypropylene (PP), 0.02 kg). Transport: Asia to Europe: Sea freight 10000 km; Distribution: 32 tonne truck 500 km. Use: static Electric to thermal 1.2 kW x 0.042 h/day x 100 days/yr. One steel bottle washed 100 times against 100 PET bottles: a new example, not from the white paper."
+},
+{
+"id": "6.data.186",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Electric jug kettle, 2 kW. Life 3 years. Bill of materials: Kettle body (Polypropylene (PP), 0.86 kg), Heating element (Nickel-chromium alloy, 0.026 kg), Element casing (Stainless steel, 0.09 kg), Cable sheath, 1 m (Natural rubber (NR), 0.06 kg), Cable core, 1 m (Copper, 0.015 kg), Plug body (Phenolic, 0.037 kg), Plug pins (Brass, 0.03 kg), Packaging, padding (Rigid polymer foam, 0.015 kg), Packaging, box (Cardboard, 0.125 kg). Transport: SE Asia to Europe: Air freight 11000 km; Distribution: 24 tonne truck 250 km. Use: static Electric to thermal 2.0 kW x 0.15 h/day x 365 days/yr. Use dominates (about 94%): boiling water is the target, not the plastic or the air freight."
+},
+{
+"id": "6.data.187",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Family car, 1 800 kg, 250 000 km. Life 10 years. Bill of materials: Steel (Low alloy steel, 850 kg), Aluminium (Cast aluminium alloy, 438 kg), Thermoplastics (PVC) (PVC, 74 kg), Thermoplastics (PU) (Polyurethane (PU), 74 kg), Thermosets (Polyester (thermoset), 93 kg), Elastomers (Butyl rubber, 40 kg), Glass (Borosilicate glass, 40 kg), Other metals (Copper, 61 kg), Textiles (Polyester fibre (textile), 47 kg). Transport: none. Use: mobile Family car, gasoline 68.5 km/day x 365 days/yr. Only material and use are modelled: use is over 80% of the life energy."
+},
+{
+"id": "6.data.188",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Car bumper, steel (14 kg). Life 10 years. Bill of materials: Bumper (Low alloy steel, 14 kg). Transport: none. Use: mobile Family car, gasoline 68.5 km/day x 365 days/yr. Compare with the aluminium bumper."
+},
+{
+"id": "6.data.189",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Car bumper, aluminium (10 kg). Life 10 years. Bill of materials: Bumper (Cast aluminium alloy, 10 kg). Transport: none. Use: mobile Family car, gasoline 68.5 km/day x 365 days/yr. Lighter but more energy-intensive: which wins depends on distance and recycled content."
+},
+{
+"id": "6.data.190",
+"kind": "data",
+"ch": 6,
+"chTitle": "A Simple Eco Audit",
+"sec": "",
+"secTitle": "Data: eco audit example products",
+"url": "book/ch6-eco-audit.html#calculator",
+"figs": [],
+"text": "Example product: Portable LPG space heater, 9.3 kW. Life 3 years. Bill of materials: Heater casing (Low carbon steel, 5.4 kg), Fan (Low carbon steel, 0.25 kg), Heat shield (Stainless steel, 0.4 kg), Motor rotor and stator (Iron, 0.13 kg), Motor wiring (Copper, 0.08 kg), Wire insulation (Polyethylene (PE), 0.08 kg), Hose, 2 m (Natural rubber (NR), 0.35 kg), Hose connector (Brass, 0.09 kg), Other components (proxy) (Polycarbonate (PC), 0.22 kg). Transport: Korea to USA: Sea freight 10000 km; To point of sale: 32 tonne truck 600 km. Use: static Fossil fuel to thermal (enclosed) 9.3 kW x 2 h/day x 20 days/yr; mobile Light goods vehicle, diesel 60 km/day x 365 days/yr. Burning LPG dominates; carrying 7 kg around in a van adds about 13% of the use energy."
+}
+]
+}

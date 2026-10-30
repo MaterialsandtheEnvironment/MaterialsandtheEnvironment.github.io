@@ -13,7 +13,7 @@
     { slug: "ch4-tosm", n: 4, title: "Brackets, Metals and Carbon", sub: "The TOSM benchmark of 1 516 bracket–alloy pairs" },
     { slug: "ch5-natural-fibres", n: 5, title: "Natural Fibre Composites", sub: "Ashby charts for plant fibres and their composites" },
     { slug: "ch6-eco-audit", n: 6, title: "A Simple Eco Audit", sub: "Energy and CO₂ over five life phases" },
-    { slug: "backup-a-small-model", n: "A", backup: true, title: "A Model That Read the Book", sub: "Backup: fine-tuning a free small LLM on Chapters 1–4" },
+    { slug: "backup-a-virtual-prof", n: "A", backup: true, title: "Ask the Virtual Prof", sub: "A chatbot that answers from Chapters 1–6" },
   ];
   window.MATENV_BOOK = BOOK;
 
@@ -212,6 +212,9 @@
     document.querySelectorAll("d-site-footer").forEach(footer);
     const fm = frontMatter();
     byline(fm); toc(); citations(); footnotes(); chapterNav(); citeThis(fm); math();
+    if (!document.querySelector('script[src$="prof-widget.js"]')) {
+      const w = document.createElement("script"); w.type = "module"; w.src = `${ROOT}/assets/js/prof-widget.js`; document.body.appendChild(w);
+    }
     document.documentElement.classList.add("distill-ready");
     window.dispatchEvent(new Event("distill-ready"));
   }
