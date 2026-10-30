@@ -8,6 +8,7 @@
 <meta name="description" content="Materials & the Environment: an interactive, Distill-style book on material selection, machine learning and ecodesign, from ISAE-SUPAERO.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="assets/css/distill-lite.css">
 <style>
   /* Landing layout: a two-column hero (thesis + live chart), then the book as a numbered sequence of chapters. */
@@ -65,6 +66,14 @@
   .dedication .wood { border-left: 3px solid var(--hi); padding: 2px 0 2px 14px; font-size: .96rem; margin-top: 14px; }
   @media (max-width: 860px) { .dedication { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
 
+  .maths .eq { overflow-x: auto; padding: 14px 0 6px; }
+  .maths .eq d-math[block] { margin: 0; font-size: 1.08em; }
+  .maths .eq-narrow { display: none; }
+  @media (max-width: 860px) { .maths .eq-wide { display: none; } .maths .eq-narrow { display: block; } .maths .eq-narrow d-math[block] { font-size: .95em; } }
+  .maths .keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 22px; font-family: var(--f-ui); font-size: .84rem; color: var(--ink-2); margin-top: 14px; }
+  .maths .keys b { display: block; color: var(--ink); font-size: .9rem; margin-bottom: 2px; }
+  @media (max-width: 760px) { .maths .keys { grid-template-columns: minmax(0, 1fr); } }
+
   .lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
   @media (max-width: 860px) { .lab-grid { grid-template-columns: minmax(0, 1fr); } }
   .lab-grid h3 { font-size: 1.05rem; margin: 0 0 6px; }
@@ -77,6 +86,7 @@
   .people b { color: var(--ink); font-weight: 600; }
 </style>
 <script src="assets/vendor/d3.min.js"></script>
+<script src="assets/vendor/katex/katex.min.js"></script>
 <script src="assets/js/distill-lite.js" data-root="."></script>
 <script src="assets/js/common.js"></script>
 <script src="data/materials22.js"></script>
@@ -111,6 +121,34 @@
     <div>
       <p>This book is dedicated to my dad, Pierre Morlier, professor, engineer and researcher in wood science and structural mechanics. A graduate of the École des Mines de Paris, then researcher at the École Polytechnique, he worked at the Laboratoire de Mécanique des Solides, then moved to the University of Bordeaux. Founder of the Laboratoire de Rhéologie du Bois de Bordeaux, his studies across civil engineering and wood sciences (timber creep, tropical wood density and hardness, and historic timber structures) became references across Europe. A pioneer in multidisciplinary research, he helped organise the XYLOFUTUR competitiveness cluster, led the European COST E8 action on forests and forestry products, and mentored generations of students with patience, humility and integrity.</p>
       <p class="wood"><b>Why wood matters here.</b> Wood is the original eco-material, and the thread that runs through this book. It grows from sunlight, and about half of its dry mass is carbon drawn from the atmosphere, so a building or a product made of wood stores carbon for as long as it lasts. It needs little energy to process compared with metals, polymers or glass, it can be reused, recycled or burnt for energy at the end of its life, and along the grain its stiffness per unit weight rivals that of steel. On the Ashby charts of Chapter 1, softwood, hardwood and plywood come out on top for light, stiff panels; Chapter 5 follows the same logic to the plant fibres of flax, hemp and jute. Making wood and its composites reliable for engineers, through their creep, variability and durability, was Pierre's life's work.</p>
+    </div>
+  </section>
+
+  <section class="section maths" id="maths" aria-labelledby="maths-title">
+    <header>
+      <h2 id="maths-title">One problem, two objectives</h2>
+      <div>
+        <p>Behind every chapter sits the same optimisation problem. A part is described by its shape <d-math>\mathcal{D}</d-math>, its material <d-math>m</d-math> and its manufacturing process <d-math>p</d-math>. Classical lightweight design, problem <d-math>\mathcal{P}_1</d-math>, minimises its mass under a stiffness constraint. Eco-design, problem <d-math>\mathcal{P}_2</d-math>, keeps the same design space and the same constraint but changes the objective to the CO<sub>2</sub> footprint of producing and processing the part.</p>
+      </div>
+    </header>
+    <div class="eq eq-wide"><d-math block>\begin{array}{llcll}
+\mathcal{P}_1:\ \displaystyle\min_{m,\,p,\,\mathcal{D}} & \operatorname{mass}(\mathcal{D}, m, p) & \quad\longrightarrow\quad & \mathcal{P}_2:\ \displaystyle\min_{m,\,p,\,\mathcal{D}} & \mathrm{CO}_2^{\mathrm{PP}}(\mathcal{D}, m, p)\\[6pt]
+\quad\text{s.t.} & \delta \le \delta_{\max} & & \quad\text{s.t.} & \delta \le \delta_{\max}\\[2pt]
+ & \{m, p\} \in \Phi_{\text{material}} \times \Phi_{\text{process}} & & & \{m, p\} \in \Phi_{\text{material}} \times \Phi_{\text{process}}
+\end{array}</d-math></div>
+    <div class="eq eq-narrow"><d-math block>\begin{array}{ll}
+\mathcal{P}_1:\ \displaystyle\min_{m,\,p,\,\mathcal{D}} & \operatorname{mass}(\mathcal{D}, m, p)\\[2pt]
+\text{s.t.} & \delta \le \delta_{\max}\\[2pt]
+ & \{m, p\} \in \Phi_{\text{mat}} \times \Phi_{\text{proc}}\\[4pt]
+ & \Big\downarrow\\[4pt]
+\mathcal{P}_2:\ \displaystyle\min_{m,\,p,\,\mathcal{D}} & \mathrm{CO}_2^{\mathrm{PP}}(\mathcal{D}, m, p)\\[2pt]
+\text{s.t.} & \delta \le \delta_{\max}\\[2pt]
+ & \{m, p\} \in \Phi_{\text{mat}} \times \Phi_{\text{proc}}
+\end{array}</d-math></div>
+    <div class="keys">
+      <div><b>Mixed and discrete</b>The material and the process are chosen from finite catalogues <d-math>\Phi_{\text{material}}</d-math> and <d-math>\Phi_{\text{process}}</d-math>, while the shape <d-math>\mathcal{D}</d-math> is continuous: Ashby charts (Chapters 1–3) screen the catalogues, topology optimisation (Chapters 4–5) shapes the part.</div>
+      <div><b>Same constraint, new objective</b>The displacement limit <d-math>\delta \le \delta_{\max}</d-math> is unchanged. Only what is minimised changes, and with it the answer: the lightest design is rarely the one with the lowest footprint.</div>
+      <div><b>Whole life next</b>Replacing production CO<sub>2</sub> by a life-cycle total, as in the eco audit of Chapter 6, adds the use phase, where for anything that moves mass comes back into the objective.</div>
     </div>
   </section>
 
