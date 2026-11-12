@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ask the Virtual Prof · Backup chapter A</title>
+<title>Hello Prof </title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Backup chapter A of Materials & the Environment: a virtual professor that answers questions from Chapters 1–6, by searching the book in your browser and, optionally, writing an explanation with a small open language model from Hugging Face.">
+<meta name="description" content="Ask and tell for Materials & the Environment: a virtual professor that answers questions from Chapters 1–6, by searching the book in your browser and, optionally, writing an explanation with a small open language model from Hugging Face.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
@@ -32,11 +32,11 @@
 <script src="../data/prof_index.js"></script>
 </head>
 <body>
-<d-site-header current="backup-a-virtual-prof"></d-site-header>
+<d-site-header current="a-virtual-prof"></d-site-header>
 
 <d-front-matter><script type="text/json">{
   "title": "Ask the Virtual Prof",
-  "chapter": "A", "slug": "backup-a-virtual-prof",
+  "chapter": "A", "slug": "a-virtual-prof",
   "published": "October 2026",
   "code": "https://github.com/MaterialsandtheEnvironment/MaterialsandtheEnvironment.github.io/blob/main/assets/js/prof.js",
   "authors": [
@@ -45,7 +45,7 @@
 }</script></d-front-matter>
 
 <d-title>
-  <div class="kicker l-middle">Backup chapter A · Materials &amp; the Environment</div>
+  <div class="kicker l-middle">Hell prof · Materials &amp; the Environment</div>
   <h1>Ask the Virtual Prof</h1>
   <p>A chatbot that has read Chapters 1–6. It finds the passages that answer your question, shows you where to read them, and can explain them in its own words with a small open language model that runs on your device.</p>
 </d-title>
@@ -112,7 +112,7 @@
   <h2 id="history"><span class="sec">5</span>From a small model to a virtual prof</h2>
   <p>An earlier version of this chapter fine-tuned a 360-million-parameter model (<a href="https://huggingface.co/MaterialsandtheEnvironment/matenv-smollm2-360m">matenv-smollm2-360m</a>) on 2 400 questions generated from nine calculators of Chapters 1–4. It learned to call the right calculator for about 80% of unseen questions, up from 0% for the base model, and its direct answers rose from 16% to 72% correct. It showed that a small model is a good <em>router</em> and a poor <em>memory</em>. The Virtual Prof keeps that lesson and scales it to the whole book: the memory is the book itself, searched exactly; the model only reads and explains. The training material remains in the repository's <code>training</code> folder.</p>
 
-  <d-chapter-nav current="backup-a-virtual-prof"></d-chapter-nav>
+  <d-chapter-nav current="a-virtual-prof"></d-chapter-nav>
 </d-article>
 
 <d-appendix>
