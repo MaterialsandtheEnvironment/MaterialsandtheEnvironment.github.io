@@ -38,7 +38,7 @@ It is an unmodified copy of [{src}](https://huggingface.co/{src}) (ONNX, 4-bit a
 It runs in the reader's browser with Transformers.js and answers **only** from passages of the book retrieved by the page
 (knowledge base: [{org}/virtual-prof-index](https://huggingface.co/datasets/{org}/virtual-prof-index)).
 
-Try it: <https://materialsandtheenvironment.github.io/book/backup-a-virtual-prof.html>
+Try it: <https://materialsandtheenvironment.github.io/book/ch7-virtual-prof.html>
 """
 DCARD = """---
 license: cc-by-4.0

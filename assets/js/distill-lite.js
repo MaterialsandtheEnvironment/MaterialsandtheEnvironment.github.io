@@ -13,7 +13,7 @@
     { slug: "ch4-tosm", n: 4, title: "Brackets, Metals and Carbon", sub: "The TOSM benchmark of 1 516 bracket–alloy pairs" },
     { slug: "ch5-natural-fibres", n: 5, title: "Natural Fibre Composites", sub: "Ashby charts for plant fibres and their composites" },
     { slug: "ch6-eco-audit", n: 6, title: "A Simple Eco Audit", sub: "Energy and CO₂ over five life phases" },
-    { slug: "backup-a-virtual-prof", n: "A", backup: true, title: "Ask the Virtual Prof", sub: "A chatbot that answers from Chapters 1–6" },
+    { slug: "ch7-virtual-prof", n: 7, title: "Ask the Virtual Prof", sub: "A chatbot that answers from Chapters 1–6" },
   ];
   window.MATENV_BOOK = BOOK;
 
@@ -39,7 +39,6 @@
       <nav class="site-nav" aria-label="Site">
         <a href="${ROOT}/index.html#book" ${here === "book" ? 'aria-current="page"' : ""}>Book</a>
         ${BOOK.filter((c) => !c.backup).map((c) => `<a class="ch" href="${ROOT}/book/${c.slug}.html" ${here === c.slug ? 'aria-current="page"' : ""}>Ch.${c.n}</a>`).join("")}
-        <a class="ch" href="${ROOT}/index.html#backup" ${BOOK.some((c) => c.backup && c.slug === here) ? 'aria-current="page"' : ""}>Backup</a>
         <a href="${ROOT}/index.html#lab">Lab</a>
         <a href="https://github.com/MaterialsandtheEnvironment">GitHub</a>
         <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle colour theme">${isDark() ? "Light" : "Dark"}</button>

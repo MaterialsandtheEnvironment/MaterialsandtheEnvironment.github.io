@@ -12,7 +12,7 @@ if (!document.getElementById("prof-page")) {
   const panel = document.createElement("section");
   panel.className = "prof-panel"; panel.id = "prof-panel"; panel.hidden = true; panel.setAttribute("aria-label", "Virtual Prof");
   panel.innerHTML = `<header><b>Virtual Prof</b><span>${chapter ? "Chapter " + chapter + " first" : "Chapters 1–6"}</span>
-    <a href="${url("book/backup-a-virtual-prof.html")}" title="How it works">How it works</a>
+    <a href="${url("book/ch7-virtual-prof.html")}" title="How it works">How it works</a>
     <button type="button" class="prof-close" aria-label="Close">×</button></header><div class="prof-body"></div>`;
   document.body.append(btn, panel);
   let chat = null;

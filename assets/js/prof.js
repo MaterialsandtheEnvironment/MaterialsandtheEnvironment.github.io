@@ -1,6 +1,6 @@
 /* Virtual Prof: retrieval over Chapters 1-6 (BM25, in the browser) + an optional small LLM (Transformers.js)
    that writes an answer grounded on the retrieved passages. Used by the floating widget on every page
-   (prof-widget.js) and by the full page (book/backup-a-virtual-prof.html). */
+   (prof-widget.js) and by the full page (book/ch7-virtual-prof.html). */
 const TJS = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js";
 const ROOT = new URL("../../", import.meta.url);
 export const ORG = "MaterialsandtheEnvironment";

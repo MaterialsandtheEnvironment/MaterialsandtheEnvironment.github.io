@@ -128,8 +128,7 @@
     <header>
       <h2 id="maths-title">One problem, two objectives</h2>
       <div>
-        <p>The environmental impact of a product is largely determined in its earliest stages, using graphs and rules of thumb confined to proprietary software and static textbooks. Materials science education needs open and usable textbooks that present data, code, and environmental impact on a single page. Don't you agree?
-          Behind every chapter sits the same optimisation problem. A part is described by its shape <d-math>\mathcal{D}</d-math>, its material <d-math>m</d-math> and its manufacturing process <d-math>p</d-math>. Classical lightweight design, problem <d-math>\mathcal{P}_1</d-math>, minimises its mass under a stiffness constraint. Eco-design, problem <d-math>\mathcal{P}_2</d-math>, keeps the same design space and the same constraint but changes the objective to the CO<sub>2</sub> footprint of producing and processing the part. A set of new constraints could be added and represent the sizing (stress, buckling etc...) and manufacturing loop. </p>
+        <p>Behind every chapter sits the same optimisation problem. A part is described by its shape <d-math>\mathcal{D}</d-math>, its material <d-math>m</d-math> and its manufacturing process <d-math>p</d-math>. Classical lightweight design, problem <d-math>\mathcal{P}_1</d-math>, minimises its mass under a stiffness constraint. Eco-design, problem <d-math>\mathcal{P}_2</d-math>, keeps the same design space and the same constraint but changes the objective to the CO<sub>2</sub> footprint of producing and processing the part.</p>
       </div>
     </header>
     <div class="eq eq-wide"><d-math block>\begin{array}{llcll}
@@ -205,22 +204,18 @@
         <ul><li>6.3 An eco audit calculator with seven products</li><li>6.5 PET versus a reusable bottle</li><li>6.6 Steel or aluminium bumper: the break-even</li></ul>
         <div class="meta"><span>after Ashby et al.</span><a href="notebooks/eco_audit.ipynb">notebook</a></div>
       </div></li>
-    </ol>
-    <h3 id="Hello Prof" style="font-size:1.05rem;margin:34px 0 6px">Ask the prof</h3>
-    <p style="font-family:var(--f-ui);font-size:.86rem;color:var(--ink-2);margin:0 0 10px">Earlier material kept for reference, outside the main sequence.</p>
-    <ol class="chapters">
-      <li class="chapter"><div class="num" aria-hidden="true">A</div><div class="body">
-        <h3><a href="book/a-virtual-prof.html">Ask the Virtual Prof</a></h3>
+      <li class="chapter"><div class="num" aria-hidden="true">7</div><div class="body">
+        <h3><a href="book/ch7-virtual-prof.html">Ask the Virtual Prof</a></h3>
         <p class="sub">A chatbot that answers from Chapters 1–6</p>
-        <ul><li>A.1 Ask a question, get cited passages or an explanation</li><li>A.2 Retrieve, then explain: how it works</li><li>A.3 Inside the knowledge base</li></ul>
+        <ul><li>7.1 Ask a question, get cited passages or an explanation</li><li>7.2 Retrieve, then explain: how it works</li><li>7.3 Inside the knowledge base</li></ul>
         <div class="meta"><span>J. Morlier</span><a href="https://huggingface.co/MaterialsandtheEnvironment">models on Hugging Face</a></div>
       </div></li>
     </ol>
   </section>
 
-  <section class="section" id="lab" aria-labelledby="mid2SUPAERO">
+  <section class="section" id="lab" aria-labelledby="lab-title">
     <header>
-      <h2 id="mid2SUPAERO">The lab</h2>
+      <h2 id="lab-title">The lab</h2>
       <p>Materials &amp; the Environment gathers teaching and research on sustainable structural design at ISAE-SUPAERO, Toulouse. Students and researchers build open notebooks and datasets; this site turns them into readable, explorable chapters.</p>
     </header>
     <div class="lab-grid">
@@ -237,7 +232,7 @@
           <tr><td><a href="https://github.com/mid2SUPAERO/TOSM">mid2SUPAERO/TOSM</a></td><td><code>FinalResults.xlsx</code>, <code>Materials.xlsx</code>, OptiStruct and Pareto notebooks</td><td>Ch. 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/HybML-EvoMatDesEco">mid2SUPAERO/HybML-EvoMatDesEco</a></td><td>Eco-material database and hybrid VAE + evolutionary design code</td><td>Ch. 2, 4</td></tr>
           <tr><td><a href="https://github.com/mid2SUPAERO/ashby-vae">mid2SUPAERO/ashby-vae</a></td><td>Ashby-VAE case-study notebooks</td><td>Ch. 2</td></tr>
-          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment">MaterialsandtheEnvironment on Hugging Face</a></td><td>Virtual Prof models and knowledge base</td><td>Hello prof</td></tr>
+          <tr><td><a href="https://huggingface.co/MaterialsandtheEnvironment">MaterialsandtheEnvironment on Hugging Face</a></td><td>Virtual Prof models and knowledge base; earlier fine-tuned SmolLM2</td><td>Chapter 7</td></tr>
           <tr><td><a href="https://doi.org/10.1016/j.matdes.2014.05.002">Shah (2014), supplementary tables</a></td><td>Plant fibre, PFRP and fatigue data, as <code>data/nfc.js</code></td><td>Ch. 5</td></tr>
           <tr><td><a href="https://mid2supaero.github.io/ecolizer-vae/notebook/ecolizer_vae.ipynb">ecolizer_vae.ipynb</a></td><td>Digitised Ecolizer 2.0 tables and the masked VAE</td><td>Ch. 3</td></tr>
         </tbody>
